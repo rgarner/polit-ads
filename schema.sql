@@ -1,0 +1,23 @@
+CREATE TABLE public.adverts (                                       
+     -- id integer DEFAULT nextval('adverts_id_seq'::regclass) NOT NULL,
+     id integer NOT NULL,
+     page_id character varying(25) NOT NULL,                        
+     page_name text NULL,                                           
+     post_id character varying(25) NOT NULL,                        
+     country character varying(10) NOT NULL,                        
+     ad_creation_time timestamp with time zone NULL,                
+     ad_creative_body text NULL,                                    
+     ad_creative_link_caption text NULL,                            
+     ad_creative_link_description text NULL,                        
+     ad_creative_link_title text NULL,                              
+     ad_delivery_start_time timestamp with time zone NULL,          
+     ad_delivery_stop_time timestamp with time zone NULL,           
+     ad_snapshot_url text NULL,                                     
+     image_link text NULL,                                          
+     currency character varying(10) NULL,                           
+     funding_entity text NULL,                                      
+     created_at timestamp with time zone NULL,                      
+     updated_at timestamp with time zone NULL,                      
+     ad_info character varying NULL,                                
+     text_search tsvector NULL
+ );
