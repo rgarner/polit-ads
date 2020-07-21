@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_21_083506) do
+ActiveRecord::Schema.define(version: 2020_07_21_084427) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,9 @@ ActiveRecord::Schema.define(version: 2020_07_21_083506) do
     t.datetime "updated_at"
     t.string "ad_info"
     t.tsvector "text_search"
+    t.string "external_tracking_url"
+    t.string "external_url"
+    t.string "external_text"
   end
 
 end
