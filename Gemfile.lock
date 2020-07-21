@@ -99,6 +99,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  concurrent-ruby
   database_cleaner
   factory_bot
   ferrum
