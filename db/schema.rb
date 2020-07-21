@@ -15,8 +15,7 @@ ActiveRecord::Schema.define(version: 2020_07_21_084427) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "adverts", id: false, force: :cascade do |t|
-    t.integer "id", null: false
+  create_table "adverts", force: :cascade do |t|
     t.string "page_id", limit: 25, null: false
     t.text "page_name"
     t.string "post_id", limit: 25, null: false

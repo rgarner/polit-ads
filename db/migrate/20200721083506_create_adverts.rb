@@ -1,7 +1,6 @@
 class CreateAdverts < ActiveRecord::Migration[6.0]
   def change
-    create_table :adverts, id: false do |t|
-      t.integer "id", null: false
+    create_table :adverts do |t|
       t.string "page_id", limit: 25, null: false
       t.text "page_name"
       t.string "post_id", limit: 25, null: false
