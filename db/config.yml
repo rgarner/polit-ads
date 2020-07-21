@@ -1,0 +1,19 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: localhost
+  user: postgres
+  pool: 5
+
+development:
+  <<: *default
+  database: ads
+
+test: &test
+  <<: *default
+  database: adverts_test
+
+production:
+  <<: *default
+  database: adverts
+
