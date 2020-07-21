@@ -2,6 +2,8 @@
 
 source 'https://rubygems.org'
 
+gem 'ferrum'
+
 gem 'activerecord'
 gem 'pg'
 gem 'rake'
