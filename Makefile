@@ -1,5 +1,6 @@
 OWNER_DB=postgres
 DATABASE_NAME=ads
+SCHEMA_URL=postgresql://localhost:5432/ads
 
 define LOAD_ADS_SQL
 CREATE TEMPORARY TABLE tmp_adverts ( \
@@ -67,7 +68,9 @@ INSERT INTO adverts ( \
 	 updated_at, \
 	 ad_info, \
 	 text_search \
-FROM tmp_adverts; \
+FROM tmp_adverts \
+ON CONFLICT ON CONSTRAINT adverts_pkey \
+DO NOTHING; \
 DROP TABLE tmp_adverts;
 endef
 
@@ -77,4 +80,4 @@ load-ads: adverts.csv
 
 adverts.csv:
 	$(if ${ADS_PG_URL},,$(error must set ADS_PG_URL))
-	psql $(ADS_PG_URL) -c "COPY adverts TO STDOUT DELIMITER ',' CSV HEADER;" > $@
+	psql $(ADS_PG_URL) -X -c "COPY adverts TO STDOUT DELIMITER ',' CSV HEADER;" > $@
