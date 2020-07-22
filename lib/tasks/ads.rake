@@ -17,5 +17,28 @@ namespace :ads do
       limit = args[:limit] || 200
       PolitAds::UtmCampaignSplitter.new.print(limit: limit)
     end
+
+    desc 'Print discrete values for all Trump indices'
+    task :trump_discrete do
+      (0..22).each do |i|
+        occurrences = UtmCampaignValue
+          .select(:value)
+          .group(:value)
+          .joins(:advert)
+          .where("adverts.page_name ILIKE '%trump' OR adverts.funding_entity ILIKE '%trump%'")
+          .where(index: i).count
+
+        sorted = occurrences.sort do |a, b|
+          next 0 if a.last == b.last
+
+          a.last > b.last ? -1 : 1
+        end.to_h
+
+        puts "#{i}:"
+        sorted.each_pair do |key, value|
+          puts "\t#{key}: #{value}"
+        end
+      end
+    end
   end
 end

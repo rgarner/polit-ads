@@ -1,6 +1,5 @@
 OWNER_DB=postgres
 DATABASE_NAME=ads
-SCHEMA_URL=postgresql://localhost:5432/ads
 
 define LOAD_ADS_SQL
 CREATE TEMPORARY TABLE tmp_adverts ( \
