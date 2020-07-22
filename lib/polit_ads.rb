@@ -11,6 +11,8 @@ $LOAD_PATH.unshift(File.join(PolitAds.root, 'app', 'models'))
 
 require 'polit_ads/db'
 require 'polit_ads/scraper'
+require 'polit_ads/utm_campaign_splitter'
 require 'advert'
+require 'utm_campaign_value'
 
 PolitAds::DB.configure
