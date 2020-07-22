@@ -9,15 +9,17 @@ module PolitAds
   ##
   # Scrape them ads
   class Scraper
-    LIMIT   = 10
+    LIMIT   = 1000
     THREADS = 3
-
-    ACCESS_TOKEN = ENV['FB_ACCESS_TOKEN'] || raise('Set FB_ACCESS_TOKEN')
 
     attr_accessor :logger
 
     def initialize(logger: Logger.new(STDERR))
       self.logger = logger
+    end
+
+    def access_token
+      ENV['FB_ACCESS_TOKEN'] || raise('Set FB_ACCESS_TOKEN')
     end
 
     def browser
@@ -30,34 +32,38 @@ module PolitAds
 
     def ad_url(advert)
       matches = advert.ad_snapshot_url.match(/\?id=(?<id>[0-9]*)/)
-      ad_url_template.expand(id: matches[:id], access_token: ACCESS_TOKEN)
+      ad_url_template.expand(id: matches[:id], access_token: access_token)
     end
 
     def pool
       @pool ||= Concurrent::FixedThreadPool.new(THREADS)
     end
 
-    def populate_urls(advert)
+    def populate_urls(page, advert)
+      page.goto(ad_url(advert))
+
+      last_link = page.css('a').last
+      advert.external_tracking_url = last_link.attribute('href')
+      advert.external_text = last_link.inner_text
+
+      external_tracking_url = Addressable::URI.parse(advert.external_tracking_url)
+      external_url          = Addressable::URI.parse(external_tracking_url.query_values&.fetch('u'))
+
+      advert.external_url = if external_url
+                              logger.info "#{advert.ad_snapshot_url}\n\t#{external_url.host}: #{external_url&.query_values}"
+                              external_url.to_s
+                            else
+                              logger.warn "no query string, expected an l.facebook.com URL: #{external_tracking_url}"
+                              '#no-external-url'
+                            end
+    end
+
+    def scrape(advert)
       pool.post do
         context = browser.contexts.create
         page = context.create_page
 
-        page.goto(ad_url(advert))
-
-        last_link = page.css('a').last
-        advert.external_tracking_url = last_link.attribute('href')
-        advert.external_text = last_link.inner_text
-
-        external_tracking_url = Addressable::URI.parse(advert.external_tracking_url)
-        external_url          = Addressable::URI.parse(external_tracking_url.query_values&.fetch('u'))
-
-        if external_url
-          advert.external_url = external_url.to_s
-          logger.info "#{advert.ad_snapshot_url}\n\t#{external_url.host}: #{external_url&.query_values}"
-        else
-          logger.warn "no query string, expected an l.facebook.com URL: #{external_tracking_url}"
-          advert.external_url = '#no-external-url'
-        end
+        populate_urls(page, advert)
 
         advert.save!
         scrape_count.increment
@@ -77,7 +83,7 @@ module PolitAds
       adverts = Advert.recent.ads_of_interest.unpopulated.limit(LIMIT)
 
       time = Benchmark.measure do
-        adverts.each { |advert| populate_urls(advert) }
+        adverts.each { |advert| scrape(advert) }
 
         pool.shutdown
         pool.wait_for_termination
