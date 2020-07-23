@@ -75,8 +75,15 @@ endef
 
 .PHONY: load-ads
 load-ads: adverts.csv
-	psql ${DATABASE_NAME} -c "${LOAD_ADS_SQL}"
+	@echo "$(shell wc -l $^) lines\n"
+	psql ${DATABASE_NAME} -Xc "${LOAD_ADS_SQL}"
 
+MAX_ID=$(shell psql $(DATABASE_NAME) -Xtc 'SELECT COALESCE(MAX(id), 0) FROM adverts')
 adverts.csv:
 	$(if ${ADS_PG_URL},,$(error must set ADS_PG_URL))
-	psql $(ADS_PG_URL) -X -c "COPY adverts TO STDOUT DELIMITER ',' CSV HEADER;" > $@
+	@echo "Getting adverts with id over $(strip $(MAX_ID))...\n"
+	@psql $(ADS_PG_URL) -Xc "COPY (SELECT * FROM adverts WHERE id > $(MAX_ID)) TO STDOUT DELIMITER ',' CSV HEADER;" > $@
+
+.PHONY: clean
+clean:
+	- rm adverts.csv
