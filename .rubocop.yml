@@ -1,0 +1,13 @@
+Layout/LineLength:
+  Max: 120
+
+Metrics/AbcSize:
+  Exclude:
+    - lib/tasks/**/*
+
+Metrics/BlockLength:
+  Exclude:
+    - lib/tasks/**/*
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
