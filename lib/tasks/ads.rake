@@ -3,7 +3,7 @@ require 'polit_ads'
 namespace :ads do
   desc 'Scrape ads of interest and collect their external urls'
   task :scrape do
-    PolitAds::Scraper.new.scrape!
+    PolitAds::Scraper.new.run!
   end
 
   namespace :utm_campaign do
@@ -22,7 +22,7 @@ namespace :ads do
     task :trump_discrete do
       count = Advert
               .where("page_name ILIKE '%trump' OR adverts.funding_entity ILIKE '%trump%'")
-              .where("external_url IS NOT NULL").count
+              .where('external_url IS NOT NULL').count
       puts "From #{count} recent ads with a page_name/funding_entity containing 'Trump'"
       (0..22).each do |i|
         occurrences = UtmCampaignValue

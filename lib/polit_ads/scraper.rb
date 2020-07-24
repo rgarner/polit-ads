@@ -4,6 +4,7 @@ require 'ferrum'
 require 'addressable'
 require 'active_record'
 require 'concurrent'
+require 'benchmark'
 
 module PolitAds
   ##
@@ -16,7 +17,21 @@ module PolitAds
 
     def initialize(logger: Logger.new(STDERR))
       self.logger = logger
+      ActiveRecord::Base.logger = logger
     end
+
+    def run!
+      time = Benchmark.measure do
+        ads_to_scrape.each { |advert| scrape(advert) }
+
+        pool.shutdown
+        pool.wait_for_termination
+      end
+
+      logger.info "#{scrape_count.value} scraped in #{time.real.round(2)}s"
+    end
+
+    private
 
     def access_token
       ENV['FB_ACCESS_TOKEN'] || raise('Set FB_ACCESS_TOKEN')
@@ -76,20 +91,8 @@ module PolitAds
       @scrape_count ||= Concurrent::AtomicFixnum.new(0)
     end
 
-    def scrape!
-      require 'benchmark'
-      ActiveRecord::Base.logger = Logger.new(STDERR)
-
-      adverts = Advert.recent.ads_of_interest.unpopulated.limit(LIMIT)
-
-      time = Benchmark.measure do
-        adverts.each { |advert| scrape(advert) }
-
-        pool.shutdown
-        pool.wait_for_termination
-      end
-
-      logger.info "#{scrape_count.value} scraped in #{time.real.round(2)}s"
+    def ads_to_scrape
+      Advert.recent.ads_of_interest.unpopulated.limit(LIMIT)
     end
   end
 end
