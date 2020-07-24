@@ -20,13 +20,17 @@ namespace :ads do
 
     desc 'Print discrete values for all Trump indices'
     task :trump_discrete do
+      count = Advert
+              .where("page_name ILIKE '%trump' OR adverts.funding_entity ILIKE '%trump%'")
+              .where("external_url IS NOT NULL").count
+      puts "From #{count} recent ads with a page_name/funding_entity containing 'Trump'"
       (0..22).each do |i|
         occurrences = UtmCampaignValue
-          .select(:value)
-          .group(:value)
-          .joins(:advert)
-          .where("adverts.page_name ILIKE '%trump' OR adverts.funding_entity ILIKE '%trump%'")
-          .where(index: i).count
+                      .select(:value)
+                      .group(:value)
+                      .joins(:advert)
+                      .where("adverts.page_name ILIKE '%trump' OR adverts.funding_entity ILIKE '%trump%'")
+                      .where(index: i).count
 
         sorted = occurrences.sort do |a, b|
           next 0 if a.last == b.last
