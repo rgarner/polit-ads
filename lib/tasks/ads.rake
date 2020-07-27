@@ -6,6 +6,16 @@ namespace :ads do
     PolitAds::Scraper.new.run!
   end
 
+  desc 'Fill in everything from external_url post-scrape'
+  task post_scrape: %w[utm_campaign:populate hosts:populate]
+
+  namespace :hosts do
+    desc 'populate hosts'
+    task :populate do
+      PolitAds::HostsPopulator.run
+    end
+  end
+
   namespace :utm_campaign do
     desc 'Populate utm_campaign_values for any ads that have it in their external_url'
     task :populate do

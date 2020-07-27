@@ -1,5 +1,6 @@
 class Advert < ActiveRecord::Base
   has_many :utm_campaign_values
+  belongs_to :host
 
   validates_presence_of :page_name, :funding_entity, :ad_snapshot_url
 
