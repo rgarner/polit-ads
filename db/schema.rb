@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_22_100725) do
+ActiveRecord::Schema.define(version: 2020_07_24_213558) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,13 @@ ActiveRecord::Schema.define(version: 2020_07_22_100725) do
     t.string "external_tracking_url"
     t.string "external_url"
     t.string "external_text"
+    t.integer "host_id"
+    t.index ["host_id"], name: "index_adverts_on_host_id"
+  end
+
+  create_table "hosts", force: :cascade do |t|
+    t.string "hostname"
+    t.index ["hostname"], name: "index_hosts_on_hostname", unique: true
   end
 
   create_table "utm_campaign_values", force: :cascade do |t|
