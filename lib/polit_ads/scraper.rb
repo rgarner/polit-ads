@@ -21,6 +21,8 @@ module PolitAds
     end
 
     def run!
+      access_token # check to stop exceptions silently halting threads
+
       time = Benchmark.measure do
         ads_to_scrape.each { |advert| scrape(advert) }
 
@@ -92,6 +94,8 @@ module PolitAds
         scrape_count.increment
 
         context.dispose
+      rescue StandardError => e
+        logger.error(e)
       end
     end
 
