@@ -12,6 +12,7 @@ module PolitAds
       host
       ad_creation_time
       ad_snapshot_url
+      ad_library_url
       external_url
     ].freeze
 

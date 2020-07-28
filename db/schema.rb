@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_07_24_213558) do
+ActiveRecord::Schema.define(version: 2020_07_28_132827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -39,6 +39,7 @@ ActiveRecord::Schema.define(version: 2020_07_24_213558) do
     t.string "external_url"
     t.string "external_text"
     t.integer "host_id"
+    t.string "ad_library_url"
     t.index ["host_id"], name: "index_adverts_on_host_id"
   end
 

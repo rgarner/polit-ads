@@ -44,4 +44,11 @@ class Advert < ActiveRecord::Base
   scope :has_utm_campaign_values, lambda {
     where('EXISTS(SELECT 1 from utm_campaign_values where utm_campaign_values.advert_id = adverts.id)')
   }
+
+  def fb_ad_id
+    @fb_ad_id ||= begin
+                    matches = ad_snapshot_url.match(/\?id=(?<id>[0-9]*)/)
+                    matches[:id]
+                  end
+  end
 end

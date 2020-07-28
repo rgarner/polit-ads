@@ -42,12 +42,19 @@ module PolitAds
     end
 
     def ad_url_template
-      @ad_url_template = Addressable::Template.new('https://www.facebook.com/ads/archive/render_ad/{?id,access_token}')
+      @ad_url_template ||= Addressable::Template.new('https://www.facebook.com/ads/archive/render_ad/{?id,access_token}')
+    end
+
+    def ad_library_url_template
+      @ad_library_url_template ||= Addressable::Template.new('https://www.facebook.com/ads/library/{?id}')
     end
 
     def ad_url(advert)
-      matches = advert.ad_snapshot_url.match(/\?id=(?<id>[0-9]*)/)
-      ad_url_template.expand(id: matches[:id], access_token: access_token)
+      ad_url_template.expand(id: advert.fb_ad_id, access_token: access_token)
+    end
+
+    def ad_library_url(advert)
+      ad_library_url_template.expand(id: advert.fb_ad_id)
     end
 
     def pool
@@ -60,6 +67,7 @@ module PolitAds
       last_link = page.css('a').last
       advert.external_tracking_url = last_link.attribute('href')
       advert.external_text = last_link.inner_text
+      advert.ad_library_url = ad_library_url(advert)
 
       external_tracking_url = Addressable::URI.parse(advert.external_tracking_url)
       external_url          = Addressable::URI.parse(external_tracking_url.query_values&.fetch('u'))
