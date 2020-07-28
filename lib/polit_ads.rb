@@ -15,6 +15,7 @@ require 'advert'
 require 'host'
 require 'polit_ads/hosts_populator'
 require 'polit_ads/utm_campaign_splitter'
+require 'polit_ads/csv_to_console'
 require 'utm_campaign_value'
 
 PolitAds::DB.configure

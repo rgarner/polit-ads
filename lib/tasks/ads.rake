@@ -16,6 +16,11 @@ namespace :ads do
     end
   end
 
+  desc 'Export to CSV'
+  task :export do
+    PolitAds::CSVToConsole.new.run!
+  end
+
   namespace :utm_campaign do
     desc 'Populate utm_campaign_values for any ads that have it in their external_url'
     task :populate do
