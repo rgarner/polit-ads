@@ -1,3 +1,12 @@
 .DS_Store
 adverts.csv
 connection-url
+
+# Temporary section for pre-Rails. Remove
+# as conflict when integrating Rails via merge
+node_modules/
+tmp/
+log/
+public/packs/
+config/master.key
+yarn-error.log
