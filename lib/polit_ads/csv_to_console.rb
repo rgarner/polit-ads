@@ -5,7 +5,7 @@ module PolitAds
   # Export CSV adverts to STDOUT. Pipe to file as necessary.
   # Check #adverts method for scope, currently fixed on Trump
   class CSVToConsole
-    LIMIT = 2000
+    LIMIT = 5000
 
     FIELDS = %w[
       page_name
@@ -14,6 +14,7 @@ module PolitAds
       ad_snapshot_url
       ad_library_url
       external_url
+      ad_creative_body
     ].freeze
 
     def run!
