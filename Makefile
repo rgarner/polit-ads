@@ -75,7 +75,7 @@ endef
 
 .PHONY: load-ads
 load-ads: adverts.csv
-	@echo "$(shell wc -l $^) lines\n"
+	@echo "$(shell ruby -e "require 'csv'; puts CSV.read('$^').length - 1") records\n"
 	psql ${DATABASE_NAME} -Xc "${LOAD_ADS_SQL}"
 
 MAX_ID=$(shell psql $(DATABASE_NAME) -Xtc 'SELECT COALESCE(MAX(id), 0) FROM adverts')
