@@ -4,26 +4,20 @@ class Advert < ActiveRecord::Base
 
   validates_presence_of :page_name, :funding_entity, :ad_snapshot_url
 
-  scope :ads_of_interest, lambda {
-    where(
-      "adverts.page_name = 'Joe Biden' OR " \
-      "adverts.page_name = 'Democrats' OR " \
-      "adverts.page_name = 'Democratic Party' OR " \
-      "adverts.page_name = 'Team Trump' OR " \
-      "adverts.page_name = 'Donald J. Trump'"
-    )
-  }
-
   FUNDING_ENTITIES_TRUMP = [
     'TRUMP MAKE AMERICA GREAT AGAIN COMMITTEE',
     'DONALD J. TRUMP FOR PRESIDENT, INC.'
   ].freeze
 
-  scope :trump, lambda {
-    where(
-      'adverts.funding_entity IN (?)', FUNDING_ENTITIES_TRUMP
-    )
-  }
+  FUNDING_ENTITIES_BIDEN = [
+    'BIDEN FOR PRESIDENT',
+    'BIDEN VICTORY FUND',
+    'Biden for President'
+  ].freeze
+
+  scope :trump, lambda { where('adverts.funding_entity IN (?)', FUNDING_ENTITIES_TRUMP) }
+  scope :biden, lambda { where('adverts.funding_entity IN (?)', FUNDING_ENTITIES_BIDEN) }
+  scope :trump_or_biden, lambda { where('adverts.funding_entity IN (?)', FUNDING_ENTITIES_BIDEN + FUNDING_ENTITIES_TRUMP) }
 
   scope :recent, lambda {
     order(ad_creation_time: :desc)

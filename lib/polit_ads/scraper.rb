@@ -100,7 +100,7 @@ module PolitAds
     end
 
     def ads_to_scrape
-      Advert.recent.ads_of_interest.unpopulated.limit(LIMIT)
+      Advert.recent.trump_or_biden.unpopulated.limit(LIMIT)
     end
   end
 end
