@@ -1,0 +1,20 @@
+dl {
+    columns: 4;
+}
+
+dd {
+    break-before: avoid;
+}
+
+.tag-list {
+  height: 25em;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  list-style: none;
+  align-items: flex-start;
+
+  li {
+    margin-right: 0.5em;
+  }
+}

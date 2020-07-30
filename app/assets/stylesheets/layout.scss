@@ -1,0 +1,14 @@
+.container-fluid.previews {
+  margin: 0; padding: 0;
+
+  .col {
+    margin: 0; padding: 0;
+    iframe {
+      border: 0;
+      margin-left: auto;
+      height: 1000px;
+      width: 100%;
+    }
+  }
+}
+

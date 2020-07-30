@@ -1,3 +1,5 @@
 Rails.application.routes.draw do
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  resources :adverts, only: :show
+  get 'adverts/by_utm_value/:utm_value', to: 'adverts#by_utm_value', as: :adverts_by_utm_value
+  resources :utm_campaign_values, only: %i[show index]
 end

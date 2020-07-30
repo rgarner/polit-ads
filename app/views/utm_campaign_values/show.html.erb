@@ -1,0 +1,6 @@
+<h1>utm<%= @index %></h1>
+<ul>
+  <% @values.each do |value| %>
+    <li><%= link_to value, adverts_by_utm_value_path(value.value) %> (<%= value.count %>)</li>
+  <% end %>
+</ul>

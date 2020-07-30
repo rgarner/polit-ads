@@ -1,0 +1,28 @@
+<h1><%= @advert.ad_creative_link_title %></h1>
+
+<dl>
+  <dt>Page</dt>
+  <dd><%= @advert.page_name %></dd>
+  <dt>Funding entity</dt>
+  <dd><%= @advert.funding_entity %></dd>
+  <% @advert.utm_campaign_values.each do |utm| %>
+    <dt><%= link_to "utm#{utm.index}", utm_campaign_value_path(utm.index) %></dt>
+    <dd><%= link_to utm.value, adverts_by_utm_value_path(utm.value) %></dd>
+  <% end %>
+</dl>
+
+<div class="container-fluid previews">
+<div class="row no-gutters">
+  <div class="col">
+    <%= link_to 'Open in new tab', @advert.ad_snapshot_url, target: '_blank' %>
+    <br>
+    <iframe src="<%= @advert.ad_snapshot_url %>"></iframe>
+  </div>
+
+  <div class="col">
+    <%= link_to 'Open in new tab', @advert.ad_library_url, target: '_blank' %>
+    <br>
+    <iframe src="<%= @advert.ad_library_url %>"></iframe>
+  </div>
+</div>
+</div>
