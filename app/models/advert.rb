@@ -44,19 +44,19 @@ class Advert < ActiveRecord::Base
   scope :with_utm_values, lambda { |hash|
     keys = hash.keys.map { |k| k.to_s.sub('utm', '') }
     joins("JOIN (#{values_for_indices(*keys)}) utm_values ON utm_values.advert_id = adverts.id")
-      .where("utm_values.value1 = ? AND utm_values.value2 = ?", *hash.values)
+      .where('utm_values.value1 = ? AND utm_values.value2 = ?', *hash.values)
   }
 
   ##
   # Crosstab select for values in two given utm fields, joinable on advert_id
-  # so we can do WHERE...AND queries on UTM values as if they were part of adverss
-  def self.values_for_indices(index1, index2)
+  # so we can do WHERE...AND queries on UTM values as if they were part of adverts
+  def self.values_for_indices(*indices)
     <<~SQL.freeze
       SELECT advert_id, value1, value2
                 FROM crosstab(
                   'select advert_id, index, value
                                 from utm_campaign_values
-                                where index in (#{index1},#{index2})
+                                where index in (#{indices.join(',')})
                                 order by 1,2'
                 )
                 AS ct(advert_id bigint, value1 character varying, value2 character varying)
