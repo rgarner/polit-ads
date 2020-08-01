@@ -15,9 +15,9 @@ class Advert < ActiveRecord::Base
     'Biden for President'
   ].freeze
 
-  scope :trump, lambda { where('adverts.funding_entity IN (?)', FUNDING_ENTITIES_TRUMP) }
-  scope :biden, lambda { where('adverts.funding_entity IN (?)', FUNDING_ENTITIES_BIDEN) }
-  scope :trump_or_biden, lambda { where('adverts.funding_entity IN (?)', FUNDING_ENTITIES_BIDEN + FUNDING_ENTITIES_TRUMP) }
+  scope :trump, -> { where('adverts.funding_entity IN (?)', FUNDING_ENTITIES_TRUMP) }
+  scope :biden, -> { where('adverts.funding_entity IN (?)', FUNDING_ENTITIES_BIDEN) }
+  scope :trump_or_biden, -> { where('adverts.funding_entity IN (?)', FUNDING_ENTITIES_BIDEN + FUNDING_ENTITIES_TRUMP) }
 
   scope :recent, lambda {
     order(ad_creation_time: :desc)
@@ -38,6 +38,31 @@ class Advert < ActiveRecord::Base
   scope :has_utm_campaign_values, lambda {
     where('EXISTS(SELECT 1 from utm_campaign_values where utm_campaign_values.advert_id = adverts.id)')
   }
+
+  ##
+  # Call example: Advert.with_utm_values(utm0: 'value', utm1: 'value2')
+  scope :with_utm_values, lambda { |hash|
+    keys = hash.keys.map { |k| k.to_s.sub('utm', '') }
+    joins("JOIN (#{values_for_indices(*keys)}) utm_values ON utm_values.advert_id = adverts.id")
+      .where("utm_values.value1 = ? AND utm_values.value2 = ?", *hash.values)
+  }
+
+  ##
+  # Crosstab select for values in two given utm fields, joinable on advert_id
+  # so we can do WHERE...AND queries on UTM values as if they were part of adverss
+  def self.values_for_indices(index1, index2)
+    <<~SQL.freeze
+      SELECT advert_id, value1, value2
+                FROM crosstab(
+                  'select advert_id, index, value
+                                from utm_campaign_values
+                                where index in (#{index1},#{index2})
+                                order by 1,2'
+                )
+                AS ct(advert_id bigint, value1 character varying, value2 character varying)
+                GROUP BY advert_id, value1, value2
+    SQL
+  end
 
   def fb_ad_id
     @fb_ad_id ||= begin
