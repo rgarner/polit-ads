@@ -9,5 +9,6 @@ class AdvertsController < ApplicationController
                .joins(:utm_campaign_values)
                .where('utm_campaign_values.value = ?', params[:utm_value])
                .order(ad_creation_time: :desc)
+               .page(params[:page])
   end
 end

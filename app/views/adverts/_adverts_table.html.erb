@@ -1,0 +1,24 @@
+<h2><%= page_entries_info @adverts %></h2>
+
+<%= paginate @adverts %>
+
+<table class="table">
+  <thead class="thead-dark">
+  <tr>
+    <th scope="col" width="60%">Advert</th>
+    <th scope="col" class="external_url" width="25%">External URL</th>
+    <th scope="col" width="15%">Ad creation time</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @adverts.each do |advert| %>
+    <tr>
+      <td><%= link_to advert.ad_creative_body, advert_path(advert) %></td>
+      <td class="url"><%= link_to advert.external_url, advert.external_url %></td>
+      <td><%= advert.ad_creation_time %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+
+<%= paginate @adverts %>
