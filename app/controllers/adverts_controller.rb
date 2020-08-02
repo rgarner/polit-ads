@@ -5,11 +5,11 @@ class AdvertsController < ApplicationController
 
   def by_utm_value
     @value = UtmCampaignValue.where(value: params[:utm_value]).first
-    @adverts = Advert
-               .joins(:utm_campaign_values)
-               .where('utm_campaign_values.value = ?', params[:utm_value])
-               .order(ad_creation_time: :desc)
-               .page(params[:page])
+    base_scope = Advert
+                 .joins(:utm_campaign_values)
+                 .where('utm_campaign_values.value = ?', params[:utm_value])
+    @adverts = base_scope.order(ad_creation_time: :desc).page(params[:page])
+    @min_max = base_scope.select('MIN(ad_creation_time) AS min, MAX(ad_creation_time) AS max')[0]
   end
 
   def with_utm_values

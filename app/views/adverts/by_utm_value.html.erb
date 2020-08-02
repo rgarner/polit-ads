@@ -2,5 +2,13 @@
   <%= link_to "utm#{@value.index}", utm_campaign_value_path(@value) %>:
   <%= @value.value  %>
 </h1>
+
+<dl>
+  <dt>First seen</dt>
+  <dd><%= @min_max.min %></dd>
+  <dt>Last seen</dt>
+  <dd><%= @min_max.max %></dd>
+</dl>
+
 <%= render 'adverts_table' %>
 
