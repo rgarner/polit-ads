@@ -4,7 +4,6 @@ class UtmCampaignValuesController < ApplicationController
                               .group(:index, :value)
                               .order(:index, :value)
     @groups = @values.group_by(&:index)
-    logger.warn(@groups)
   end
 
   def show
