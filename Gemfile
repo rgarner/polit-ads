@@ -8,6 +8,7 @@ ruby '2.7.1'
 gem 'concurrent-ruby'
 gem 'ferrum'
 gem 'kaminari'
+gem 'loaf'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.2'
