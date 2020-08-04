@@ -1,0 +1,19 @@
+<h1>Hosts</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th width="80%">Host name</th>
+      <th width="20%">Adverts</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @hosts.each do |host| %>
+      <tr>
+        <td><%= host.hostname %></td>
+        <td><%= link_to "#{host.ad_count} adverts", host_adverts_path(host) %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

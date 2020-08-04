@@ -1,0 +1,38 @@
+<table class="against table table-heading table-bordered">
+  <thead class="thead-light">
+    <tr>
+      <th></th>
+      <th colspan="99" style="text-align: center">
+        <%= link_to "utm#{@table.index1}", utm_campaign_value_path(@table.index1) %>
+      </th>
+    </tr>
+    <tr>
+      <th>
+        <%= link_to "utm#{@table.index2}", utm_campaign_value_path(@table.index2) %>
+      </th>
+      <% @table.col_values.each do |col_value| %>
+        <th><%= link_to col_value, adverts_by_utm_value_path(col_value) %></th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @table.to_a.each_with_index do |row, row_index| %>
+      <tr>
+        <th scope="row"><%= link_to @table.row_values[row_index], adverts_by_utm_value_path(@table.row_values[row_index]) %></th>
+        <% row.each_with_index do |value, col_index| %>
+          <td>
+            <% if value %>
+              <%= link_to value,
+                adverts_with_utm_values_path(
+                  "utm#{@table.index1}" => @table.col_values[col_index],
+                  "utm#{@table.index2}" => @table.row_values[row_index]
+                )
+              %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

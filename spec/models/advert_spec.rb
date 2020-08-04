@@ -1,5 +1,3 @@
-require 'spec_helper'
-
 RSpec.describe Advert do
   describe '#ads_of_interest' do
     let!(:biden_ad) { create :advert, :biden }

@@ -1,0 +1,31 @@
+dl {
+    columns: 4;
+}
+
+dd {
+    break-before: avoid;
+}
+
+.utm-list-header {
+  background-color: #333333;
+  color: white;
+  padding-bottom: 0.5em;
+  a {
+    text-decoration: underline;
+    color: #9ecfe0;
+
+    &:hover {
+      color: darken(#9ecfe0, 15%);
+    }
+  }
+}
+
+.tag-list {
+  column-count: 5;
+  list-style: none;
+
+  li {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
