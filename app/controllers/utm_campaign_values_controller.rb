@@ -28,4 +28,23 @@ class UtmCampaignValuesController < ApplicationController
     breadcrumb "utm#{@index1}", utm_campaign_value_path(@index1), match: :exclusive
     breadcrumb "against / utm#{@index2}", request.path
   end
+
+  def between
+    @index = params[:utm_campaign_value_id]
+
+    @start = Date.parse(between_params[:start])
+    @finish = Date.parse(between_params[:end])
+
+    @values = UtmCampaignValue.between(@index, @start, @finish)
+
+    breadcrumb "utm#{@index}", utm_campaign_value_path(@index), match: :exclusive
+    breadcrumb "between #{@start} and #{@finish}", request.path
+  end
+
+  private
+
+  def between_params
+    %i[utm_campaign_value_id start end].each { |p| raise ActionController::ParameterMissing, p unless params[p] }
+    params.slice(:start, :end)
+  end
 end

@@ -2,7 +2,10 @@
 
 <%= render 'shared/breadcrumb' %>
 
-<h2><%= pluralize(@values.count, 'discrete value') %></h2>
+<h2>
+  <%= pluralize(@values.count, 'discrete value') %>
+  <small>(<%= link_to 'show over time', last_30_days_path(@index) %>)</small>
+</h2>
 <ul class="tag-list">
   <% @values.each do |value| %>
     <li><%= link_to value, adverts_by_utm_value_path(value.value) %> (<%= value.count %>)</li>

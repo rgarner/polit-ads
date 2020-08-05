@@ -12,76 +12,51 @@ class UtmCampaignValue < ActiveRecord::Base
     index.to_s
   end
 
+  def self.combo(index1, index2)
+    ContingencyTable.new(index1, index2)
+  end
+
   ##
-  # Create a two-way contingency table for the two given utm indices by crosstabbing
-  # the data at those values with a count of adverts using that data
-  class ContingencyTable
-    class SameIndexError < StandardError; end
+  # Return a list of hashes in a form required by Chartkick,
+  # e.g. { name: 'djt', data: { '2020-08-04' => 43, '2020-08-05' => 17 }  }
+  def self.between(index, start, finish)
+    start = start.strftime('%Y-%m-%d')
+    finish = finish.strftime('%Y-%m-%d')
 
-    attr_accessor :index1, :index2
+    result = ActiveRecord::Base.connection.exec_query(
+      between_sql, 'sql', [[nil, start], [nil, finish], [nil, index]]
+    )
 
-    def initialize(index1, index2)
-      raise SameIndexError if index1 == index2
+    # Map e.g
+    # [
+    #   {"value"=>"cm", "start"=>"2020-08-03", "count"=>122},
+    #   {"value"=>"cm", "start"=>"2020-08-04", "count"=>1420},
+    # ]
+    # to
+    # { name: 'cm', data: [['2020-08-03', 122], ['2020-08-04', 1420]] }
 
-      self.index1 = index1.to_i
-      self.index2 = index2.to_i
-    end
-
-    def to_a
-      rows.each do |row|
-        result[row_indices[row['value1']]][col_indices[row['value2']]] = row['count']
-      end
-      result
-    end
-
-    def row_values
-      row_indices.keys
-    end
-
-    def col_values
-      col_indices.keys
-    end
-
-    private
-
-    def rows
-      @rows ||= ActiveRecord::Base.connection.execute(crosstab_sql)
-    end
-
-    def row_indices
-      @row_indices ||= rows.each_with_object({}) { |row, values| values[row['value1']] ||= values.length }
-    end
-
-    def col_indices
-      @col_indices ||= rows.each_with_object({}) { |row, values| values[row['value2']] ||= values.length }
-    end
-
-    def result
-      @result ||= Array.new(row_indices.length) { Array.new(col_indices.length) }
-    end
-
-    ##
-    # Flip the order when index1 is > than index2
-    def desc
-      index1.to_i > index2.to_i ? '' : 'DESC'
-    end
-
-    def crosstab_sql
-      <<~SQL
-        SELECT value1, value2, COUNT(*)
-          FROM crosstab(
-            'select advert_id, index, value
-                          from utm_campaign_values
-                          where index in (#{index1}, #{index2})
-                          order by 1,2 #{desc}'
-          )
-          AS ct(advert_id bigint, value1 character varying, value2 character varying)
-          GROUP BY value1, value2;
-      SQL
+    result.group_by { |row| row['value'] }
+          .each_with_object([]) do |(series, values), list|
+      list << {
+        name: series,
+        data: values.map { |value| [value['start'], value['count']] }
+      }
     end
   end
 
-  def self.combo(index1, index2)
-    ContingencyTable.new(index1, index2)
+  def self.between_sql
+    <<~SQL
+      SELECT u.value, days.start::date, COUNT(*)
+      FROM (SELECT start, start + '23 hours 59 minutes 59 seconds' AS end
+            FROM generate_series(
+                         $1::timestamptz,
+                         $2::timestamptz, '1 day'
+                     ) AS start
+           ) AS days
+      JOIN adverts ON adverts.ad_creation_time BETWEEN days.start AND days.end
+      JOIN utm_campaign_values u on adverts.id = u.advert_id AND u.index = $3
+      GROUP BY days.start, u.value
+      ORDER BY COUNT(*) DESC, days.start
+    SQL
   end
 end
