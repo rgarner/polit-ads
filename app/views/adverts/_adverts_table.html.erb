@@ -13,7 +13,7 @@
   <tbody>
   <% @adverts.each do |advert| %>
     <tr>
-      <td><%= link_to advert.ad_creative_body, advert_path(advert) %></td>
+      <td><%= link_to (advert.ad_creative_body || advert.ad_creative_link_title), advert_path(advert) %></td>
       <td class="url"><%= link_to advert.external_url, advert.external_url %></td>
       <td><%= advert.ad_creation_time %></td>
     </tr>
