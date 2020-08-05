@@ -1,3 +1,7 @@
+<h1>UTM Campaign Values</h1>
+
+<%= render 'shared/breadcrumb' %>
+
 <% @groups.each do |group| %>
   <% utm_index, utm_values = group.first, group.last %>
   <h2 class="utm-list-header"><%= link_to "utm#{utm_index}", utm_campaign_value_path(utm_index) %></h2>

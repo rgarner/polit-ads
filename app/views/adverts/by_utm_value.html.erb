@@ -1,12 +1,13 @@
 <h1>
-  <%= link_to "utm#{@value.index}", utm_campaign_value_path(@value) %>:
-  <%= @value.value  %>
+  Adverts with <%= @value.value  %>
 </h1>
 
+<%= render 'shared/breadcrumb' %>
+
 <dl>
-  <dt>First seen</dt>
+  <dt>Value first seen</dt>
   <dd><%= @min_max.min %></dd>
-  <dt>Last seen</dt>
+  <dt>Value last seen</dt>
   <dd><%= @min_max.max %></dd>
 </dl>
 
