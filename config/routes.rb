@@ -5,6 +5,7 @@ Rails.application.routes.draw do
 
   resources :utm_campaign_values, only: %i[show index] do
     get 'against/:other_id', to: 'utm_campaign_values#against', as: :against
+    get 'between'
   end
 
   resources :hosts, only: :index do

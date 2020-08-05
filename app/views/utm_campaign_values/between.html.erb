@@ -1,0 +1,4 @@
+<h1>Values for utm<%= @index %> between <%= @start %> and <%= @finish %> </h1>
+<%= render 'shared/breadcrumb' %>
+
+<%= line_chart @values, height: '600px', curve: false %>
