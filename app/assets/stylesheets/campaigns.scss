@@ -1,0 +1,35 @@
+.campaigns {
+  display: flex;
+
+  .campaign {
+    width: 50%;
+    margin: 0.5rem;
+    &.campaign-trump {
+      .campaign-title {
+        color: red;
+      }
+    }
+
+    &.campaign-biden {
+      .campaign-title {
+        color: blue;
+      }
+    }
+  }
+
+  .graph {
+    background-color: white;
+  }
+
+  ul.funding-entities {
+    min-height: 5em;
+    list-style: none;
+    padding: 0;
+    font-size: 80%;
+
+    li {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
