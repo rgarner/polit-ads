@@ -10,7 +10,7 @@ module PolitAds
       SELECT host FROM (
         SELECT (SELECT token FROM ts_debug(external_url) WHERE alias = 'host') AS host
         FROM adverts
-        WHERE external_url IS NOT NULL
+        WHERE host_id IS NULL AND external_url IS NOT NULL
         GROUP BY host
       ) AS hosts
       WHERE host IS NOT NULL
