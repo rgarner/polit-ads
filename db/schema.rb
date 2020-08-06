@@ -65,6 +65,8 @@ ActiveRecord::Schema.define(version: 2020_08_06_100005) do
 
   create_table "hosts", force: :cascade do |t|
     t.string "hostname"
+    t.bigint "campaign_id"
+    t.index ["campaign_id"], name: "index_hosts_on_campaign_id"
     t.index ["hostname"], name: "index_hosts_on_hostname", unique: true
   end
 

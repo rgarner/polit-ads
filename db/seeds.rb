@@ -23,3 +23,28 @@ end
 ].each do |entity_name|
   biden.funding_entities.where(name: entity_name).first_or_create!
 end
+
+{
+  'action.dccc.org' => biden,
+  'action.donaldjtrump.com' => trump,
+  'asians.donaldjtrump.com' => trump,
+  'evangelicals.donaldjtrump.com' => trump,
+  'events.donaldjtrump.com' => trump,
+  'fb.com' => nil,
+  'forms.donaldjtrump.com' => trump,
+  'go.joebiden.com' => biden,
+  'itunes.apple.com' => nil,
+  'joebiden.com' => biden,
+  'play.google.com' => nil,
+  'secure.actblue.com' => biden,
+  'secure.winred.com' => trump,
+  'share.joebiden.com' => biden,
+  'shop.donaldjtrump.com' => trump,
+  'www.barelytherebiden.com' => trump,
+  'www.donaldjtrump.com' => trump,
+  'vote.donaldjtrump.com' => trump,
+  'www.youtube.com' => nil
+}.each_pair do |hostname, campaign|
+  host = Host.where(hostname: hostname).first
+  host.update(campaign: campaign) if host
+end

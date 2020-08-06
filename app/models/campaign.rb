@@ -1,5 +1,6 @@
 class Campaign < ApplicationRecord
   has_many :funding_entities
+  has_many :hosts
 
   scope :with_summaries, lambda {
     select('campaigns.*, COUNT(*) AS ad_count, MIN(adverts.ad_creation_time) AS ad_oldest')

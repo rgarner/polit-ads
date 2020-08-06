@@ -21,5 +21,9 @@ class CreateCampaignsAndFundingEntities < ActiveRecord::Migration[6.0]
     change_table :adverts do |t|
       t.references :funding_entity
     end
+
+    change_table :hosts do |t|
+      t.references :campaign
+    end
   end
 end
