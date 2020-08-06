@@ -10,6 +10,21 @@
   </head>
 
   <body>
-    <%= yield %>
+
+  <div class="container">
+    <nav class="navbar navbar-expand-md navbar-light mb-3">
+      <%= link_to utm_campaign_values_path, class: 'navbar-brand' do %>
+        <%= image_tag asset_path('wtm_logo_2020.png'), size: '50x50' %>
+      <% end %>
+      <ul class="navbar-nav justify-content-end">
+        <li class="nav-item">
+          <%= link_to 'UTM Campaign Values', utm_campaign_values_path, class: 'nav-link' %>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Hosts', hosts_path, class: 'nav-link' %>
+        </li>
+      </ul>
+    </nav>
+    <%= yield %></div>
   </body>
 </html>
