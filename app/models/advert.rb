@@ -1,6 +1,7 @@
 class Advert < ActiveRecord::Base
   has_many :utm_campaign_values, -> { order(:index) }
   belongs_to :host
+  belongs_to :funded_by, class_name: 'FundingEntity'
 
   validates_presence_of :page_name, :funding_entity, :ad_snapshot_url
 
