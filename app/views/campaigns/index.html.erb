@@ -19,6 +19,8 @@
         </ul>
 
         <p class="lead"><%= campaign.ad_count %></p>
+
+        <p>See this campaign's <%= link_to 'ad codes', ad_code_path(campaign.slug) %></p>
       </div>
     <% end %>
   </div>
