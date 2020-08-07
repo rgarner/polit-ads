@@ -1,6 +1,4 @@
 class CampaignsController < ApplicationController
-  breadcrumb 'Campaigns', :campaigns_path, match: :exclusive
-
   ADS_SINCE = '2020-07-22'.freeze
 
   def index

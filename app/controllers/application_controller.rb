@@ -1,3 +1,3 @@
 class ApplicationController < ActionController::Base
-  breadcrumb 'Campaigns (TBD)', :utm_campaign_values_path
+  breadcrumb 'Campaigns', :campaigns_path
 end
