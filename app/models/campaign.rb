@@ -1,4 +1,6 @@
 class Campaign < ApplicationRecord
+  include ChartkickGrouping
+
   has_many :funding_entities
   has_many :hosts
 
@@ -30,20 +32,6 @@ class Campaign < ApplicationRecord
       sql, 'sql', [[nil, date.strftime('%Y-%m-%d')]]
     )
 
-    # Map e.g
-    # [
-    #   {"value"=>"cm", "start"=>"2020-08-03", "count"=>122},
-    #   {"value"=>"cm", "start"=>"2020-08-04", "count"=>1420},
-    # ]
-    # to
-    # { name: 'cm', data: [['2020-08-03', 122], ['2020-08-04', 1420]] }
-
-    result.group_by { |row| row['name'] }
-          .each_with_object([]) do |(series, values), list|
-      list << {
-        name: series,
-        data: values.map { |value| [value['start'], value['count']] }
-      }
-    end
+    group_for_chartkick(result, by: 'name')
   end
 end
