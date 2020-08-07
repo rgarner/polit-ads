@@ -44,10 +44,11 @@ class UtmCampaignValuesController < ApplicationController
   def hosts
     @index = params[:utm_campaign_value_id]
     
-    @hosts_by_value = UtmCampaignValue.select('utm_campaign_values.value, hosts.hostname')
+    @hosts_by_value = UtmCampaignValue.select('utm_campaign_values.value, hosts.hostname, hosts.purpose, COUNT(*)')
                                       .where(index: @index)
                                       .joins(advert: :host)
-                                      .group(:value, :hostname)
+                                      .group('utm_campaign_values.value, hosts.id')
+                                      .order(count: :desc)
                                       .group_by(&:value)
 
 

@@ -1,10 +1,21 @@
 <%= render 'shared/breadcrumb' %>
 
 <% @hosts_by_value.each do |value, hosts| %>
-  <h2><%= value %></h2>
-  <ul>
+  <h2><%= link_to value, adverts_by_utm_value_path(value) %></h2>
+  <table class="table">
+    <thead class="thead-light">
+      <tr>
+        <th width="50%">Hostname</th>
+        <th width="25%">Purpose</th>
+        <th width="25%">Count</th>
+      </tr>
+    </thead>
     <% hosts.each do |host| %>
-      <li><%= host.hostname %></li>
+      <tr>
+        <td><%= host.hostname %></td>
+        <td><%= host.purpose %></td>
+        <td><%= host.count %></td>
+      </tr>
     <% end %>
-  </ul>
+  </table>
 <% end %>
