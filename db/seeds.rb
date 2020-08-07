@@ -25,26 +25,26 @@ end
 end
 
 {
-  'action.dccc.org' => biden,
-  'action.donaldjtrump.com' => trump,
-  'asians.donaldjtrump.com' => trump,
-  'evangelicals.donaldjtrump.com' => trump,
-  'events.donaldjtrump.com' => trump,
-  'fb.com' => nil,
-  'forms.donaldjtrump.com' => trump,
-  'go.joebiden.com' => biden,
-  'itunes.apple.com' => nil,
-  'joebiden.com' => biden,
-  'play.google.com' => nil,
-  'secure.actblue.com' => biden,
-  'secure.winred.com' => trump,
-  'share.joebiden.com' => biden,
-  'shop.donaldjtrump.com' => trump,
-  'www.barelytherebiden.com' => trump,
-  'www.donaldjtrump.com' => trump,
-  'vote.donaldjtrump.com' => trump,
-  'www.youtube.com' => nil
-}.each_pair do |hostname, campaign|
+  'action.dccc.org' =>                { campaign: biden, purpose: 'data' },
+  'action.donaldjtrump.com' =>        { campaign: trump, purpose: 'data' },
+  'asians.donaldjtrump.com' =>        { campaign: trump, purpose: 'data' },
+  'evangelicals.donaldjtrump.com' =>  { campaign: trump, purpose: 'data' },
+  'events.donaldjtrump.com' =>        { campaign: trump, purpose: 'event' },
+  'fb.com' =>                         { campaign: nil,   purpose: 'video' },
+  'forms.donaldjtrump.com' =>         { campaign: trump, purpose: 'data' },
+  'go.joebiden.com' =>                { campaign: biden, purpose: 'data' },
+  'itunes.apple.com' =>               { campaign: nil,   purpose: 'app' },
+  'joebiden.com' =>                   { campaign: biden, purpose: 'data' },
+  'play.google.com' =>                { campaign: nil,   purpose: 'app' },
+  'secure.actblue.com' =>             { campaign: biden, purpose: 'funding' },
+  'secure.winred.com' =>              { campaign: trump, purpose: 'funding' },
+  'share.joebiden.com' =>             { campaign: biden, purpose: 'data' },
+  'shop.donaldjtrump.com' =>          { campaign: trump, purpose: 'shop' },
+  'www.barelytherebiden.com' =>       { campaign: trump, purpose: 'attack' },
+  'www.donaldjtrump.com' =>           { campaign: trump, purpose: 'data' },
+  'vote.donaldjtrump.com' =>          { campaign: trump, purpose: 'data' },
+  'www.youtube.com' =>                { campaign: nil,   purpose: 'video' }
+}.each_pair do |hostname, data|
   host = Host.where(hostname: hostname).first
-  host.update(campaign: campaign) if host
+  host&.update(campaign: data[:campaign], purpose: data[:purpose])
 end
