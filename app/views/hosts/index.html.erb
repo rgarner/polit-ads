@@ -5,8 +5,9 @@
 <table class="table table-striped">
   <thead class="thead-dark">
     <tr>
-      <th width="40%">Host name</th>
-      <th width="20%">Adverts</th>
+      <th width="30%">Host name</th>
+      <th width="7.5%">Purpose</th>
+      <th width="12.5%">Adverts</th>
       <th width="20%">First ad</th>
       <th width="20%">Last ad</th>
     </tr>
@@ -16,6 +17,7 @@
     <% @hosts.each do |host| %>
       <tr>
         <td><%= host.hostname %></td>
+        <td><%= host.purpose %></td>
         <td><%= link_to "#{host.ad_count} adverts", host_adverts_path(host) %></td>
         <td><%= host.ad_first %></td>
         <td><%= host.ad_last %></td>
