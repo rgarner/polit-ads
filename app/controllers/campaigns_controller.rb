@@ -1,5 +1,5 @@
 class CampaignsController < ApplicationController
-  ADS_SINCE = '2020-07-22'.freeze
+  ADS_SINCE = '2020-07-01'.freeze
 
   def index
     @ads_since = ADS_SINCE
