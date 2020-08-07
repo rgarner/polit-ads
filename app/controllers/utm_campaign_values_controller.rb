@@ -41,6 +41,20 @@ class UtmCampaignValuesController < ApplicationController
     breadcrumb "between #{@start} and #{@finish}", request.path
   end
 
+  def hosts
+    @index = params[:utm_campaign_value_id]
+    
+    @hosts_by_value = UtmCampaignValue.select('utm_campaign_values.value, hosts.hostname')
+                                      .where(index: @index)
+                                      .joins(advert: :host)
+                                      .group(:value, :hostname)
+                                      .group_by(&:value)
+
+
+    breadcrumb "utm#{@index}", utm_campaign_value_path(@index)
+    breadcrumb 'Hosts', request.path
+  end
+
   private
 
   def between_params

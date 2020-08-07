@@ -1,0 +1,10 @@
+<%= render 'shared/breadcrumb' %>
+
+<% @hosts_by_value.each do |value, hosts| %>
+  <h2><%= value %></h2>
+  <ul>
+    <% hosts.each do |host| %>
+      <li><%= host.hostname %></li>
+    <% end %>
+  </ul>
+<% end %>

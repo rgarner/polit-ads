@@ -11,9 +11,13 @@
     <li><%= link_to value, adverts_by_utm_value_path(value.value) %> (<%= value.count %>)</li>
   <% end %>
 </ul>
-<h2>Compare with:</h2>
+<h2>Show against:</h2>
+
+<h3>Other values</h3>
 <ul class="tag-list">
   <% utm_indices_except(@index).each do |other_index| %>
     <%= link_to "utm#{other_index}", utm_campaign_value_against_path(@index, other_index) %>
   <% end %>
 </ul>
+
+<h3><%= link_to 'Hosts', utm_campaign_value_hosts_path(@index) %></h3>
