@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_06_100005) do
+ActiveRecord::Schema.define(version: 2020_08_07_162121) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(version: 2020_08_06_100005) do
   create_table "hosts", force: :cascade do |t|
     t.string "hostname"
     t.bigint "campaign_id"
+    t.string "purpose"
     t.index ["campaign_id"], name: "index_hosts_on_campaign_id"
     t.index ["hostname"], name: "index_hosts_on_hostname", unique: true
   end
