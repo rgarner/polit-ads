@@ -16,7 +16,7 @@
 <h3>Other values</h3>
 <ul class="tag-list">
   <% utm_indices_except(@index).each do |other_index| %>
-    <%= link_to "utm#{other_index}", utm_campaign_value_against_path(@index, other_index) %>
+    <li><%= link_to "utm#{other_index}", utm_campaign_value_against_path(@index, other_index) %></li>
   <% end %>
 </ul>
 
