@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_01_115931) do
+ActiveRecord::Schema.define(version: 2020_08_06_100005) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,11 +41,32 @@ ActiveRecord::Schema.define(version: 2020_08_01_115931) do
     t.string "external_text"
     t.integer "host_id"
     t.string "ad_library_url"
+    t.bigint "funding_entity_id"
+    t.index ["funding_entity_id"], name: "index_adverts_on_funding_entity_id"
     t.index ["host_id"], name: "index_adverts_on_host_id"
+  end
+
+  create_table "campaigns", force: :cascade do |t|
+    t.string "name"
+    t.string "slug"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["slug"], name: "index_campaigns_on_slug", unique: true
+  end
+
+  create_table "funding_entities", force: :cascade do |t|
+    t.string "name"
+    t.bigint "campaign_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["campaign_id"], name: "index_funding_entities_on_campaign_id"
+    t.index ["name"], name: "index_funding_entities_on_name", unique: true
   end
 
   create_table "hosts", force: :cascade do |t|
     t.string "hostname"
+    t.bigint "campaign_id"
+    t.index ["campaign_id"], name: "index_hosts_on_campaign_id"
     t.index ["hostname"], name: "index_hosts_on_hostname", unique: true
   end
 
@@ -55,6 +76,8 @@ ActiveRecord::Schema.define(version: 2020_08_01_115931) do
     t.string "value", null: false
     t.index ["advert_id", "index", "value"], name: "index_utm_campaign_values_on_advert_id_and_index_and_value", unique: true
     t.index ["advert_id"], name: "index_utm_campaign_values_on_advert_id"
+    t.index ["index", "value"], name: "index_utm_campaign_values_on_index_and_value"
+    t.index ["value"], name: "index_utm_campaign_values_on_value"
   end
 
 end

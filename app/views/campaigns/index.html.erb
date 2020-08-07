@@ -1,0 +1,35 @@
+<h1>Campaigns</h1>
+
+<%= render 'shared/breadcrumb' %>
+
+<div class="jumbotron">
+  <h2>
+    Since <%= @ads_since %> , we've seen <%= advert_count_text %> from
+    <%= pluralize(@funding_entity_count, 'funding entity') %>
+  </h2>
+
+  <div class="campaigns row">
+    <% @campaigns.each do |campaign| %>
+      <div class="col-sm campaign campaign-<%= campaign.slug %>">
+        <h3 class="campaign-title"><%= campaign.name %></h3>
+        <ul class="funding-entities">
+          <% campaign.funding_entities.each do |entity| %>
+            <li class="text-muted"><%= entity.name %></li>
+          <% end %>
+        </ul>
+
+        <p class="lead"><%= campaign.ad_count %></p>
+
+        <p>See this campaign's <%= link_to 'ad codes', ad_code_path(campaign.slug) %></p>
+      </div>
+    <% end %>
+  </div>
+</div>
+<div class="row graph">
+  <%=
+    line_chart @ad_counts,
+      height: '600px', curve: false, download: true,
+      colors: %w[blue red]
+  %>
+</div>
+

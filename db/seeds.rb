@@ -5,3 +5,46 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+biden = Campaign.where(name: 'Joe Biden', slug: 'biden').first_or_create!
+trump = Campaign.where(name: 'Donald J. Trump', slug: 'trump').first_or_create!
+
+[
+  'TRUMP MAKE AMERICA GREAT AGAIN COMMITTEE',
+  'DONALD J. TRUMP FOR PRESIDENT, INC.'
+].each do |entity_name|
+  trump.funding_entities.where(name: entity_name).first_or_create!
+end
+
+[
+  'BIDEN FOR PRESIDENT',
+  'BIDEN VICTORY FUND',
+  'Biden for President'
+].each do |entity_name|
+  biden.funding_entities.where(name: entity_name).first_or_create!
+end
+
+{
+  'action.dccc.org' => biden,
+  'action.donaldjtrump.com' => trump,
+  'asians.donaldjtrump.com' => trump,
+  'evangelicals.donaldjtrump.com' => trump,
+  'events.donaldjtrump.com' => trump,
+  'fb.com' => nil,
+  'forms.donaldjtrump.com' => trump,
+  'go.joebiden.com' => biden,
+  'itunes.apple.com' => nil,
+  'joebiden.com' => biden,
+  'play.google.com' => nil,
+  'secure.actblue.com' => biden,
+  'secure.winred.com' => trump,
+  'share.joebiden.com' => biden,
+  'shop.donaldjtrump.com' => trump,
+  'www.barelytherebiden.com' => trump,
+  'www.donaldjtrump.com' => trump,
+  'vote.donaldjtrump.com' => trump,
+  'www.youtube.com' => nil
+}.each_pair do |hostname, campaign|
+  host = Host.where(hostname: hostname).first
+  host.update(campaign: campaign) if host
+end

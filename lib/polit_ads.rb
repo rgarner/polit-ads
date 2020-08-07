@@ -14,8 +14,13 @@ require 'polit_ads/scraper'
 require 'advert'
 require 'host'
 require 'polit_ads/hosts_populator'
+require 'polit_ads/funding_entity_populator'
 require 'polit_ads/utm_campaign_splitter'
 require 'polit_ads/csv_to_console'
+require 'application_record'
+require 'concerns/chartkick_grouping'
 require 'utm_campaign_value'
+require 'funding_entity'
+require 'campaign'
 
 PolitAds::DB.configure

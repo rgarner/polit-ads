@@ -1,4 +1,6 @@
 class UtmCampaignValue < ActiveRecord::Base
+  include ChartkickGrouping
+
   belongs_to :advert
 
   validates :index, presence: true
@@ -27,21 +29,7 @@ class UtmCampaignValue < ActiveRecord::Base
       between_sql, 'sql', [[nil, start], [nil, finish], [nil, index]]
     )
 
-    # Map e.g
-    # [
-    #   {"value"=>"cm", "start"=>"2020-08-03", "count"=>122},
-    #   {"value"=>"cm", "start"=>"2020-08-04", "count"=>1420},
-    # ]
-    # to
-    # { name: 'cm', data: [['2020-08-03', 122], ['2020-08-04', 1420]] }
-
-    result.group_by { |row| row['value'] }
-          .each_with_object([]) do |(series, values), list|
-      list << {
-        name: series,
-        data: values.map { |value| [value['start'], value['count']] }
-      }
-    end
+    group_for_chartkick(result)
   end
 
   def self.between_sql

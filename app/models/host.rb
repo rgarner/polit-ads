@@ -1,5 +1,6 @@
 class Host < ActiveRecord::Base
   has_many :adverts
+  belongs_to :campaign, inverse_of: :hosts
 
   scope :with_ad_counts, lambda {
     select('hosts.*, MIN(adverts.ad_creation_time) AS ad_first, '\
