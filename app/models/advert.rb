@@ -42,13 +42,17 @@ class Advert < ActiveRecord::Base
   }
 
   ##
-  # Call example: Advert.with_utm_values(utm0: 'value', utm1: 'value2')
+  # Call example: Advert.with_utm_values('0' => 'value', '1' => 'value2')
   scope :with_utm_values, lambda { |hash|
-    keys = hash.keys.map { |k| k.to_s.sub('utm', '') }
-    clause = (0..keys.length - 1).each_with_index.map { |i| "utm_values.value#{i} = ?" }.join(' AND ')
+    # the WHERE clause requires value0 and value1 to be in index order
+    keys = hash.keys.map { |k| k.to_s.sub('utm', '').to_i }.sort.map(&:to_s)
 
-    joins("JOIN (#{values_for_indices(*keys)}) utm_values ON utm_values.advert_id = adverts.id")
-      .where(clause, *hash.values)
+    clause = (0..keys.length - 1).each_with_index.map do |i|
+      "utm_values.value#{i} = ?"
+    end.join(' AND ')
+
+    joins("JOIN (#{crosstab_values(*keys)}) utm_values ON utm_values.advert_id = adverts.id")
+      .where(clause, *keys.map { |k| hash.fetch(k) })
   }
 
   scope :hostname, lambda { |hostname|
@@ -58,7 +62,7 @@ class Advert < ActiveRecord::Base
   ##
   # Crosstab select for values in two given utm fields, joinable on advert_id
   # so we can do WHERE...AND queries on UTM values as if they were part of adverts
-  def self.values_for_indices(*indices)
+  def self.crosstab_values(*indices)
     <<~SQL.freeze
       SELECT advert_id, value0, value1
                 FROM crosstab(
