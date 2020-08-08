@@ -8,6 +8,8 @@ class AdvertsController < ApplicationController
     @adverts = apply_scopes(Advert.post_scraped)
                .order(ad_creation_time: :desc)
                .page(params[:page])
+
+    add_breadcrumbs_for_scopes!
   end
 
   def show
@@ -26,23 +28,38 @@ class AdvertsController < ApplicationController
     breadcrumb "#{@value} / adverts", request.path
   end
 
-  def with_utm_values
-    @adverts = Advert.with_utm_values(**utm_value_params).page(params[:page])
-
-    index1, index2 = utm_value_params.keys.map { |k| k.to_s.sub('utm', '') }
-
-    breadcrumb "utm#{index1} against utm#{index2}",
-      utm_campaign_value_against_path(utm_campaign_value_id: index1, other_id: index2)
-    breadcrumb "adverts", request.path
-  end
-
   private
 
-  def utm_value_params
-    @utm_value_params ||= (0..22).each_with_object(ActiveSupport::OrderedHash.new) do |n, result|
-      key = "utm#{n}"
-      result[key.to_sym] = params[key] if params[key]
+  ##
+  # /adverts?<big-query-string> is the destination for a lot of things.
+  # For certain combinations, we know where we're likely to have come from.
+  # Work those out here.
+  def add_breadcrumbs_for_scopes!
+    case current_scopes
+    in { hostname: hostname, with_utm_values: utm_values } if utm_values.length == 1
+      breadcrumb_values_against_hosts(hostname, utm_values)
+    in { with_utm_values: utm_values } if utm_values.length == 2
+      breadcrumb_utm_against_utm(utm_values)
+    else
+      nil
     end
+  end
+
+  # We most likely came from utmM against utmN
+  def breadcrumb_utm_against_utm(utm_values)
+    indices = utm_values.keys
+
+    breadcrumb "utm#{indices.first}", utm_campaign_value_path(indices.first)
+    breadcrumb "against utm#{indices.last}", utm_campaign_value_against_path(indices.first, indices.last)
+    breadcrumb 'adverts', request.path
+  end
+
+  # We most likely came from utm values against hosts
+  def breadcrumb_values_against_hosts(hostname, utm_values)
+    key, value = utm_values.to_a.first
+
+    breadcrumb "utm#{key}", utm_campaign_value_path(key)
+    breadcrumb "#{value} and #{hostname} / adverts", request.path
   end
 end
 

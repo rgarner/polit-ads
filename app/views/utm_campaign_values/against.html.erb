@@ -28,9 +28,9 @@
           <td>
             <% if value %>
               <%= link_to value,
-                adverts_with_utm_values_path(
-                  "utm#{@table.index1}" => @table.col_values[col_index],
-                  "utm#{@table.index2}" => @table.row_values[row_index]
+                adverts_path(
+                  "with_utm_values[#{@table.index1}]" => @table.col_values[col_index],
+                  "with_utm_values[#{@table.index2}]" => @table.row_values[row_index]
                 )
               %>
             <% end %>
