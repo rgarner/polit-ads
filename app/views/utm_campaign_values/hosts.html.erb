@@ -1,52 +1,41 @@
 <%= render 'shared/breadcrumb' %>
 
 <table class="against table table-heading table-bordered">
+
   <thead class="thead-light">
-  <tr>
-    <th colspan="2" width="30%">
-      Host
-    </th>
-    <% @table.col_values.each do |col_value| %>
-      <th><%= link_to col_value, adverts_by_utm_value_path(col_value) if col_value %></th>
-    <% end %>
-  </tr>
+    <tr>
+      <th colspan="2" width="30%">
+        Host
+      </th>
+      <% @table.col_values.each do |col_value| %>
+        <th><%= link_to col_value, adverts_by_utm_value_path(col_value) if col_value %></th>
+      <% end %>
+    </tr>
   </thead>
 
   <tbody>
-  <% @table.to_a.each_with_index do |row, row_index| %>
-    <tr>
-      <th scope="row">
-        <%= @table.row_values[row_index] %>
-      </th>
-      <th scope="row">
-        <span class="text-muted"><%= @table.rows[row_index]&.purpose %></span>
-      </th>
-      <% row.each do |value| %>
-        <td>
-          <%= value %>
-        </td>
-      <% end %>
-    </tr>
-  <% end %>
+    <% @table.to_a.each_with_index do |row, row_index| %>
+      <% hostname = @table.row_values[row_index] %>
+      <tr>
+        <th scope="row">
+          <%= hostname %>
+        </th>
+        <th scope="row">
+          <span class="text-muted"><%= @table.rows[row_index]&.purpose %></span>
+        </th>
+        <% row.each_with_index do |value, col_index| %>
+          <td>
+            <% if value %>
+              <%= link_to value, adverts_path(
+                "with_utm_values[#{@index}]" => @table.col_values[col_index],
+                'hostname' => hostname
+              )
+              %>
+            <% end %>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
   </tbody>
-</table>
 
-<%# @hosts_by_value.each do |value, hosts| %>
-<!--  <h2><%#= link_to value, adverts_by_utm_value_path(value) %></h2>-->
-<!--  <table class="table">-->
-<!--    <thead class="thead-light">-->
-<!--      <tr>-->
-<!--        <th width="50%">Hostname</th>-->
-<!--        <th width="25%">Purpose</th>-->
-<!--        <th width="25%">Count</th>-->
-<!--      </tr>-->
-<!--    </thead>-->
-    <%# hosts.each do |host| %>
-<!--      <tr>-->
-<!--        <td><%#= host.hostname %></td>-->
-<!--        <td><%#= host.purpose %></td>-->
-<!--        <td><%#= host.count %></td>-->
-<!--      </tr>-->
-    <%# end %>
-<!--  </table>-->
-<%# end %>
+</table>
