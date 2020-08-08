@@ -11,8 +11,15 @@ thead th {
   position: sticky;
 }
 
-.against thead tr:first-child th:first-child {
-  background-color: white;
+.against {
+  thead tr:first-child th:first-child {
+    background-color: white;
+  }
+
+  th .text-muted {
+    font-weight: normal;
+    font-style: italic;
+  }
 }
 
 tbody th[scope=row] {
