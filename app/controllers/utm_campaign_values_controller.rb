@@ -52,7 +52,7 @@ class UtmCampaignValuesController < ApplicationController
 
     @table = Host::ContingencyTable.new(rows)
 
-    breadcrumb "utm#{@index}", utm_campaign_value_path(@index)
+    breadcrumb "utm#{@index}", utm_campaign_value_path(@index), match: :exact
     breadcrumb 'Hosts', request.path
   end
 
