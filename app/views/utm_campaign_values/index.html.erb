@@ -7,7 +7,13 @@
   <h2 class="utm-list-header"><%= link_to "utm#{utm_index}", utm_campaign_value_path(utm_index) %></h2>
   <ul class="tag-list">
     <% utm_values.each do |value| %>
-      <li><%= value %> <span class="text-nowrap">(<%= link_to "#{value.count} adverts", adverts_by_utm_value_path(value.value) %>)</span></li>
+      <li>
+        <%= value %>
+        <span class="text-nowrap">(
+          <%= link_to "#{value.count} adverts",
+                      adverts_path("with_utm_values[#{value.index}]" => "#{value.value}") %>
+        )</span>
+      </li>
     <% end %>
   </ul>
 <% end %>

@@ -8,7 +8,7 @@
 </h2>
 <ul class="tag-list">
   <% @values.each do |value| %>
-    <li><%= link_to value, adverts_by_utm_value_path(value.value) %> (<%= value.count %>)</li>
+    <li><%= link_to value, adverts_path("with_utm_values[#{@index}]" => value.value) %> (<%= value.count %>)</li>
   <% end %>
 </ul>
 <h2>Show against:</h2>

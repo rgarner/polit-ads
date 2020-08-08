@@ -72,7 +72,6 @@ class Advert < ActiveRecord::Base
                                 order by 1,2'
                 )
                 AS ct(advert_id bigint, value0 character varying, value1 character varying)
-                GROUP BY advert_id, value0, value1
     SQL
   end
 

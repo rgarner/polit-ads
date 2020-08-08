@@ -8,7 +8,12 @@
         Host
       </th>
       <% @table.col_values.each do |col_value| %>
-        <th><%= link_to col_value, adverts_by_utm_value_path(col_value) if col_value %></th>
+        <th>
+          <%=
+            link_to col_value,
+            adverts_path("with_utm_values[#{@index}]" => col_value) if col_value
+          %>
+        </th>
       <% end %>
     </tr>
   </thead>
