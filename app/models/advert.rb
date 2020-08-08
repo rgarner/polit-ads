@@ -26,6 +26,7 @@ class Advert < ActiveRecord::Base
 
   scope :unpopulated,  -> { where(external_url: nil) }
   scope :populated,    -> { where('adverts.external_url IS NOT NULL') }
+  scope :post_scraped, -> { where('adverts.host_id IS NOT NULL') }
 
   scope :has_utm_campaign_query_param, lambda {
     left_joins(:utm_campaign_values).where("adverts.external_url ~ '\\?.*utm_campaign'")

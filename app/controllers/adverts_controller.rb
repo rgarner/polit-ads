@@ -5,7 +5,7 @@ class AdvertsController < ApplicationController
   has_scope :hostname
 
   def index
-    @adverts = apply_scopes(Advert.populated)
+    @adverts = apply_scopes(Advert.post_scraped)
                .order(ad_creation_time: :desc)
                .page(params[:page])
   end
