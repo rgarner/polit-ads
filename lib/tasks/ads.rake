@@ -18,6 +18,7 @@ namespace :ads do
     desc 'Populate utm_campaign_values for any ads that have it in their external_url'
     task :utm_campaign_values do
       PolitAds::UtmCampaignSplitter.new.populate
+      PolitAds::UtmValuesPopulator.populate
     end
 
     desc 'Populate funding entity ids'
