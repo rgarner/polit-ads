@@ -17,11 +17,11 @@ class Campaign < ApplicationRecord
       SELECT campaigns.name, days.start::date, COUNT(*)
       FROM (select start, start + '23 hours 59 minutes 59 seconds' AS end
             from generate_series(
-                         '2020-07-01'::timestamptz,
-                         $1::timestamptz, '1 day'
+                         '2020-07-01'::timestamp,
+                         $1::timestamp, '1 day'
                      ) AS start
            ) AS days
-               JOIN adverts ON adverts.ad_creation_time BETWEEN days.start AND days.end
+               JOIN adverts ON adverts.host_id IS NOT NULL AND adverts.ad_creation_time BETWEEN days.start AND days.end
                JOIN funding_entities ON funding_entities.id = adverts.funding_entity_id
                JOIN campaigns ON campaigns.id = funding_entities.campaign_id
       GROUP BY days.start, campaigns.name
