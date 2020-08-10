@@ -26,14 +26,14 @@ class UtmCampaignValue < ActiveRecord::Base
     finish = finish.strftime('%Y-%m-%d')
 
     result = ActiveRecord::Base.connection.exec_query(
-      between_sql, 'sql', [[nil, start], [nil, finish], [nil, index]]
+      BETWEEN_SQL, 'sql', [[nil, start], [nil, finish], [nil, index]]
     )
 
     group_for_chartkick(result)
   end
 
-  def self.between_sql
-    <<~SQL
+  BETWEEN_SQL =
+    <<~SQL.freeze
       SELECT u.value, days.start::date, COUNT(*)
       FROM (SELECT start, start + '23 hours 59 minutes 59 seconds' AS end
             FROM generate_series(
@@ -46,5 +46,4 @@ class UtmCampaignValue < ActiveRecord::Base
       GROUP BY days.start, u.value
       ORDER BY COUNT(*) DESC, days.start
     SQL
-  end
 end
