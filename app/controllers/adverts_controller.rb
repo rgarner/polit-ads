@@ -11,6 +11,9 @@ class AdvertsController < ApplicationController
                .order(ad_creation_time: :desc)
                .page(params[:page])
 
+    @hosts = apply_scopes(Advert).with_hosts
+
+
     add_breadcrumbs_for_scopes!
   end
 

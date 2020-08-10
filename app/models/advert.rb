@@ -47,6 +47,13 @@ class Advert < ActiveRecord::Base
     where('utm_values @> ?', hash.to_json)
   }
 
+  scope :with_hosts, lambda {
+    select('hosts.*, MIN(adverts.ad_creation_time) AS ad_first, '\
+           'MAX(adverts.ad_creation_time) AS ad_last, COUNT(adverts.id) AS ad_count')
+      .joins(:host)
+      .group('hosts.id')
+  }
+
   scope :hostname, lambda { |hostname|
     joins(:host).where('hosts.hostname = ?', hostname)
   }
