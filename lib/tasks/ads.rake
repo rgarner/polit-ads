@@ -44,7 +44,7 @@ namespace :ads do
 
         values = url.query_values['source'].split(/[_|]/)
         h[values.length] = h[values.length] + 1
-        pp values, ad.ad_creation_time if values.length == 5
+        puts "#{ad.ad_creation_time}: #{url.host}(#{values.length}) – #{values} "
       end
 
       pp h
