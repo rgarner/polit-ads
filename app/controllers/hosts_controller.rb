@@ -3,6 +3,7 @@ class HostsController < ApplicationController
 
   def index
     @hosts = Host.with_ad_counts
+    @host_ad_counts = Host.summary_graph_data
   end
 
   def adverts
