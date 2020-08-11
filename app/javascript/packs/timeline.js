@@ -160,7 +160,7 @@ class Timeline {
     this.tooltip.style("transform", `
       translate(calc( 
         -50% + ${this.width / 2 + this.margin.left}px), 
-        calc(-100% + ${i * this.rowHeight + this.margin.top + this.rowHeight}px
+        calc(-100% + ${i * this.rowHeight + this.margin.top + this.rowHeight * 2}px
       ))
     `);
     this.tooltip.select("#value")
