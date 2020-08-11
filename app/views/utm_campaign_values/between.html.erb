@@ -2,7 +2,7 @@
 <%= render 'shared/breadcrumb' %>
 
 <% if true # %w[2 7].include?(@index) %>
-  <%= timeline(@values, height: "#{@values.count * 35}px") %>
+  <%= timeline(@values, height: "#{@values.count * 35}") %>
 <% else %>
   <%= line_chart @values, height: '800px', curve: false, download: true %>
 <% end %>
