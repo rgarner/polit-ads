@@ -1,0 +1,11 @@
+<% height = options[:height] || '600' %>
+
+<div class="timeline-container">
+  <svg viewBox="0,0,930,<%= height %>" width="930" height="<%= height %>" class="timeline">
+  </svg>
+</div>
+
+<script type=application/javascript>
+  timeline = new Timeline(<%= values.to_json.html_safe %>);
+  timeline.draw();
+</script>

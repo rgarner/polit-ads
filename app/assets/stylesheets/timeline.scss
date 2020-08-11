@@ -1,0 +1,49 @@
+.timeline-container {
+  position: relative;
+}
+
+.tooltip {
+  background-color: #fff;
+  box-shadow: 0 6px 8px rgba(52, 73, 94, .2), 0 1px 1px rgba(52, 73, 94, 0.1);
+  font-family: "Work Sans", sans-serif;
+  left: 0;
+  opacity: 0;
+  padding: 0.5em 1em;
+  pointer-events: none;
+  border-radius: 5px;
+  position: absolute;
+  text-align: center;
+  top: -12px;
+  transition: opacity 0.2s linear, transform 0.2s ease-in-out;
+  z-index: 1;
+}
+
+.tooltip:before {
+  background-color: #fff;
+  border-left-color: transparent;
+  border-top-color: transparent;
+  bottom: 0;
+  content: '';
+  height: 12px;
+  left: 50%;
+  position: absolute;
+  transform-origin: center center;
+  transform: translate(-50%, 50%) rotate(45deg);
+  width: 12px;
+  z-index: 1;
+}
+
+.tooltip-name {
+  margin-bottom: 0.2em;
+  font-size: 1em;
+  line-height: 1.4;
+  font-weight: 700;
+}
+
+.tooltip-value {
+  margin-bottom: 0.2em;
+  font-size: 0.8em;
+  line-height: 1.4;
+  font-weight: 400;
+}
+

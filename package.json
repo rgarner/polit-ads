@@ -8,6 +8,7 @@
     "@rails/webpacker": "4.2.2",
     "chart.js": "^2.9.3",
     "chartkick": "^3.2.1",
+    "d3": "^5.16.0",
     "turbolinks": "^5.2.0"
   },
   "version": "0.1.0",

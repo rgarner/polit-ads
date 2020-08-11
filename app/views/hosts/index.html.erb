@@ -2,6 +2,6 @@
 
 <%= render 'shared/breadcrumb' %>
 
-<%= line_chart @host_ad_counts, curve: false %>
+<%= timeline(@host_ad_counts) %>
 
 <%= render 'hosts_table' %>
