@@ -10,11 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_09_073817) do
+ActiveRecord::Schema.define(version: 2020_08_12_101758) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
+
+  create_table "ad_codes", force: :cascade do |t|
+    t.string "slug"
+    t.string "name"
+    t.integer "index"
+    t.integer "quality"
+    t.bigint "campaign_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["campaign_id", "index"], name: "index_ad_codes_on_campaign_id_and_index", unique: true
+    t.index ["campaign_id"], name: "index_ad_codes_on_campaign_id"
+  end
 
   create_table "adverts", force: :cascade do |t|
     t.string "page_id", limit: 25, null: false
