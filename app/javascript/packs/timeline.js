@@ -7,10 +7,12 @@ class Timeline {
       { name: 'julyeom', data: [['2020-08-02', 2], ['2020-08-06', 12]] },
     ]
    */
-  constructor(data) {
+  constructor(data, options = {}) {
     this.data = data
-    this.rowHeight = 32
+    this.rowHeight = options['rowHeight'] || 32
     this.margin = { top: 32, right: 32, bottom: 32, left: 32 }
+    this.standoffAxis = this.margin.top
+    this.circleRange = options['circleRange'] || [3, 25]
     this.width = this.svg.style('width').replace('px', '') - this.margin.left - this.margin.right
   }
 
@@ -58,11 +60,11 @@ class Timeline {
   draw() {
     const svg = this.svg
     const x = this.x
-    const size = d3.scaleLinear().domain(this.overallSeriesExtents()).range([3, 40]);
+    const size = d3.scaleLinear().domain(this.overallSeriesExtents()).range(this.circleRange);
     const color = d3.scaleOrdinal().range(d3.schemeSpectral[11]).domain(this.data.length)
 
     const g = svg.append("g")
-      .attr("transform", "translate(" + this.margin.left + "," + this.margin.top + ")")
+      .attr("transform", `translate(${this.margin.left},${this.margin.top })`)
 
     const audiences = g
       .selectAll("g")
@@ -70,7 +72,7 @@ class Timeline {
       .enter()
       .append("g")
       .attr("class", "audience")
-      .attr('transform', (d, i) => `translate(0, ${i * this.rowHeight + this.margin.top} )` )
+      .attr('transform', (d, i) => `translate(0, ${i * this.rowHeight + this.standoffAxis} )` )
       .on("mouseenter", this.onMouseEnter.bind(this))
       .on("mouseleave", this.onMouseLeave.bind(this))
 
@@ -93,7 +95,7 @@ class Timeline {
       .enter()
       .append('circle')
       .attr('cx', (d) => x(new Date(d[0])))
-      .attr('cy', this.margin.left)
+      .attr('cy', this.rowHeight)
       .attr('stroke', 'black')
       .attr('opacity', '0.9')
       .attr('r', (d) => size(d[1]))
@@ -160,7 +162,7 @@ class Timeline {
     this.tooltip.style("transform", `
       translate(calc( 
         -50% + ${this.width / 2 + this.margin.left}px), 
-        calc(-100% + ${i * this.rowHeight + this.margin.top + this.rowHeight * 2}px
+        calc(-100% + ${i * this.rowHeight + this.margin.top + this.standoffAxis + this.rowHeight}px
       ))
     `);
     this.tooltip.select("#value")

@@ -1,4 +1,16 @@
-<% height = options[:height] || '600' %>
+<%
+  height = options[:height] || :auto
+  default_margin = 32
+  if height == :auto
+    height = values.length * (options[:rowHeight] || 32) +
+      (options[:margin_top] || default_margin) * 3
+  end
+%>
+
+<dl>
+  <dt>Distinct values seen in this time period</dt>
+  <dd><%= values.length %></dd>
+</dl>
 
 <div class="timeline-container">
   <svg viewBox="0,0,930,<%= height %>" width="930" height="<%= height %>" class="timeline">
@@ -6,6 +18,6 @@
 </div>
 
 <script type=application/javascript>
-  timeline = new Timeline(<%= values.to_json.html_safe %>);
+  timeline = new Timeline(<%= values.to_json.html_safe %>, <%= options.to_json.html_safe %>);
   timeline.draw();
 </script>
