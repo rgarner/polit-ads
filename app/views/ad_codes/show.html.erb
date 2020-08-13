@@ -1,0 +1,9 @@
+<h1><%= @ad_code.name %> <small class="text-muted"><%= "utm#{@ad_code.index}" %></small></h1>
+
+<h1>Values between <%= @start %> and <%= @finish %> </h1>
+
+<%= render 'shared/breadcrumb' %>
+
+<%= timeline(@values) %>
+
+

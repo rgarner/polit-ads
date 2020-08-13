@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
-  resources :campaigns, only: :index
+  resources :campaigns, only: :index do
+    resources :ad_codes, only: %i[show index]
+  end
 
   resources :adverts, only: %i[show index]
 
