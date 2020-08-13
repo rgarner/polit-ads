@@ -5,7 +5,13 @@
 <table class="against table table-heading table-bordered">
   <thead class="thead-light">
   <tr>
-    <th></th>
+    <th>
+      <%=
+        link_to 'Swap',
+                campaign_ad_code_against_path(@campaign, @ad_code2.index, @ad_code1.index),
+                class: 'button'
+      %>
+    </th>
     <th colspan="99" style="text-align: center">
       <%= link_to campaign_ad_code_path(@campaign, @table.index1) do %>
         <%= @ad_code1.name %>
