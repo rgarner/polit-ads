@@ -23,5 +23,6 @@ require 'application_record'
 require 'utm_campaign_value'
 require 'funding_entity'
 require 'campaign'
+require 'ad_code_value_summary'
 
 PolitAds::DB.configure
