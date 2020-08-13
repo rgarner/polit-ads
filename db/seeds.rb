@@ -65,7 +65,7 @@ end
   '12' => { name: 'Age range', quality: 2 },
   '13' => { name: 'Ad network', quality: 2 },
   '14' => { name: 'Constant14', quality: 0 },
-  '15' => { name: 'Constant15', quality: 0 },
+  '15' => { name: 'Unused age range', quality: 0 },
   '16' => { name: 'Ad LP code', quality: 0 },
   '17' => { name: 'Ad goal', quality: 3 },
   '18' => { name: 'Facebook optimisation goal', quality: 3 },
