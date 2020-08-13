@@ -26,6 +26,21 @@ class AdCodesController < ApplicationController
     breadcrumb "against / #{@ad_code2.full_name}", request.path
   end
 
+  def hosts
+    @ad_code = AdCode.where(campaign_id: @campaign.id, index: params[:ad_code_id]).first
+
+    rows = UtmCampaignValue.select('utm_campaign_values.value, hosts.hostname, hosts.purpose, COUNT(*)')
+                           .where(index: @ad_code.index)
+                           .joins(advert: :host)
+                           .group('utm_campaign_values.value, hosts.id')
+                           .order(count: :desc)
+
+    @table = Host::ContingencyTable.new(rows)
+
+    breadcrumb @ad_code.full_name, campaign_ad_code_path(campaign_id: @campaign.slug, id: @ad_code.index), match: :exclusive
+    breadcrumb 'Hosts', request.path
+  end
+
   private
   
   def set_campaign

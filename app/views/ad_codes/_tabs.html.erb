@@ -26,6 +26,6 @@
     </div>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="#">Hosts</a>
+    <%= link_to 'Hosts', campaign_ad_code_hosts_path(@campaign, ad_code_id: params[:id]), class: "nav-link" %>
   </li>
 </ul>

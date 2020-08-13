@@ -7,7 +7,7 @@
   <tr>
     <th></th>
     <th colspan="99" style="text-align: center">
-      <%= link_to utm_campaign_value_path(@table.index1) do %>
+      <%= link_to campaign_ad_code_path(@campaign, @table.index1) do %>
         <%= @ad_code1.name %>
         <small class="text-muted">utm<%= @ad_code1.index %></small>
       <% end %>
@@ -15,7 +15,7 @@
   </tr>
   <tr>
     <th>
-      <%= link_to utm_campaign_value_path(@table.index2) do %>
+      <%= link_to campaign_ad_code_path(@campaign, @table.index2) do %>
         <%= @ad_code2.name %>
         <small class="text-muted">utm<%= @ad_code2.index %></small>
       <% end %>
