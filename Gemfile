@@ -11,6 +11,7 @@ gem 'ferrum'
 gem 'has_scope'
 gem 'kaminari'
 gem 'loaf'
+gem 'scenic'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.2'

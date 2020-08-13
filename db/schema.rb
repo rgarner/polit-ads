@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_12_101758) do
+ActiveRecord::Schema.define(version: 2020_08_13_120155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -95,4 +95,21 @@ ActiveRecord::Schema.define(version: 2020_08_12_101758) do
     t.index ["value"], name: "index_utm_campaign_values_on_value"
   end
 
+
+  create_view "ad_code_value_summaries", materialized: true, sql_definition: <<-SQL
+      SELECT ad_codes.campaign_id,
+      ad_codes.index,
+      ad_codes.slug,
+      ad_codes.name,
+      ad_codes.quality,
+      utm_campaign_values.value,
+      min(adverts.ad_creation_time) AS first_used,
+      count(*) AS count
+     FROM ((ad_codes
+       JOIN utm_campaign_values ON ((utm_campaign_values.index = ad_codes.index)))
+       JOIN adverts ON ((adverts.id = utm_campaign_values.advert_id)))
+    WHERE (ad_codes.campaign_id = 2)
+    GROUP BY ad_codes.id, utm_campaign_values.value
+    ORDER BY ad_codes.quality DESC;
+  SQL
 end

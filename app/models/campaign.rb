@@ -4,6 +4,7 @@ class Campaign < ApplicationRecord
   has_many :funding_entities
   has_many :hosts
   has_many :ad_codes
+  has_many :ad_code_value_summaries # Materialized view model
 
   scope :with_summaries, lambda {
     select('campaigns.*, COUNT(*) AS ad_count, MIN(adverts.ad_creation_time) AS ad_oldest')
