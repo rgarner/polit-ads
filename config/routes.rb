@@ -8,11 +8,15 @@ Rails.application.routes.draw do
 
   resources :adverts, only: %i[show index]
 
-  resources :utm_campaign_values, only: %i[show index] do
-    get 'against/:other_id', to: 'utm_campaign_values#against', as: :against
-    get 'between'
-    get 'hosts'
-  end
+  ##
+  # Redirects; this once only did one campaign - Trump's, and now
+  # we must preserve URLs in spreadsheets and so on.
+  get '/utm_campaign_values', to: redirect('/campaigns/trump/ad_codes')
+  get '/utm_campaign_values/:id', to: redirect('/campaigns/trump/ad_codes/%{id}')
+  # Between is now default view, or timeline, on ad_codes. Use path: to preserve query string
+  get '/utm_campaign_values/:id/between', to: redirect(path: '/campaigns/trump/ad_codes/%{id}')
+  get '/utm_campaign_values/:id/against/:other_id', to: redirect('/campaigns/trump/ad_codes/%{id}/against/%{other_id}/')
+  get '/utm_campaign_values/:id/hosts', to: redirect('/campaigns/trump/ad_codes/%{id}/hosts')
 
   resources :hosts, only: :index do
     get 'adverts'
