@@ -1,9 +1,0 @@
-<h1>Values for utm<%= @index %> between <%= @start %> and <%= @finish %> </h1>
-<%= render 'shared/breadcrumb' %>
-
-<% if true # %w[2 7].include?(@index) %>
-  <%= timeline(@values) %>
-<% else %>
-  <%= line_chart @values, height: '800px', curve: false, download: true %>
-<% end %>
-
