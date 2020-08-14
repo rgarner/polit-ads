@@ -1,0 +1,41 @@
+<%= render 'shared/breadcrumb' %>
+
+<h1>Ad codes and their values</h1>
+
+<ul class="tag-list">
+  <% @ad_codes.each_pair do |name, values| %>
+    <li>
+     <%=
+       link_to name, "##{name.downcase.gsub(' ', '-')}",
+         class: values.first.quality <= 1 ? 'text-muted' : '',
+         data: { turbolinks: false }
+     %>
+    </li>
+  <% end %>
+</ul>
+
+<% @ad_codes.each_pair do |name, values| %>
+  <div class="ad-code">
+    <a name="<%= name.downcase.gsub(' ', '-') %>"></a>
+    <h2>
+      <%= link_to name, campaign_ad_code_path(@campaign, values.first.index) %>
+      <small class="text-muted">utm<%= values.first.index %></small>
+    </h2>
+
+    <ul class="tag-list">
+      <% values.each do |value| %>
+        <li>
+          <%= value.value %>
+          <span class="text-nowrap">(
+            <%= link_to "#{value.count} adverts",
+              adverts_path("with_utm_values[#{value.index}]" => "#{value.value}") %>
+            )
+        </span>
+          <% if new_ad_code?(value, params[:new] || 2) %>
+            <span class="badge badge-primary">New</span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

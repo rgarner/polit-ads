@@ -10,11 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_09_073817) do
+ActiveRecord::Schema.define(version: 2020_08_13_120155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
+
+  create_table "ad_codes", force: :cascade do |t|
+    t.string "slug"
+    t.string "name"
+    t.integer "index"
+    t.integer "quality"
+    t.bigint "campaign_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["campaign_id", "index"], name: "index_ad_codes_on_campaign_id_and_index", unique: true
+    t.index ["campaign_id"], name: "index_ad_codes_on_campaign_id"
+  end
 
   create_table "adverts", force: :cascade do |t|
     t.string "page_id", limit: 25, null: false
@@ -83,4 +95,21 @@ ActiveRecord::Schema.define(version: 2020_08_09_073817) do
     t.index ["value"], name: "index_utm_campaign_values_on_value"
   end
 
+
+  create_view "ad_code_value_summaries", materialized: true, sql_definition: <<-SQL
+      SELECT ad_codes.campaign_id,
+      ad_codes.index,
+      ad_codes.slug,
+      ad_codes.name,
+      ad_codes.quality,
+      utm_campaign_values.value,
+      min(adverts.ad_creation_time) AS first_used,
+      count(*) AS count
+     FROM ((ad_codes
+       JOIN utm_campaign_values ON ((utm_campaign_values.index = ad_codes.index)))
+       JOIN adverts ON ((adverts.id = utm_campaign_values.advert_id)))
+    WHERE (ad_codes.campaign_id = 2)
+    GROUP BY ad_codes.id, utm_campaign_values.value
+    ORDER BY ad_codes.quality DESC;
+  SQL
 end

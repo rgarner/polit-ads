@@ -1,0 +1,31 @@
+<ul class="nav nav-tabs ad-code-nav">
+  <li class="nav-item">
+    <a class="nav-link active" href="#">Timeline</a>
+  </li>
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Show against</a>
+    <div class="dropdown-menu">
+      <% add_divider_at_quality_1 = true   %>
+      <% @other_ad_codes.each do |ad_code| %>
+        <% if ad_code.quality == 1 && add_divider_at_quality_1 %>
+          <div class="dropdown-divider"></div>
+          <% add_divider_at_quality_1 = false %>
+        <% end %>
+
+        <div class="dropdown-item">
+          <%=
+            link_to campaign_ad_code_against_path(
+              ad_code_id: @ad_code.index, other_index: ad_code.index
+            ), class: "#{'text-muted' if ad_code.quality <= 1}" do
+          %>
+            <%= ad_code.name %>
+          <% end %>
+          <small class="text-muted">utm<%= ad_code.index %></small>
+        </div>
+      <% end %>
+    </div>
+  </li>
+  <li class="nav-item">
+    <%= link_to 'Hosts', campaign_ad_code_hosts_path(@campaign, ad_code_id: params[:id]), class: "nav-link" %>
+  </li>
+</ul>

@@ -7,7 +7,12 @@ namespace :ads do
   end
 
   desc 'Fill in everything from external_url post-scrape'
-  task post_scrape: %w[populate:utm_campaign_values populate:hosts populate:funding_entities]
+  task post_scrape: %w[
+    populate:utm_campaign_values
+    populate:hosts
+    populate:funding_entities
+    populate:ad_code_value_summaries
+  ]
 
   namespace :populate do
     desc 'populate hosts'
@@ -24,6 +29,12 @@ namespace :ads do
     desc 'Populate funding entity ids'
     task :funding_entities do
       PolitAds::FundingEntityPopulator.populate
+    end
+
+    desc 'Populate materialized view for ad code summaries'
+    task :ad_code_value_summaries do
+      $stderr.puts 'Refreshing ad_code_value_summaries materialized view...'
+      AdCodeValueSummary.refresh
     end
   end
 
