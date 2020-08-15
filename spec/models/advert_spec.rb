@@ -1,10 +1,12 @@
+require 'rails_helper'
+
 RSpec.describe Advert do
-  describe '#ads_of_interest' do
+  describe '#trump_or_biden' do
     let!(:biden_ad) { create :advert, :biden }
     let!(:trump_ad) { create :advert, :trump }
     let!(:other_ad) { create :advert, :other }
 
-    subject(:ads_of_interest) { Advert.ads_of_interest }
+    subject(:ads_of_interest) { Advert.trump_or_biden }
 
     it 'gets Trump ads and Biden ads' do
       aggregate_failures do

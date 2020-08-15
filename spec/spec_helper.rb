@@ -1,6 +1,5 @@
 ENV['ENV'] ||= 'test'
 
-require 'polit_ads'
 require 'factory_bot'
 
 RSpec.configure do |config|
@@ -11,5 +10,6 @@ RSpec.configure do |config|
   end
 end
 
-Dir[File.join(PolitAds.root, 'spec', 'support', '**', '*.rb')].each(&method(:require))
+root = File.join(File.dirname(__FILE__), '..')
+Dir[File.join(root, 'spec', 'support', '**', '*.rb')].each(&method(:require))
 

@@ -1,9 +1,15 @@
-require 'polit_ads'
+require 'polit_ads/scraper'
+require 'polit_ads/hosts_populator'
+require 'polit_ads/utm_campaign_splitter'
+require 'polit_ads/utm_values_populator'
+require 'polit_ads/funding_entity_populator'
 
 namespace :ads do
   desc 'Scrape ads of interest and collect their external urls'
-  task :scrape do
-    PolitAds::Scraper.new.run!
+  task scrape: :environment do
+    logger = Logger.new(STDERR)
+    logger.level = :info
+    PolitAds::Scraper.new(logger: logger).run!
   end
 
   desc 'Fill in everything from external_url post-scrape'
@@ -16,36 +22,31 @@ namespace :ads do
 
   namespace :populate do
     desc 'populate hosts'
-    task :hosts do
+    task hosts: :environment do
       PolitAds::HostsPopulator.run
     end
 
     desc 'Populate utm_campaign_values for any ads that have it in their external_url'
-    task :utm_campaign_values do
+    task utm_campaign_values: :environment do
       PolitAds::UtmCampaignSplitter.new.populate
       PolitAds::UtmValuesPopulator.populate
     end
 
     desc 'Populate funding entity ids'
-    task :funding_entities do
+    task funding_entities: :environment do
       PolitAds::FundingEntityPopulator.populate
     end
 
     desc 'Populate materialized view for ad code summaries'
-    task :ad_code_value_summaries do
+    task ad_code_value_summaries: :environment do
       $stderr.puts 'Refreshing ad_code_value_summaries materialized view...'
       AdCodeValueSummary.refresh
     end
   end
 
-  desc 'Export to CSV'
-  task :export do
-    PolitAds::CSVToConsole.new.run!
-  end
-
   namespace :utm_campaign do
     desc 'Show me Biden stuffs'
-    task :biden do
+    task biden: :environment do
       require 'addressable'
 
       h = Hash.new(0)
@@ -59,39 +60,6 @@ namespace :ads do
       end
 
       pp h
-    end
-
-    desc 'Print utm_campaign_values for any ads that have it in their external_url'
-    task :print, [:limit] do |_t, args|
-      limit = args[:limit] || 200
-      PolitAds::UtmCampaignSplitter.new.print(limit: limit)
-    end
-
-    desc 'Print discrete values for all Trump indices'
-    task :trump_discrete do
-      count = Advert
-              .where("page_name ILIKE '%trump' OR adverts.funding_entity ILIKE '%trump%'")
-              .where('external_url IS NOT NULL').count
-      puts "From #{count} recent ads with a page_name/funding_entity containing 'Trump'"
-      (0..22).each do |i|
-        occurrences = UtmCampaignValue
-                      .select(:value)
-                      .group(:value)
-                      .joins(:advert)
-                      .where("adverts.page_name ILIKE '%trump' OR adverts.funding_entity ILIKE '%trump%'")
-                      .where(index: i).count
-
-        sorted = occurrences.sort do |a, b|
-          next 0 if a.last == b.last
-
-          a.last > b.last ? -1 : 1
-        end.to_h
-
-        puts "#{i}:"
-        sorted.each_pair do |key, value|
-          puts "\t#{key}: #{value}"
-        end
-      end
     end
   end
 end
