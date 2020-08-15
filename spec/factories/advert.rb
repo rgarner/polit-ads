@@ -7,6 +7,9 @@ FactoryBot.define do
     id
     page_id
     post_id
+    host
+
+    ad_creation_time { 2.days.ago }
 
     country { 'US' }
 
