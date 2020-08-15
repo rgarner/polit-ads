@@ -7,7 +7,9 @@ require 'polit_ads/funding_entity_populator'
 namespace :ads do
   desc 'Scrape ads of interest and collect their external urls'
   task scrape: :environment do
-    PolitAds::Scraper.new.run!
+    logger = Logger.new(STDERR)
+    logger.level = :info
+    PolitAds::Scraper.new(logger: logger).run!
   end
 
   desc 'Fill in everything from external_url post-scrape'
