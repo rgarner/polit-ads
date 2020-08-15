@@ -1,7 +1,9 @@
 class AdvertsController < ApplicationController
   include AdvertsController::Breadcrumbs
 
-  breadcrumb 'UTM Campaign Values', :utm_campaign_values_path, match: :exclusive, except: :show
+  breadcrumb 'Donald J. Trump', :current
+  breadcrumb 'Ad codes', -> { campaign_ad_codes_path(campaign_id: 'trump') },
+             match: :exclusive, except: :show
 
   has_scope :with_utm_values, type: :hash
   has_scope :hostname

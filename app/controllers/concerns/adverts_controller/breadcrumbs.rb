@@ -18,23 +18,26 @@ class AdvertsController
     end
 
     def breadcrumb_utm(utm_values)
-      breadcrumb "utm#{utm_values.keys.first}", utm_campaign_value_path(utm_values.keys.first)
+      index = utm_values.keys.first
+      ad_code = AdCode.for_trump.find_by(index: index)
+
+      breadcrumb ad_code.full_name, campaign_ad_code_path(ad_code.campaign, index)
       breadcrumb "#{utm_values.values.first} adverts", request.path
     end
 
     def humanize_utm(utm_values)
       utm_values.map do |key, value|
-        "utm#{key}: '#{value}'"
+        "'#{value}'"
       end.join(' and ')
     end
 
     # We most likely came from utmM against utmN
     def breadcrumb_utm_against_utm(utm_values)
-      indices = utm_values.keys
+      ad_codes = utm_values.keys.map { |index| AdCode.for_trump.find_by(index: index) }
 
-      breadcrumb "utm#{indices.first}", utm_campaign_value_path(indices.first)
-      breadcrumb "against utm#{indices.last}", utm_campaign_value_against_path(indices.first, indices.last)
-      breadcrumb "adverts with #{humanize_utm(utm_values)}", request.path
+      breadcrumb ad_codes.first.full_name, campaign_ad_code_path(ad_codes.first.campaign, ad_codes.first.index)
+      breadcrumb "against #{ad_codes.last.full_name}", campaign_ad_code_against_path(ad_codes.first.campaign, ad_codes.first.index, ad_codes.last.index)
+      breadcrumb humanize_utm(utm_values), request.path
     end
 
     # We most likely came from utm values against hosts
