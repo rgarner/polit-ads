@@ -21,6 +21,7 @@ class AdvertsController < ApplicationController
 
   def show
     @advert = Advert.find(params[:id])
+    @ad_codes = AdCode.where(campaign: @advert.funded_by.campaign).group_by(&:index)
     breadcrumb 'Advert', request.path
   end
 end

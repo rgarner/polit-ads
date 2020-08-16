@@ -18,8 +18,15 @@
 </dl>
 
 <dl class="utm">
-  <% @advert.utm_campaign_values.each do |utm| %>
-    <dt><%= link_to "utm#{utm.index}", campaign_ad_code_path(@advert.host.campaign, utm.index) %></dt>
+  <% @advert.utm_campaign_values.each do |utm|
+    ad_code = @ad_codes[utm.index].first
+  %>
+    <dt>
+      <%= link_to campaign_ad_code_path(@advert.host.campaign, utm.index) do %>
+        <%= ad_code.name %>
+        <small class="text-muted">utm<%= ad_code.index %></small>
+      <% end %>
+    </dt>
     <dd><%= link_to utm.value, adverts_path("with_utm_values[#{utm.index}]" => utm.value) %></dd>
   <% end %>
 </dl>
