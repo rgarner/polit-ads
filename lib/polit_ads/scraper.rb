@@ -63,12 +63,18 @@ module PolitAds
       @pool ||= Concurrent::FixedThreadPool.new(THREADS)
     end
 
+    def find_external_link(page)
+      page.css('a').find do |a|
+        a.attribute('href') =~ /l\.facebook\.com/
+      end
+    end
+
     def populate_urls(page, advert)
       page.goto(ad_url(advert))
 
-      last_link = page.css('a').last
-      advert.external_tracking_url = last_link.attribute('href')
-      advert.external_text = last_link.inner_text
+      external_link = find_external_link(page)
+      advert.external_tracking_url = external_link.attribute('href')
+      advert.external_text = external_link.inner_text
       advert.ad_library_url = ad_library_url(advert)
 
       external_tracking_url = Addressable::URI.parse(advert.external_tracking_url)
