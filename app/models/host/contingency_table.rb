@@ -26,6 +26,10 @@ class Host
       col_indices.keys
     end
 
+    def row_by_hostname
+      @row_by_hostname ||= rows.each_with_object({}) { |row, values| values[row['hostname']] ||= row }
+    end
+
     private
 
     def row_indices
@@ -34,10 +38,6 @@ class Host
 
     def col_indices
       @col_indices ||= rows.each_with_object({}) { |row, values| values[row['value']] ||= values.length }
-    end
-
-    def row_by_hostname
-      @row_by_hostname ||= rows.each_with_object({}) { |row, values| values[row['hostname']] ||= row }
     end
 
     def result

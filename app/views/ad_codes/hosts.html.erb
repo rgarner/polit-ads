@@ -33,7 +33,7 @@
         <%= hostname %>
       </th>
       <th scope="row">
-        <span class="text-muted"><%= @table.rows[row_index]&.purpose %></span>
+        <span class="text-muted"><%= @table.row_by_hostname[hostname]&.purpose %></span>
       </th>
       <% row.each_with_index do |value, col_index| %>
         <td>
