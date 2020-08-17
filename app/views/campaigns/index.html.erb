@@ -1,28 +1,56 @@
-<h1>Campaigns</h1>
+<h1>
+  Decoding the Presidential candidates’ Facebook advertising
+</h1>
 
-<div class="jumbotron">
-  <h2>
-    Since <%= @ads_since %> , we've seen <%= advert_count_text %> from
-    <%= pluralize(@funding_entity_count, 'funding entity') %>
-  </h2>
+<div class="row">
+  <div class="col col-lg-8">
+  <p class="lead">Modern campaigns run thousands of digital ads at a time.</p>
 
-  <div class="campaigns row">
+  <p>Each is a combination of content, targeting and spending designed to provoke the maximum possible reaction from those
+    who see it.</p>
+
+  <p>This data investigation, updated daily, shows how the two US Presidential campaigns construct their digital
+    advertising and in doing so, shows how they think about their supporters and voters.</p>
+  </div>
+</div>
+
+<div class="jumbotron campaigns">
+  <div class="row">
     <% @campaigns.each do |campaign| %>
-      <div class="col-sm campaign campaign-<%= campaign.slug %>">
-        <h3 class="campaign-title"><%= campaign.name %></h3>
-        <ul class="funding-entities">
-          <% campaign.funding_entities.each do |entity| %>
-            <li class="text-muted"><%= entity.name %></li>
-          <% end %>
-        </ul>
+      <div class="col-sm-6 campaign campaign-<%= campaign.slug %>">
+        <div class="row">
+          <div class="col-sm-12 col-md-4">
+            <%= campaign_face(campaign.slug) %>
+          </div>
 
-        <p class="lead"><%= campaign.ad_count %></p>
+          <div class="col-sm-12 col-md-8">
+            <h3 class="campaign-title text-nowrap"><%= campaign.name %></h3>
+            <ul class="funding-entities">
+              <% campaign.funding_entities.each do |entity| %>
+                <li class="text-muted"><%= entity.name %></li>
+              <% end %>
+            </ul>
 
-        <p>See this campaign's <%= link_to 'ad codes', campaign_ad_codes_path(campaign.slug) %></p>
+            <p class="lead">Total ads: <%= number_with_delimiter(campaign.ad_count) %></p>
+          </div>
+        </div>
+        <%=
+          link_to "Explore #{campaign.slug.titleize}’s ad codes",
+            campaign_ad_codes_path(campaign.slug), class: 'btn btn-primary'
+        %>
       </div>
     <% end %>
   </div>
 </div>
+
+<div class="row justify-content-center">
+  <p class="analysis-based col-sm-8 text-center text-muted">
+    Analysis based on <%= advert_count_text %> from the Biden and Trump campaigns
+    since <%= @ads_since.strftime('%B %-d') %>
+  </p>
+</div>
+
+<h2 class="h3">Ads per day</h2>
 <div class="row graph">
   <%=
     line_chart @ad_counts,

@@ -1,9 +1,18 @@
 .campaigns {
-  display: flex;
+  &.jumbotron {
+    padding-top: 2em;
+    padding-bottom: 2em;
+  }
 
   .campaign {
     width: 50%;
-    margin: 0.5rem;
+
+    .face {
+      margin-bottom: 1rem;
+      width: 100%;
+      min-width: 90px;
+    }
+
     &.campaign-trump {
       .campaign-title {
         color: red;
@@ -15,6 +24,10 @@
         color: blue;
       }
     }
+
+    .btn-primary {
+      min-width: 100%;
+    }
   }
 
   .graph {
@@ -22,14 +35,19 @@
   }
 
   ul.funding-entities {
-    min-height: 5em;
+    min-height: 7em;
     list-style: none;
     padding: 0;
-    font-size: 80%;
+    font-size: 90%;
 
     li {
       margin-left: 0;
       margin-right: 0;
     }
   }
+
+}
+
+.analysis-based {
+  margin-bottom: 2em;
 }
