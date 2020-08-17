@@ -1,5 +1,9 @@
 .timeline-container {
   position: relative;
+
+  svg {
+    height: 100%;
+  }
 }
 
 .tooltip {

@@ -13,7 +13,7 @@ class Timeline {
     this.margin = { top: 32, right: 32, bottom: 32, left: 32 }
     this.standoffAxis = this.margin.top
     this.circleRange = options['circleRange'] || [3, 25]
-    this.width = this.svg.style('width').replace('px', '') - this.margin.left - this.margin.right
+    this.width = 930 - this.margin.left - this.margin.right
   }
 
   get svg() {
@@ -160,8 +160,8 @@ class Timeline {
 
     this.tooltip.style("opacity", 1);
     this.tooltip.style("transform", `
-      translate(calc( 
-        -50% + ${this.width / 2 + this.margin.left}px), 
+      translate(calc(
+        -50% + ${this.width / 2 + this.margin.left}px),
         calc(-100% + ${i * this.rowHeight + this.margin.top + this.standoffAxis + this.rowHeight}px
       ))
     `);

@@ -7,9 +7,12 @@
   end
 %>
 
-<div class="timeline-container">
-  <svg viewBox="0,0,930,<%= height %>" width="930" height="<%= height %>" class="timeline">
-  </svg>
+<div class="container">
+  <div class="timeline-container row">
+    <%# Co-ord system width is always 930 %>
+    <svg viewBox="0,0,930,<%= height %>" width="930" height="<%= height %>" class="timeline col col-xs-12">
+    </svg>
+  </div>
 </div>
 
 <script type=application/javascript>
