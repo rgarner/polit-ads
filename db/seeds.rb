@@ -33,7 +33,7 @@ end
   'fb.com' => { campaign: nil,   purpose: 'video' },
   'forms.donaldjtrump.com' => { campaign: trump, purpose: 'data' },
   'go.joebiden.com' => { campaign: biden, purpose: 'data' },
-  'itunes.apple.com' => { campaign: nil,   purpose: 'app' },
+  'itunes.apple.com' => { campaign: nil, purpose: 'app' },
   'joebiden.com' => { campaign: biden, purpose: 'data' },
   'play.google.com' => { campaign: nil,   purpose: 'app' },
   'secure.actblue.com' => { campaign: biden, purpose: 'funding' },
@@ -43,7 +43,8 @@ end
   'www.barelytherebiden.com' => { campaign: trump, purpose: 'attack' },
   'www.donaldjtrump.com' => { campaign: trump, purpose: 'data' },
   'vote.donaldjtrump.com' => { campaign: trump, purpose: 'data' },
-  'www.youtube.com' => { campaign: nil,   purpose: 'video' }
+  'www.youtube.com' => { campaign: nil, purpose: 'video' },
+  'iwillvote.com' => { campaign: biden, purpose: 'data' }
 }.each_pair do |hostname, data|
   host = Host.where(hostname: hostname).first
   host&.update(campaign: data[:campaign], purpose: data[:purpose])
