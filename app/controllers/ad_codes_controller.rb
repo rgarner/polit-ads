@@ -7,6 +7,7 @@ class AdCodesController < ApplicationController
 
   def index
     @ad_codes = @campaign.ad_code_value_summaries
+                         .order('quality DESC, count DESC')
                          .group_by(&:name)
   end
 
