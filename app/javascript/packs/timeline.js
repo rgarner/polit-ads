@@ -155,26 +155,44 @@ class Timeline {
     return [year, month, day].join('-');
   }
 
+  // Transform a point expressed in our SVG viewBox co-ordinates to screen co-ordinates.
+  // Used to move the HTML tooltip around over svg objects
+  svgToScreen(svgX, svgY) {
+    const svgNode = this.svg.node()
+    const matrix = svgNode.getCTM();
+
+    const point = svgNode.createSVGPoint();
+    point.x = svgX;
+    point.y = svgY;
+
+    // now position var will contain screen coordinates:
+    return point.matrixTransform(matrix);
+  }
+
   onMouseEnter(d, i) {
     const dateExtents = this.seriesDateExtents()[i]
 
-    this.tooltip.style("opacity", 1);
+    const svgX = this.width / 2 + this.margin.left
+    const svgY = i * this.rowHeight + this.margin.top + this.standoffAxis + this.rowHeight;
+
+    const position = this.svgToScreen(svgX, svgY)
+
     this.tooltip.style("transform", `
       translate(calc(
-        -50% + ${this.width / 2 + this.margin.left}px),
-        calc(-100% + ${i * this.rowHeight + this.margin.top + this.standoffAxis + this.rowHeight}px
+        -50% + ${position.x}px),
+        calc(-100% + ${position.y}px
       ))
     `);
     this.tooltip.select("#value")
       .text(d.name);
     this.tooltip.select("#count")
       .text(`First seen ${this.formatDate(dateExtents[0])}, last seen ${this.formatDate(dateExtents[1])}`);
+    this.tooltip.style("opacity", 1);
   }
 
   onMouseLeave() {
     this.tooltip.style("opacity", 0);
   }
-
 
   get tooltip() {
     if(this._tooltip) return this._tooltip
