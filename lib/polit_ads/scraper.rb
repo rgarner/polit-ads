@@ -64,15 +64,17 @@ module PolitAds
     end
 
     def find_external_link(page)
-      page.css('a').find do |a|
+      anchors = page.css('a')
+      anchors.find do |a|
         a.attribute('href') =~ /l\.facebook\.com/
-      end
+      end || anchors.last
     end
 
     def populate_urls(page, advert)
       page.goto(ad_url(advert))
 
       external_link = find_external_link(page)
+
       advert.external_tracking_url = external_link.attribute('href')
       advert.external_text = external_link.inner_text
       advert.ad_library_url = ad_library_url(advert)
