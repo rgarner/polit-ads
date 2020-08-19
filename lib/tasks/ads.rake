@@ -14,8 +14,8 @@ namespace :ads do
 
   desc 'Fill in everything from external_url post-scrape'
   task post_scrape: %w[
-    populate:utm_campaign_values
     populate:hosts
+    populate:utm_campaign_values
     populate:funding_entities
     populate:ad_code_value_summaries
   ]
