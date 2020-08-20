@@ -14,6 +14,6 @@ RSpec.describe '/campaigns' do
 
     visit '/campaigns'
 
-    expect(page).to have_content("we've seen 2 adverts from 2 funding entities")
+    expect(page).to have_content("based on 2 adverts from the Biden and Trump campaigns")
   end
 end
