@@ -22,7 +22,7 @@
     ad_code = @ad_codes[utm.index].first
   %>
     <dt>
-      <%= link_to campaign_ad_code_path(@advert.host.campaign, utm.index) do %>
+      <%= link_to campaign_ad_code_path(campaign_id: @advert.funded_by.campaign, id: utm.index) do %>
         <%= ad_code.name %>
         <small class="text-muted">utm<%= ad_code.index %></small>
       <% end %>
