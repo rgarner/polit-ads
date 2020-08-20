@@ -23,12 +23,6 @@ module PolitAds
       end
     end
 
-    def print(limit: 100)
-      Advert.has_utm_campaign_query_param.limit(limit).each do |advert|
-        puts utm_campaign_values(advert).join(',')
-      end
-    end
-
     private
 
     def utm_campaign_values(advert)
