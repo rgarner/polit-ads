@@ -40,7 +40,7 @@ module PolitAds
     end
 
     def browser
-      @browser ||= Ferrum::Browser.new
+      @browser ||= Ferrum::Browser.new(timeout: 10)
     end
 
     def ad_url_template
