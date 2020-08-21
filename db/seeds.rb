@@ -44,7 +44,8 @@ end
   'www.donaldjtrump.com' => { campaign: trump, purpose: 'data' },
   'vote.donaldjtrump.com' => { campaign: trump, purpose: 'data' },
   'www.youtube.com' => { campaign: nil, purpose: 'video' },
-  'iwillvote.com' => { campaign: biden, purpose: 'data' }
+  'iwillvote.com' => { campaign: biden, purpose: 'data' },
+  'catholics.donaldjtrump.com' => { campaign: trump, purpose: 'data' },
 }.each_pair do |hostname, data|
   host = Host.where(hostname: hostname).first
   host&.update(campaign: data[:campaign], purpose: data[:purpose])
