@@ -13,6 +13,17 @@ FactoryBot.define do
 
     country { 'US' }
 
+    transient do
+      ad_codes { {} }
+    end
+
+    after(:create) do |advert, evaluator|
+      evaluator.ad_codes.each_pair do |index, value|
+        advert.utm_campaign_values << UtmCampaignValue.new(index: index, value: value)
+      end
+      advert.save!
+    end
+
     trait :biden do
       page_name       { 'Joe Biden' }
       funding_entity  { 'BIDEN VICTORY FUND' }
@@ -30,6 +41,14 @@ FactoryBot.define do
       page_name       { 'Amnesty International UK' }
       funding_entity  { 'Amnesty International UK' }
       ad_snapshot_url { 'https://www.facebook.com/ads/archive/render_ad/?id=2575089119400121&access_token=foobar' }
+    end
+
+    trait :new do
+      ad_creation_time { 1.day.ago }
+    end
+
+    trait :old do
+      ad_creation_time { 30.days.ago }
     end
   end
 end
