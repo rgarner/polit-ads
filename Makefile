@@ -1,5 +1,4 @@
-OWNER_DB=postgres
-DATABASE_NAME=ads
+DATABASE_URL=postgres://localhost:5432/ads
 
 define LOAD_ADS_SQL
 CREATE TEMPORARY TABLE tmp_adverts ( \
@@ -76,9 +75,9 @@ endef
 .PHONY: load-ads
 load-ads: adverts.csv
 	@echo "$(shell ruby -e "require 'csv'; puts CSV.read('$^').length - 1") records\n"
-	psql ${DATABASE_NAME} -Xc "${LOAD_ADS_SQL}"
+	psql ${DATABASE_URL} -Xc "${LOAD_ADS_SQL}"
 
-MAX_ID=$(shell psql $(DATABASE_NAME) -Xtc 'SELECT COALESCE(MAX(id), 0) FROM adverts')
+MAX_ID=$(shell psql $(DATABASE_URL) -Xtc 'SELECT COALESCE(MAX(id), 0) FROM adverts')
 adverts.csv:
 	$(if ${ADS_PG_URL},,$(error must set ADS_PG_URL))
 	@echo "Getting adverts with id over $(strip $(MAX_ID))...\n"
