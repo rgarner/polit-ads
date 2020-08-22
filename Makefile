@@ -23,7 +23,7 @@ CREATE TEMPORARY TABLE tmp_adverts ( \
 	 ad_info character varying NULL, \
 	 text_search tsvector NULL \
 ); \
-COPY tmp_adverts FROM '$(abspath adverts.csv)' DELIMITER ',' CSV HEADER; \
+COPY tmp_adverts FROM STDIN DELIMITER ',' CSV HEADER; \
 INSERT INTO adverts ( \
 	 id, \
 	 page_id, \
@@ -75,7 +75,7 @@ endef
 .PHONY: load-ads
 load-ads: adverts.csv
 	@echo "$(shell ruby -e "require 'csv'; puts CSV.read('$^').length - 1") records\n"
-	psql ${DATABASE_URL} -Xc "${LOAD_ADS_SQL}"
+	cat $^ | psql ${DATABASE_URL} -Xc "${LOAD_ADS_SQL}"
 
 MAX_ID=$(shell psql $(DATABASE_URL) -Xtc 'SELECT COALESCE(MAX(id), 0) FROM adverts')
 adverts.csv:
