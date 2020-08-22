@@ -22,4 +22,25 @@ module AdCodesHelper
       raise ArgumentError("#{action} not a tab")
     end
   end
+
+  def timeline_ranges
+    {
+      all_time: Date.new(2020, 5, 1),
+      last_30_days: 30.days.ago.to_date,
+      last_7_days: 7.days.ago.to_date
+    }
+  end
+
+  def timeline_range_links
+    tag.ul class: 'nav nav-pills' do
+      timeline_ranges.map do |label, start_date|
+        active = params[:range] == label.to_s || params[:range].nil? && label == :last_30_days
+        tag.li class: 'nav-item' do
+          link_to label.to_s.titleize,
+                  campaign_ad_code_path(@campaign, @ad_code, start: start_date.iso8601, range: label),
+                  class: "nav-link #{'active' if active }"
+        end
+      end.join.html_safe
+    end
+  end
 end

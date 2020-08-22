@@ -30,4 +30,21 @@ RSpec.describe 'Looking at ad codes' do
     # Put back when Ad code values are campaign-aware
     ## expect(page).not_to have_content('biden-val')
   end
+
+  scenario 'viewing an ad code timeline by range' do
+    # Given an ad_code exists
+    create :ad_code, index: 3, name: 'trump-code', campaign: trump
+
+    # When I visit the ad_code page
+    visit '/campaigns/trump/ad_codes/3'
+
+    # Then I should land on the 30 days timeline
+    expect(page).to have_link('Last 30 Days', class: 'active')
+
+    # And I click the "last 7 days link"
+    click_link 'Last 7 Days'
+
+    # Then I should be on the last 7 days page
+    expect(page).to have_link('Last 7 Days', class: 'active')
+  end
 end
