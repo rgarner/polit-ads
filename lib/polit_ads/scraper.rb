@@ -13,10 +13,12 @@ module PolitAds
     LIMIT   = 1000
     THREADS = 3
 
-    attr_accessor :logger
+    attr_accessor :logger, :limit, :threads
 
-    def initialize(logger: Logger.new(STDERR))
+    def initialize(logger: Logger.new(STDERR), limit: LIMIT, threads: THREADS)
       self.logger = logger
+      self.limit = limit
+      self.threads = threads
       ActiveRecord::Base.logger = logger
     end
 
@@ -60,7 +62,7 @@ module PolitAds
     end
 
     def pool
-      @pool ||= Concurrent::FixedThreadPool.new(THREADS)
+      @pool ||= Concurrent::FixedThreadPool.new(threads)
     end
 
     def find_external_link(page)
@@ -112,7 +114,7 @@ module PolitAds
     end
 
     def ads_to_scrape
-      Advert.recent.trump_or_biden.unpopulated.limit(LIMIT)
+      Advert.recent.trump_or_biden.unpopulated.limit(limit)
     end
   end
 end

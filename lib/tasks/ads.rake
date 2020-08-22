@@ -6,10 +6,13 @@ require 'polit_ads/funding_entity_populator'
 
 namespace :ads do
   desc 'Scrape ads of interest and collect their external urls'
-  task scrape: :environment do
+  task :scrape, %i[limit threads] => [:environment] do |_t, args|
     logger = Logger.new(STDERR)
     logger.level = :info
-    PolitAds::Scraper.new(logger: logger).run!
+
+    limit = (args[:limit] || 1000)
+    threads = (args[:threads] || 3)
+    PolitAds::Scraper.new(logger: logger, limit: limit, threads: threads).run!
   end
 
   desc 'Fill in everything from external_url post-scrape'
