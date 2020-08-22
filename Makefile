@@ -1,4 +1,4 @@
-DATABASE_URL=postgres://localhost:5432/ads
+DATABASE_URL?=postgres://localhost:5432/ads
 
 define LOAD_ADS_SQL
 CREATE TEMPORARY TABLE tmp_adverts ( \
