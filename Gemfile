@@ -7,7 +7,7 @@ ruby '2.7.1'
 
 gem 'chartkick'
 gem 'concurrent-ruby'
-gem 'ferrum', git: 'git@github.com:rubycdp/ferrum.git'
+gem 'ferrum', git: 'https://github.com/rubycdp/ferrum.git'
 gem 'has_scope'
 gem 'kaminari'
 gem 'loaf'

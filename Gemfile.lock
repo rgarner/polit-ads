@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:rubycdp/ferrum.git
+  remote: https://github.com/rubycdp/ferrum.git
   revision: 681354d45dd0441672a00c98429b6c3aa99023e0
   specs:
     ferrum (0.9)
