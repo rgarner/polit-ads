@@ -1,3 +1,13 @@
+GIT
+  remote: git@github.com:rubycdp/ferrum.git
+  revision: 681354d45dd0441672a00c98429b6c3aa99023e0
+  specs:
+    ferrum (0.9)
+      addressable (~> 2.5)
+      cliver (~> 0.3)
+      concurrent-ruby (~> 1.1)
+      websocket-driver (>= 0.6, < 0.8)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -79,7 +89,7 @@ GEM
       xpath (~> 3.2)
     chartkick (3.4.0)
     cliver (0.3.2)
-    concurrent-ruby (1.1.6)
+    concurrent-ruby (1.1.7)
     crass (1.0.6)
     database_cleaner (1.8.5)
     diff-lcs (1.4.4)
@@ -87,11 +97,6 @@ GEM
     execjs (2.7.0)
     factory_bot (6.1.0)
       activesupport (>= 5.0.0)
-    ferrum (0.8)
-      addressable (~> 2.6)
-      cliver (~> 0.3)
-      concurrent-ruby (~> 1.1)
-      websocket-driver (>= 0.6, < 0.8)
     ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -255,7 +260,7 @@ DEPENDENCIES
   concurrent-ruby
   database_cleaner
   factory_bot
-  ferrum
+  ferrum!
   has_scope
   jbuilder (~> 2.7)
   kaminari
