@@ -37,7 +37,7 @@ module AdCodesHelper
         active = params[:range] == label.to_s || params[:range].nil? && label == :last_30_days
         tag.li class: 'nav-item' do
           link_to label.to_s.titleize,
-                  campaign_ad_code_path(@campaign, @ad_code, start: start_date.iso8601, range: label),
+            request.query_parameters.merge(start: start_date.iso8601, range: label),
                   class: "nav-link #{'active' if active }"
         end
       end.join.html_safe
