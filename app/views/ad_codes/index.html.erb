@@ -25,7 +25,7 @@
     <ul class="tag-list">
       <% values.each do |value| %>
         <li>
-          <%= value.value %>
+          <%= link_to value.value, campaign_ad_code_value_path(@campaign, value.index, value.value) %>
           <span class="text-nowrap">(
             <%= link_to "#{value.count} adverts",
               adverts_path("with_utm_values[#{value.index}]" => "#{value.value}") %>

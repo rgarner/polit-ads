@@ -1,0 +1,17 @@
+<%= render 'shared/breadcrumb' %>
+
+<h1><%= @value.name %> – <%= @value.value %> <small class="text-muted">utm<%= @value.index %></small> </h1>
+<p class="lead">
+  Used in
+  <%= link_to "#{@value.count} adverts",
+        adverts_path("with_utm_values[#{@value.index}]" => @value.value) %>
+
+</p>
+<h2>Last 30 days</h2>
+
+<%= timeline_range_links %>
+<% if @values.any? %>
+  <%= timeline @values %>
+<% else %>
+  <p>No values for time period.</p>
+<% end %>
