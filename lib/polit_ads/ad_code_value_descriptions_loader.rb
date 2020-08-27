@@ -44,6 +44,10 @@ class AdCodeValueDescriptionsLoader
       @front_matter ||= YAML.load(content)
     end
 
+    def content_without_front_matter
+      content.sub(/---\n.*---$/m, '')
+    end
+
     def where
       AdCodeValueDescription.joins(ad_code: :campaign).where(
         'campaigns.slug' => campaign_slug,
@@ -71,7 +75,8 @@ class AdCodeValueDescriptionsLoader
   def create_or_update
     markdown_files.each do |markdown_file|
       description = markdown_file.where.first_or_create.tap do |value_description|
-        value_description.description = markdown_file.content
+        value_description.description = markdown_file.content_without_front_matter
+        value_description.confidence = markdown_file.confidence
         value_description.value = markdown_file.value
         value_description.value_name = markdown_file.value_name
         value_description.published = markdown_file.published

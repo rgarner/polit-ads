@@ -21,7 +21,7 @@ RSpec.describe AdCodeValueDescriptionsLoader do
       describe 'the first of these' do
         subject(:file) { files.sort { |a, b| a.index <=> b.index }.min { |a, b| a.value <=> b.value } }
 
-        it 'has index, value and file' do
+        it 'has index, value and content' do
           aggregate_failures do
             expect(file.campaign_slug).to eql('trump')
             expect(file.index).to eql(1)
@@ -29,6 +29,10 @@ RSpec.describe AdCodeValueDescriptionsLoader do
             expect(file.confidence).to eql('high')
             expect(file.content).to include('ad goal')
           end
+        end
+
+        it 'removes the front matter' do
+          expect(file.content_without_front_matter).not_to include('---')
         end
       end
     end
@@ -53,6 +57,7 @@ RSpec.describe AdCodeValueDescriptionsLoader do
 
         aggregate_failures do
           expect(md.description).to include('Why do we think that?')
+          expect(md.description).not_to include('---')
           expect(md.value_name).to eql('Monthly donor')
           expect(md.confidence).to eql('high')
           expect(rd.description).to include('This is the description for rd')
