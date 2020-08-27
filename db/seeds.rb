@@ -84,3 +84,6 @@ end
 
   ad_code.save!
 end
+
+require 'polit_ads/ad_code_value_descriptions_loader'
+AdCodeValueDescriptionsLoader.new('doc/ad_code_values').create_or_update
