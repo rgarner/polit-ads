@@ -10,11 +10,21 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_13_120155) do
+ActiveRecord::Schema.define(version: 2020_08_26_102538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
+
+  create_table "ad_code_value_descriptions", force: :cascade do |t|
+    t.string "value"
+    t.string "value_name"
+    t.string "confidence"
+    t.string "description"
+    t.bigint "ad_code_id"
+    t.date "published"
+    t.index ["ad_code_id"], name: "index_ad_code_value_descriptions_on_ad_code_id"
+  end
 
   create_table "ad_codes", force: :cascade do |t|
     t.string "slug"
@@ -95,6 +105,7 @@ ActiveRecord::Schema.define(version: 2020_08_13_120155) do
     t.index ["value"], name: "index_utm_campaign_values_on_value"
   end
 
+  add_foreign_key "ad_code_value_descriptions", "ad_codes"
 
   create_view "ad_code_value_summaries", materialized: true, sql_definition: <<-SQL
       SELECT ad_codes.campaign_id,
