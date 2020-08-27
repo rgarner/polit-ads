@@ -1,13 +1,20 @@
 <%= render 'shared/breadcrumb' %>
 
-<h1><%= @value.name %> – <%= @value.value %> <small class="text-muted">utm<%= @value.index %></small> </h1>
+<h1><%= @value.value %> – <small class="text-muted">value for "<%= @value.name %>", utm<%= @value.index %></small> </h1>
+<% if @description %>
+  <dl class="values">
+    <dt>We think this means</dt>
+    <dd><%= @description.value_name %></dd>
+    <dt>Why do we think that?</dt>
+    <dd><%= @description.description %></dd>
+  </dl>
+<% end %>
+
 <p class="lead">
   Used in
   <%= link_to "#{@value.count} adverts",
         adverts_path("with_utm_values[#{@value.index}]" => @value.value) %>
-
 </p>
-<h2>Last 30 days</h2>
 
 <%= timeline_range_links %>
 <% if @values.any? %>
