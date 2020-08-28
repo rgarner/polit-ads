@@ -29,7 +29,9 @@
       <% end %>
     </th>
     <% @table.col_values.each do |col_value| %>
-      <th><%= link_to col_value, adverts_path("with_utm_values[#{@table.index1}]" => col_value) if col_value %></th>
+      <th>
+        <%= link_to col_value, campaign_ad_code_value_path(@campaign, @ad_code, id: col_value) if col_value %>
+      </th>
     <% end %>
   </tr>
   </thead>
@@ -38,10 +40,7 @@
   <% @table.to_a.each_with_index do |row, row_index| %>
     <tr>
       <th scope="row">
-        <%=
-          link_to @table.row_values[row_index],
-            adverts_path("with_utm_values[#{@table.index2}]" => @table.row_values[row_index])
-        %>
+        <%= link_to @table.row_values[row_index], campaign_ad_code_value_path(@campaign, @ad_code2, id: @table.row_values[row_index]) %>
       </th>
       <% row.each_with_index do |value, col_index| %>
         <td>
