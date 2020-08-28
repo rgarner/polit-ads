@@ -119,6 +119,8 @@ GEM
       activerecord
       kaminari-core (= 1.2.1)
     kaminari-core (1.2.1)
+    kramdown (2.3.0)
+      rexml
     launchy (2.5.0)
       addressable (~> 2.7)
     listen (3.2.1)
@@ -183,6 +185,7 @@ GEM
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     regexp_parser (1.7.1)
+    rexml (3.2.4)
     rspec-core (3.9.2)
       rspec-support (~> 3.9.3)
     rspec-expectations (3.9.2)
@@ -264,6 +267,7 @@ DEPENDENCIES
   has_scope
   jbuilder (~> 2.7)
   kaminari
+  kramdown
   launchy
   listen (~> 3.2)
   loaf

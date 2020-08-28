@@ -10,6 +10,7 @@ gem 'concurrent-ruby'
 gem 'ferrum', git: 'https://github.com/rubycdp/ferrum.git'
 gem 'has_scope'
 gem 'kaminari'
+gem 'kramdown'
 gem 'loaf'
 gem 'scenic'
 

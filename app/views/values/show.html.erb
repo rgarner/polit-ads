@@ -1,0 +1,30 @@
+<%= render 'shared/breadcrumb' %>
+
+<h1><%= @value.value %> – <small class="text-muted">value for "<%= @value.name %>", utm<%= @value.index %></small> </h1>
+<% if @description %>
+  <dl class="values">
+    <dt>We think this means</dt>
+    <dd><%= @description.value_name %></dd>
+    <% if @description.confidence %>
+      <dt>Confidence</dt>
+      <dd><%= confidence_badge(@description.confidence) %></dd>
+    <% end %>
+  </dl>
+  <div class="description">
+    <%= markdown_to_html(@description.description) %>
+  </div>
+<% end %>
+
+
+<p class="lead">
+  Used in
+  <%= link_to "#{@value.count} adverts",
+        adverts_path("with_utm_values[#{@value.index}]" => @value.value) %>
+</p>
+
+<%= timeline_range_links %>
+<% if @values.any? %>
+  <%= timeline @values %>
+<% else %>
+  <p>No values for time period.</p>
+<% end %>

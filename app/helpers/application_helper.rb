@@ -12,4 +12,8 @@ module ApplicationHelper
   def current_path
     request.path
   end
+
+  def markdown_to_html(markdown)
+    Kramdown::Document.new(markdown).to_html.html_safe
+  end
 end

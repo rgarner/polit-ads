@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     resources :ad_codes, only: %i[show index] do
       get 'against/:other_index', to: 'ad_codes#against', as: :against
       get 'hosts'
+
+      resources :values, only: :show
     end
   end
 
