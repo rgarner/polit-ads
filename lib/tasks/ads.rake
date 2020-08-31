@@ -3,6 +3,7 @@ require 'polit_ads/hosts_populator'
 require 'polit_ads/utm_campaign_splitter'
 require 'polit_ads/utm_values_populator'
 require 'polit_ads/funding_entity_populator'
+require 'polit_ads/ad_code_value_descriptions_loader'
 
 namespace :ads do
   desc 'Scrape ads of interest and collect their external urls'
@@ -22,6 +23,13 @@ namespace :ads do
     populate:funding_entities
     populate:ad_code_value_summaries
   ]
+
+  namespace :watch do
+    desc 'Watch descriptions for edits and reload them'
+    task :descriptions do
+      sh 'rerun -d doc/ad_code_values -- bundle exec rake ads:populate:descriptions'
+    end
+  end
 
   namespace :populate do
     desc 'populate hosts'
@@ -44,6 +52,11 @@ namespace :ads do
     task ad_code_value_summaries: :environment do
       $stderr.puts 'Refreshing ad_code_value_summaries materialized view...'
       AdCodeValueSummary.refresh
+    end
+
+    desc 'Populate ad code value descriptions'
+    task descriptions: :environment do
+      AdCodeValueDescriptionsLoader.new('doc/ad_code_values').create_or_update
     end
   end
 
