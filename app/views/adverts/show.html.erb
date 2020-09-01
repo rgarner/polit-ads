@@ -27,7 +27,7 @@
         <small class="text-muted">utm<%= ad_code.index %></small>
       <% end %>
     </dt>
-    <dd><%= link_to utm.value, adverts_path("with_utm_values[#{utm.index}]" => utm.value) %></dd>
+    <dd><%= link_to utm.value, campaign_ad_code_value_path(@advert.funded_by.campaign, ad_code.index, utm.value) %></dd>
   <% end %>
 </dl>
 
