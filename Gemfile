@@ -46,6 +46,8 @@ group :development, :test do
 end
 
 group :development do
+  # Use for re-populating ad code descriptions when editing in dev
+  gem 'rerun'
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'listen', '~> 3.2'
   gem 'web-console', '>= 3.3.0'
