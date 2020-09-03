@@ -1,6 +1,6 @@
 ---
 value: aware
-name: Awareness
+name: Brand awareness
 confidence: high
 published: 2020-09-03
 ---
