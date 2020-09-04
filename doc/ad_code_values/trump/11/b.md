@@ -1,6 +1,6 @@
 ---
 value: b
-name: Men and women
+name: Targeted at men and women
 confidence: high
 published: 2020-09-03
 ---
