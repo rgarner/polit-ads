@@ -1,6 +1,6 @@
 ---
 value: audience0407
-name: Audience: military veterans
+name: Military veterans
 confidence: medium
 published: 2020-09-03
 ---
