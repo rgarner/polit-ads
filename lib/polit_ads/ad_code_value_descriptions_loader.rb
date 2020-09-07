@@ -55,6 +55,10 @@ class AdCodeValueDescriptionsLoader
         value: value
       )
     end
+
+    def to_s
+      pathname.to_s
+    end
   end
 
   def initialize(dir)
@@ -74,6 +78,7 @@ class AdCodeValueDescriptionsLoader
   # AdCodeValueDescriptions
   def create_or_update
     markdown_files.each do |markdown_file|
+      puts markdown_file
       description = markdown_file.where.first_or_create.tap do |value_description|
         value_description.description = markdown_file.content_without_front_matter
         value_description.confidence = markdown_file.confidence
