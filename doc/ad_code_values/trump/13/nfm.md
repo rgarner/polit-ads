@@ -2,7 +2,7 @@
 value: nfm
 name: Facebook and Instagram
 confidence: high
-published: 2020-09.03
+published: 2020-09-03
 ---
 
 ## Why do we think that?
