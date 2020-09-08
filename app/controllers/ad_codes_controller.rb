@@ -7,6 +7,10 @@ class AdCodesController < ApplicationController
 
   def index
     @ad_codes = @campaign.ad_code_value_summaries
+                         .select('ad_code_value_summaries.*, ad_code_value_descriptions.value_name')
+                         .joins('LEFT JOIN ad_code_value_descriptions ON ' \
+                                'ad_code_value_descriptions.ad_code_id = ad_code_value_summaries.ad_code_id AND ' \
+                                'ad_code_value_descriptions.value = ad_code_value_summaries.value')
                          .order('quality DESC, count DESC')
                          .group_by(&:name)
   end

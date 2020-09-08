@@ -2,12 +2,13 @@
   padding: 0.5em 0 1.5em 1em;
   margin-bottom: 0.5em;
 
-  &:nth-child(even) {
-    background-color: #f5f5f5;
+  .heading {
+    margin-bottom: 0.5em;
   }
-  &:nth-child(odd) {
-    background-color: #efefef;
-  }
+
+  background-color: #fafafa;
+  border-radius: 5px;
+  border: 1px solid #f1f1f1;
 
   .tag-list {
     margin-bottom: 0;
