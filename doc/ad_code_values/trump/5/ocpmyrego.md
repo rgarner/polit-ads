@@ -1,6 +1,6 @@
 ---
-value: ocpmyrego
-name: Optimise clicks per mille – voter registrations
+value: ocpmrego
+name: Optimize for voter registrations
 confidence: high
 published: 2020-08-25
 ---
