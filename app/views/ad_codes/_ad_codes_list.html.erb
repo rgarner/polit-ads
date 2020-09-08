@@ -1,0 +1,24 @@
+<ul class="percentage-list">
+  <% values.take(10).each do |value| %>
+    <li>
+      <span class="percentage" style="width: <%= value.percentage %>%"></span>
+
+      <span class="content">
+            <%= link_to campaign_ad_code_value_path(@campaign, value.index, value.value) do %>
+              <span class="badge badge-primary"><%= value.value %></span>
+          <% if value.value_name %>
+                <%= value.value_name %>
+              <% end %>
+            <% end %>
+        <small class="text-right">
+              <%= link_to "#{value.percentage}% of adverts",
+                  adverts_path("with_utm_values[#{value.index}]" => "#{value.value}") %>
+            </small>
+          </span>
+
+      <% if new_ad_code?(value, params[:new] || 2) %>
+        <span class="badge badge-success">New</span>
+      <% end %>
+    </li>
+  <% end %>
+</ul>
