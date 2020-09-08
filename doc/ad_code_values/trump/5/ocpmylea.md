@@ -1,6 +1,6 @@
 ---
 value: ocpmylea
-name: Optimise clicks per mille – leads
+name: Optimize for leads
 confidence: low
 published: 2020-08-31
 ---
