@@ -6,13 +6,7 @@ class AdCodesController < ApplicationController
   breadcrumb 'Ad codes', -> { campaign_ad_codes_path(@campaign) }, match: :exclusive
 
   def index
-    @ad_codes = @campaign.ad_code_value_summaries
-                         .select('ad_code_value_summaries.*, ad_code_value_descriptions.value_name')
-                         .joins('LEFT JOIN ad_code_value_descriptions ON ' \
-                                'ad_code_value_descriptions.ad_code_id = ad_code_value_summaries.ad_code_id AND ' \
-                                'ad_code_value_descriptions.value = ad_code_value_summaries.value')
-                         .order('quality DESC, count DESC')
-                         .group_by(&:name)
+    @ad_codes = @campaign.ad_code_value_summaries.with_value_names.group_by(&:name)
   end
 
   def show

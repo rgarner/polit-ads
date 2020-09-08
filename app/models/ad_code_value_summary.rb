@@ -3,6 +3,15 @@ class AdCodeValueSummary < ApplicationRecord
 
   belongs_to :campaign
 
+  # Bring in value_name, if it's there
+  scope :with_value_names, lambda {
+    select('ad_code_value_summaries.*, ad_code_value_descriptions.value_name')
+      .joins('LEFT JOIN ad_code_value_descriptions ON ' \
+             'ad_code_value_descriptions.ad_code_id = ad_code_value_summaries.ad_code_id AND ' \
+             'ad_code_value_descriptions.value = ad_code_value_summaries.value')
+      .order('quality DESC, count DESC')
+  }
+
   def readonly?
     true
   end
