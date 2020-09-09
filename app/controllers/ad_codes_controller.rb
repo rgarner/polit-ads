@@ -6,15 +6,21 @@ class AdCodesController < ApplicationController
   breadcrumb 'Ad codes', -> { campaign_ad_codes_path(@campaign) }, match: :exclusive
 
   def index
-    @ad_codes = @campaign.ad_code_value_summaries
-                         .order('quality DESC, count DESC')
-                         .group_by(&:name)
+    @ad_codes = @campaign.ad_code_value_summaries.with_value_names.group_by(&:name)
   end
 
   def show
+    @ad_codes = @campaign.ad_code_value_summaries
+                         .with_value_names
+                         .where(campaign_id: @campaign.id, index: params[:id])
+
+    breadcrumb "#{@ad_code.full_name}", request.path
+  end
+
+  def timeline
     @values = UtmCampaignValue.between(@ad_code.index, start, finish)
 
-    breadcrumb @ad_code.full_name, request.path
+    breadcrumb "#{@ad_code.full_name} / Timeline", request.path
   end
 
   def against

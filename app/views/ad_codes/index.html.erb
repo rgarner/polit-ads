@@ -1,5 +1,7 @@
 <%= render 'shared/breadcrumb' %>
 
+<% top ||= 10 %>
+
 <h1>Ad codes and their values</h1>
 
 <ul class="tag-list">
@@ -17,25 +19,26 @@
 <% @ad_codes.each_pair do |name, values| %>
   <div class="ad-code">
     <a name="<%= name.downcase.gsub(' ', '-') %>"></a>
-    <h2>
+    <h2 class="heading">
       <%= link_to name, campaign_ad_code_path(@campaign, values.first.index) %>
       <small class="text-muted">utm<%= values.first.index %></small>
     </h2>
 
-    <ul class="tag-list">
-      <% values.each do |value| %>
-        <li>
-          <%= link_to value.value, campaign_ad_code_value_path(@campaign, value.index, value.value) %>
-          <span class="text-nowrap">(
-            <%= link_to "#{value.count} adverts",
-              adverts_path("with_utm_values[#{value.index}]" => "#{value.value}") %>
-            )
-        </span>
-          <% if new_ad_code?(value, params[:new] || 2) %>
-            <span class="badge badge-primary">New</span>
-          <% end %>
-        </li>
+    <h3 class="h5">
+      <%= values.count %> values
+      <% if values.count > 10 %>
+        <small class="text-muted">
+          – showing <%= top %>,
+          <%= link_to 'see more', campaign_ad_code_path(@campaign, values.first.index) %>
+        </small>
       <% end %>
-    </ul>
+    </h3>
+
+    <%=
+      render 'ad_codes_list',
+      values: values,
+      index: values.first.index,
+      top: top
+    %>
   </div>
 <% end %>

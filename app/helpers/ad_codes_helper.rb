@@ -9,7 +9,9 @@ module AdCodesHelper
 
     case action
     when :show
-      link_to 'Timeline', campaign_ad_code_path(@campaign, id: @ad_code.index), class: bootstrap_class
+      link_to 'Values', campaign_ad_code_path(@campaign, id: @ad_code.index), class: bootstrap_class
+    when :timeline
+      link_to 'Timeline', campaign_ad_code_timeline_path(@campaign, ad_code_id: @ad_code.index), class: bootstrap_class
     when :against
       link_to 'Show against', '#',
               class: bootstrap_class + ' dropdown-toggle',

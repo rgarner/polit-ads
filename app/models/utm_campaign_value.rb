@@ -43,6 +43,7 @@ class UtmCampaignValue < ActiveRecord::Base
            ) AS days
       JOIN adverts ON adverts.ad_creation_time BETWEEN days.start AND days.end
       JOIN utm_campaign_values u on adverts.id = u.advert_id AND u.index = $3
+      WHERE adverts.host_id IS NOT NULL
       GROUP BY days.start, u.value
       ORDER BY COUNT(*) DESC, days.start
     SQL

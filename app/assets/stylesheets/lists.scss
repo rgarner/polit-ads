@@ -21,3 +21,40 @@ dd {
     font-size: 80%;
   }
 }
+
+.percentage-list {
+  width: 100%;
+  padding-left: 0;
+  list-style: none;
+  line-height: 2em;
+  border-left: 3px solid gray;
+
+  li {
+    position: relative;
+    margin-bottom: 0.25em;
+
+    // Will be e.g. style="width: 50.1%"
+    .percentage {
+      position: absolute;
+      border-right: 1px solid gray;
+      border-top: 1px solid gray;
+      border-bottom: 1px solid gray;
+      top: 0;
+      height: 100%;
+      z-index: 0;
+
+      border-bottom-right-radius: 5px;
+      border-top-right-radius: 5px;
+    }
+
+    .content {
+      z-index: 1;
+      position: relative;
+      padding-left: 0.5em;
+      width: 100%;
+      .badge {
+        min-width: 8em;
+      }
+    }
+  }
+}
