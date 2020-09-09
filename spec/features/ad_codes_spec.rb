@@ -36,7 +36,7 @@ RSpec.describe 'Looking at ad codes' do
     create :ad_code, index: 3, name: 'trump-code', campaign: trump
 
     # When I visit the ad_code page
-    visit '/campaigns/trump/ad_codes/3'
+    visit '/campaigns/trump/ad_codes/3/timeline'
 
     # Then I should land on the 30 days timeline
     expect(page).to have_link('Last 30 Days', class: 'active')

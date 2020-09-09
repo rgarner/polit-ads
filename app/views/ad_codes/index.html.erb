@@ -1,5 +1,7 @@
 <%= render 'shared/breadcrumb' %>
 
+<% top ||= 10 %>
+
 <h1>Ad codes and their values</h1>
 
 <ul class="tag-list">
@@ -26,12 +28,17 @@
       <%= values.count %> values
       <% if values.count > 10 %>
         <small class="text-muted">
-          – showing 10,
+          – showing <%= top %>,
           <%= link_to 'see more', campaign_ad_code_path(@campaign, values.first.index) %>
         </small>
       <% end %>
-
     </h3>
-    <%= render 'ad_codes_list', values: values, index: values.first.index %>
+
+    <%=
+      render 'ad_codes_list',
+      values: values,
+      index: values.first.index,
+      top: top
+    %>
   </div>
 <% end %>

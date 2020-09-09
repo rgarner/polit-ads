@@ -4,6 +4,10 @@
 
 <%= render 'ad_codes/tabs' %>
 
-<h2>Values</h2>
+<h2>Values between <%= @start %> and <%= @finish %> </h2>
 
-<%= render 'ad_codes/ad_codes_list', values: @ad_codes, index: @ad_code.index %>
+<%= timeline_range_links %>
+
+<%= timeline(@values) %>
+
+

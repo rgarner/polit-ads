@@ -10,9 +10,17 @@ class AdCodesController < ApplicationController
   end
 
   def show
+    @ad_codes = @campaign.ad_code_value_summaries
+                         .with_value_names
+                         .where(campaign_id: @campaign.id, index: params[:id])
+
+    breadcrumb "#{@ad_code.full_name}", request.path
+  end
+
+  def timeline
     @values = UtmCampaignValue.between(@ad_code.index, start, finish)
 
-    breadcrumb @ad_code.full_name, request.path
+    breadcrumb "#{@ad_code.full_name} / Timeline", request.path
   end
 
   def against

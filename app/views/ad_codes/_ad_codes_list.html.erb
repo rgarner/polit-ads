@@ -1,5 +1,7 @@
+<% top ||= 9999 %>
+
 <ul class="percentage-list">
-  <% values.take(10).each do |value| %>
+  <% values.take(top).each do |value| %>
     <li>
       <span class="percentage utm<%= index %>" style="width: <%= value.percentage %>%"></span>
 
