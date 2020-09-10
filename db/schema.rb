@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_08_100951) do
+ActiveRecord::Schema.define(version: 2020_09_10_092013) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -35,6 +35,8 @@ ActiveRecord::Schema.define(version: 2020_09_08_100951) do
     t.bigint "campaign_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "description"
+    t.string "confidence"
     t.index ["campaign_id", "index"], name: "index_ad_codes_on_campaign_id_and_index", unique: true
     t.index ["campaign_id"], name: "index_ad_codes_on_campaign_id"
   end

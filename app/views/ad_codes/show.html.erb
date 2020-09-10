@@ -1,8 +1,10 @@
 <%= render 'shared/breadcrumb' %>
 
-<h1><%= @ad_code.name %> <small class="text-muted"><%= "utm#{@ad_code.index}" %></small></h1>
+<h1><%= @ad_code.name %> <small class="text-muted"><%= "utm#{@ad_code.index}" %>, <%= confidence_badge(@ad_code.confidence) %> confidence</small></h1>
 
 <%= render 'ad_codes/tabs' %>
+
+<%= markdown_to_html(@ad_code.description) %>
 
 <h2>Values</h2>
 
