@@ -1,6 +1,6 @@
 ---
 value: ocpmbyvv
-name: Optimise clicks per mille – video views
+name: Optimize for video views
 confidence: high
 published: 2020-09-01
 ---

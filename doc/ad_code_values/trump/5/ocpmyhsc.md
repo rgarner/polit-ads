@@ -1,6 +1,6 @@
 ---
 value: ocpmyhsc
-name: Optimise clicks per mille – vote
+name: Optimize for voting leads
 confidence: medium
 published: 2020-08-31
 ---

@@ -1,6 +1,6 @@
 ---
 value: ocpmye
-name: Optimise clicks per mille – engagement
+name: Optimize for engagement
 confidence: high
 published: 2020-08-25
 ---

@@ -1,6 +1,6 @@
 ---
 value: ocpmycr
-name: Optimise clicks per mille – click rate
+name: Optimize for click rate
 confidence: high
 published: 2020-08-25
 ---

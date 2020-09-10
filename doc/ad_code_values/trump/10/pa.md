@@ -1,5 +1,4 @@
 ---
-value: pa
 name: Pennsylvania
 confidence: high
 published: 2020-09-09
@@ -7,4 +6,4 @@ published: 2020-09-09
 
 ## Why do we think that?
 
-Ads using this value see impressions only in Pennsylvania.
+Per the Facebook Ad Library, all of these ads reach Facebook users in Pennsylvania
