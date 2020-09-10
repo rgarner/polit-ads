@@ -24,6 +24,10 @@ class AdCodeDescriptionsLoader
       front_matter.fetch('name')
     end
 
+    def short_desc
+      front_matter['short_desc']
+    end
+
     def confidence
       front_matter['confidence']
     end
@@ -78,6 +82,7 @@ class AdCodeDescriptionsLoader
       puts markdown_file
       markdown_file.where.first_or_create.tap do |ad_code|
         ad_code.description = markdown_file.content_without_front_matter
+        ad_code.short_desc = markdown_file.short_desc
         ad_code.slug = markdown_file.slug
         ad_code.confidence = markdown_file.confidence
         ad_code.name = markdown_file.name
