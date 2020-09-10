@@ -49,6 +49,7 @@ RSpec.describe AdCodeDescriptionsLoader do
       it 'updates the pre-existing donor action ad code' do
         aggregate_failures do
           expect(donor_action.name).to eql('Donor action')
+          expect(donor_action.short_desc).to eql('The classification of the ad viewer in terms of their donor status')
           expect(donor_action.slug).to eql('donor-action')
           expect(donor_action.description).to include('some donor action markdown')
           expect(donor_action.quality).to eql(99)
