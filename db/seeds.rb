@@ -51,39 +51,7 @@ end
   host&.update(campaign: data[:campaign], purpose: data[:purpose])
 end
 
-{
-  '0' => { name: 'Creation date', quality: 1 },
-  '1' => { name: 'Donor action', quality: 5 },
-  '2' => { name: 'Ad campaign', quality: 3 },
-  '3' => { name: 'Page', quality: 4 },
-  '4' => { name: 'Funding entity', quality: 2 },
-  '5' => { name: 'Facebook objective', quality: 4 },
-  '6' => { name: 'Audience type', quality: 4 },
-  '7' => { name: 'Audience ID', quality: 2 },
-  '8' => { name: 'Creative ID', quality: 2 },
-  '9' => { name: 'Copy ID', quality: 2 },
-  '10' => { name: 'FB Geo', quality: 3 },
-  '11' => { name: 'Genders', quality: 1 },
-  '12' => { name: 'Age range', quality: 2 },
-  '13' => { name: 'Ad network', quality: 2 },
-  '14' => { name: 'Constant14', quality: 0 },
-  '15' => { name: 'Unused age range', quality: 0 },
-  '16' => { name: 'Ad LP code', quality: 0 },
-  '17' => { name: 'Ad goal', quality: 4 },
-  '18' => { name: 'Facebook optimisation goal', quality: 3 },
-  '19' => { name: 'Asset type', quality: 2 },
-  '20' => { name: 'Asset display width', quality: 1 },
-  '21' => { name: 'Asset display height', quality: 1 },
-  '22' => { name: 'Video length', quality: 1 }
-}.each_pair do |index, values|
-  ad_code = AdCode.where(index: index, campaign: trump).first_or_create
-
-  ad_code.name = values[:name]
-  ad_code.slug = values[:name].downcase.gsub(' ', '-')
-  ad_code.quality = values[:quality]
-
-  ad_code.save!
-end
-
+require 'polit_ads/ad_code_descriptions_loader'
 require 'polit_ads/ad_code_value_descriptions_loader'
+AdCodeDescriptionsLoader.new('doc/ad_codes').create_or_update
 AdCodeValueDescriptionsLoader.new('doc/ad_code_values').create_or_update
