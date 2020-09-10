@@ -21,7 +21,7 @@
 
 <p class="lead">
   Used in
-  <%= link_to "#{@value.count} adverts",
+  <%= link_to "#{number_with_delimiter(@value.count)} adverts",
         adverts_path("with_utm_values[#{@value.index}]" => @value.value) %>
 </p>
 
