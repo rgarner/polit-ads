@@ -4,6 +4,8 @@
 
 <%= render 'ad_codes/tabs' %>
 
+<%= markdown_to_html(@ad_code.description) %>
+
 <h2>Values</h2>
 
 <%= render 'ad_codes/ad_codes_list', values: @ad_codes, index: @ad_code.index %>
