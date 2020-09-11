@@ -21,7 +21,9 @@ CREATE TEMPORARY TABLE tmp_adverts ( \
 	 created_at timestamp with time zone NULL, \
 	 updated_at timestamp with time zone NULL, \
 	 ad_info character varying NULL, \
-	 text_search tsvector NULL \
+	 text_search tsvector NULL, \
+	 potential_reach json, \
+	 publisher_platforms character varying[] \
 ); \
 COPY tmp_adverts FROM STDIN DELIMITER ',' CSV HEADER; \
 INSERT INTO adverts ( \
