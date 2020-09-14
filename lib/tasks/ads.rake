@@ -6,6 +6,15 @@ require 'polit_ads/funding_entity_populator'
 require 'polit_ads/ad_code_value_descriptions_loader'
 
 namespace :ads do
+  desc 'fix funding entities'
+  task fix: :environment do
+    require 'csv'
+    CSV.read('fix_funding.csv').each do |id, value|
+      funding_entity = FundingEntity.find_by(name: value)
+      puts Advert.find(id).update(funding_entity: value, funded_by: funding_entity)
+    end
+  end
+
   desc 'Scrape ads of interest and collect their external urls'
   task :scrape, %i[limit threads] => [:environment] do |_t, args|
     logger = Logger.new(STDERR)
