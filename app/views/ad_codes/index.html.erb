@@ -17,7 +17,7 @@
 </ul>
 
 <% @ad_codes.each_pair do |name, values| %>
-  <div class="ad-code">
+  <div class="a8-code">
     <a name="<%= name.downcase.gsub(' ', '-') %>"></a>
     <h2 class="heading">
       <%= link_to name, campaign_ad_code_path(@campaign, values.first.index) %>
