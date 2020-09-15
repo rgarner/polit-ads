@@ -108,7 +108,6 @@ class Timeline {
     groups
       .append('text')
       .attr('class', 'value')
-      // .attr("x", () => this.width / 4)
       .attr("y", () => this.rowHeight)
       .text((d) => d.name);
 

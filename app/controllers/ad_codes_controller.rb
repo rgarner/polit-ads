@@ -25,7 +25,8 @@ class AdCodesController < ApplicationController
   def timeline
     @values = UtmCampaignValue.between(@ad_code.index, start, finish)
     @options = {
-      rowHeight: DENSITY_ROWHEIGHTS[params[:density] || 'spacious']
+      rowHeight: DENSITY_ROWHEIGHTS[params[:density] || 'spacious'],
+      svgClass: "utm#{@ad_code.index}"
     }
 
     breadcrumb "#{@ad_code.full_name} / Timeline", request.path
