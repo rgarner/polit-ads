@@ -6,6 +6,34 @@
     overflow: initial;
     height: 100%;
 
+    background-color: white;
+
+    &.hosts {
+      .a8-code-value {
+        text.value {
+          font-size: 1em;
+          transform: translate(-20px, 0); // Hosts' captions can go left
+          stroke: none;
+          color: #555;
+          opacity: 0.5;
+        }
+
+        @media (max-width: 1400px){
+          text.value {
+            transform: translate(80px, 0); // Hosts' captions go right on smaller
+          }
+        }
+      }
+    }
+
+    // Ad codes with shorter values can be captioned
+    // to the left without sliding offscreen.
+    &.utm1 .a8-code-value text.value,
+    &.utm6 .a8-code-value text.value,
+    &.utm17 .a8-code-value text.value {
+      transform: translate(0, 0);
+    }
+
     .a8-code-value {
       .highlight, .value {
         transition-property: opacity, stroke;
@@ -26,6 +54,7 @@
         font-size: 22px;
         stroke-width: 0;
         fill: black;
+        transform: translate(25%, 0);
       }
 
       line {
@@ -36,6 +65,7 @@
         stroke: #555;
         opacity: 0.9;
       }
+
 
       &.active {
         rect.highlight {
@@ -48,7 +78,6 @@
           opacity: 1;
         }
       }
-
     }
   }
 }
