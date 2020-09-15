@@ -66,38 +66,35 @@ class Timeline {
     const g = svg.append("g")
       .attr("transform", `translate(${this.margin.left},${this.margin.top })`)
 
-    const audiences = g
+    const groups = g
       .selectAll("g")
       .data(this.data)
       .enter()
       .append("g")
-      .attr("class", "audience")
+      .attr("class", "a8-code-value")
       .attr('transform', (d, i) => `translate(0, ${i * this.rowHeight + this.standoffAxis} )` )
       .on("mouseenter", this.onMouseEnter.bind(this))
       .on("mouseleave", this.onMouseLeave.bind(this))
 
-    this.drawExtentLines(audiences, x)
+    this.drawExtentLines(groups, x)
 
-    audiences
+    groups
       .append("rect")
-      .attr('class', 'highlightRect')
+      .attr('class', 'highlight')
       .attr('x', 0)
-      .attr('y', 0)
+      .attr('y', this.rowHeight / 4)
       .attr('width', this.width)
-      .attr('height', this.rowHeight * 2)
-      .attr('opacity', '0')
-      .attr('fill', 'gray')
+      .attr('height', this.rowHeight + this.rowHeight / 5)
 
     let row = -1
-    audiences
+    groups
       .selectAll('circle')
       .data(function(d) { return d.data })
       .enter()
       .append('circle')
+      .attr('class', 'a8-count')
       .attr('cx', (d) => x(new Date(d[0])))
       .attr('cy', this.rowHeight)
-      .attr('stroke', 'black')
-      .attr('opacity', '0.9')
       .attr('r', (d) => size(d[1]))
       .attr('fill', function(d,i) {
         if (i === 0) row += 1
@@ -106,35 +103,40 @@ class Timeline {
       .append("svg:title")
       .text((d) => `${d[0]}: ${d[1]}`);
 
+    groups
+      .append('text')
+      .attr('class', 'value')
+      .attr("x", () => this.width / 4)
+      .attr("y", () => this.rowHeight)
+      .text((d) => d.name);
+
     g.call(d3.axisTop(x));
 
-    audiences.append('svg:title').text((d) => d.name)
+    groups.append('svg:title').text((d) => d.name)
+    this.groups = groups
   }
 
-  drawExtentLines(audiences, x, endHeight= 16) {
+  drawExtentLines(groups, x, endHeight= 16) {
     // Extent lines
-    audiences
+    groups
       .append("line")
       .data(this.seriesDateExtents())
-      .style("stroke", "silver")
       .attr("x1", (d) => x(d[0]))
       .attr("y1", this.rowHeight)
       .attr("x2", (d) => x(d[1]))
       .attr("y2", this.rowHeight)
 
-    audiences
+    groups
       .append("line")
       .data(this.seriesDateExtents())
-      .style("stroke", "silver")
       .attr("x1", (d) => x(d[0]))
       .attr("y1", this.rowHeight + endHeight / 2)
       .attr("x2", (d) => x(d[0]))
       .attr("y2", this.rowHeight - endHeight / 2)
 
-    audiences
+    groups
       .append("line")
       .data(this.seriesDateExtents())
-      .style("stroke", "silver")
       .attr("x1", (d) => x(d[1]))
       .attr("y1", this.rowHeight + endHeight / 2)
       .attr("x2", (d) => x(d[1]))
@@ -188,10 +190,14 @@ class Timeline {
     this.tooltip.select("#count")
       .text(`First seen ${this.formatDate(dateExtents[0])}, last seen ${this.formatDate(dateExtents[1])}`);
     this.tooltip.style("opacity", 1);
+    this.groups.filter((d,j) => i === j)
+      .classed('active', true)
   }
 
-  onMouseLeave() {
+  onMouseLeave(d, i) {
     this.tooltip.style("opacity", 0);
+    this.groups.filter((d,j) => i === j)
+      .classed('active', false)
   }
 
   get tooltip() {

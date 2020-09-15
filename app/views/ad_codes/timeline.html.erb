@@ -6,8 +6,16 @@
 
 <h2>Values between <%= @start %> and <%= @finish %> </h2>
 
-<%= timeline_range_links %>
+<div class="btn-toolbar" role="toolbar" aria-label="Timeline options">
+  <div class="btn-group mr-4">
+    <%= timeline_range_links %>
+  </div>
 
-<%= timeline(@values) %>
+  <div class="btn-group">
+    <%= render 'timeline_density_dropdown' %>
+  </div>
+</div>
+
+<%= timeline(@values, @options) %>
 
 

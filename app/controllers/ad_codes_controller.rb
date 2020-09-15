@@ -17,8 +17,16 @@ class AdCodesController < ApplicationController
     breadcrumb "#{@ad_code.full_name}", request.path
   end
 
+  DENSITY_ROWHEIGHTS = {
+    'dense' => 32,
+    'spacious' => 42
+  }.freeze
+
   def timeline
     @values = UtmCampaignValue.between(@ad_code.index, start, finish)
+    @options = {
+      rowHeight: DENSITY_ROWHEIGHTS[params[:density] || 'spacious']
+    }
 
     breadcrumb "#{@ad_code.full_name} / Timeline", request.path
   end
