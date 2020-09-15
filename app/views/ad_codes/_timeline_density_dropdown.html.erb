@@ -1,0 +1,9 @@
+<div class="btn-group">
+  <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Density
+  </button>
+  <div class="dropdown-menu">
+    <%= link_to 'Dense', request.query_parameters.merge(density: 'dense'), class: 'dropdown-item' %>
+    <%= link_to 'Spacious', request.query_parameters.merge(density: 'spacious'), class: 'dropdown-item' %>
+  </div>
+</div>
