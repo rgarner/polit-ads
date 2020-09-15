@@ -12,12 +12,14 @@ class Timeline {
     this.rowHeight = options['rowHeight'] || 32
     this.margin = { top: 32, right: 32, bottom: 32, left: 32 }
     this.standoffAxis = this.margin.top
+    this.svgClass = options['svgClass']
     this.circleRange = options['circleRange'] || [3, 25]
     this.width = 930 - this.margin.left - this.margin.right
   }
 
   get svg() {
     return d3.select("svg.timeline")
+      .classed(this.svgClass, true)
   }
 
   /* [min,max] of each series */
@@ -106,7 +108,7 @@ class Timeline {
     groups
       .append('text')
       .attr('class', 'value')
-      .attr("x", () => this.width / 4)
+      // .attr("x", () => this.width / 4)
       .attr("y", () => this.rowHeight)
       .text((d) => d.name);
 
