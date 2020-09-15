@@ -1,9 +1,6 @@
 import * as d3 from "d3"
 
 class Timeline {
-  CAPTION_HIGHLIGHT_OPACITY = 1;
-  CAPTION_BLUR_OPACITY      = 0.25
-
   /*
     data is of form: [
       { name: 'cardt', data: [['2020-08-03', 1354], ['2020-08-04', 442]] },
@@ -74,22 +71,20 @@ class Timeline {
       .data(this.data)
       .enter()
       .append("g")
-      .attr("class", "audience")
+      .attr("class", "a8-code-value")
       .attr('transform', (d, i) => `translate(0, ${i * this.rowHeight + this.standoffAxis} )` )
       .on("mouseenter", this.onMouseEnter.bind(this))
       .on("mouseleave", this.onMouseLeave.bind(this))
 
     this.drawExtentLines(groups, x)
 
-    this.highlightRects = groups
+    groups
       .append("rect")
-      .attr('class', 'highlightRect')
+      .attr('class', 'highlight')
       .attr('x', 0)
       .attr('y', this.rowHeight / 4)
       .attr('width', this.width)
       .attr('height', this.rowHeight + this.rowHeight / 5)
-      .attr('opacity', '0')
-      .attr('fill', 'yellow')
 
     let row = -1
     groups
@@ -97,10 +92,9 @@ class Timeline {
       .data(function(d) { return d.data })
       .enter()
       .append('circle')
+      .attr('class', 'a8-count')
       .attr('cx', (d) => x(new Date(d[0])))
       .attr('cy', this.rowHeight)
-      .attr('stroke', '#333')
-      .attr('opacity', '0.9')
       .attr('r', (d) => size(d[1]))
       .attr('fill', function(d,i) {
         if (i === 0) row += 1
@@ -109,24 +103,17 @@ class Timeline {
       .append("svg:title")
       .text((d) => `${d[0]}: ${d[1]}`);
 
-    this.valueCaptions = groups
+    groups
       .append('text')
       .attr('class', 'value')
       .attr("x", () => this.width / 4)
       .attr("y", () => this.rowHeight)
-      .text((d) => d.name)
-      .attr("text-anchor", "end")
-      .attr("font-family", "sans-serif")
-      .attr("font-weight", "bold")
-      .attr("font-size", "22px")
-      .attr("opacity", this.CAPTION_BLUR_OPACITY)
-      .attr("stroke", 'white')
-      .attr("stroke-width", '0')
-      .attr("fill", "black");
+      .text((d) => d.name);
 
     g.call(d3.axisTop(x));
 
     groups.append('svg:title').text((d) => d.name)
+    this.groups = groups
   }
 
   drawExtentLines(groups, x, endHeight= 16) {
@@ -134,7 +121,6 @@ class Timeline {
     groups
       .append("line")
       .data(this.seriesDateExtents())
-      .style("stroke", "silver")
       .attr("x1", (d) => x(d[0]))
       .attr("y1", this.rowHeight)
       .attr("x2", (d) => x(d[1]))
@@ -143,7 +129,6 @@ class Timeline {
     groups
       .append("line")
       .data(this.seriesDateExtents())
-      .style("stroke", "silver")
       .attr("x1", (d) => x(d[0]))
       .attr("y1", this.rowHeight + endHeight / 2)
       .attr("x2", (d) => x(d[0]))
@@ -152,7 +137,6 @@ class Timeline {
     groups
       .append("line")
       .data(this.seriesDateExtents())
-      .style("stroke", "silver")
       .attr("x1", (d) => x(d[1]))
       .attr("y1", this.rowHeight + endHeight / 2)
       .attr("x2", (d) => x(d[1]))
@@ -206,20 +190,14 @@ class Timeline {
     this.tooltip.select("#count")
       .text(`First seen ${this.formatDate(dateExtents[0])}, last seen ${this.formatDate(dateExtents[1])}`);
     this.tooltip.style("opacity", 1);
-    this.valueCaptions.filter((d,j) => i === j)
-      .attr('opacity', this.CAPTION_HIGHLIGHT_OPACITY)
-      .attr("stroke-width", '0.5px')
-    this.highlightRects.filter((d,j) => i === j)
-      .attr('opacity', this.CAPTION_BLUR_OPACITY)
+    this.groups.filter((d,j) => i === j)
+      .classed('active', true)
   }
 
   onMouseLeave(d, i) {
     this.tooltip.style("opacity", 0);
-    this.valueCaptions.filter((d,j) => i === j)
-      .attr('opacity', this.CAPTION_BLUR_OPACITY)
-      .attr("stroke-width", '0')
-    this.highlightRects.filter((d,j) => i === j)
-      .attr('opacity', '0')
+    this.groups.filter((d,j) => i === j)
+      .classed('active', false)
   }
 
   get tooltip() {
