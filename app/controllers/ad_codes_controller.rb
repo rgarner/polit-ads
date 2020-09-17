@@ -42,13 +42,7 @@ class AdCodesController < ApplicationController
   end
 
   def hosts
-    rows = AdCodeValueUsage.select('ad_code_value_usages.value, hosts.hostname, hosts.purpose, COUNT(*)')
-                           .where(index: @ad_code.index)
-                           .joins(advert: :host)
-                           .group('ad_code_value_usages.value, hosts.id')
-                           .order(count: :desc)
-
-    @table = Host::ContingencyTable.new(rows)
+    @table = Host::ContingencyTable.new(AdCodeValueUsage.by_host(@campaign.id, @ad_code.index))
 
     breadcrumb @ad_code.full_name, campaign_ad_code_path(campaign_id: @campaign.slug, id: @ad_code.index), match: :exclusive
     breadcrumb 'Hosts', request.path
