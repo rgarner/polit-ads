@@ -14,10 +14,6 @@ class AdCodeValueUsage < ActiveRecord::Base
     index.to_s
   end
 
-  def self.combo(index1, index2)
-    ContingencyTable.new(index1, index2)
-  end
-
   ##
   # Return a list of hashes in a form required by Chartkick,
   # e.g. { name: 'djt', data: { '2020-08-04' => 43, '2020-08-05' => 17 }  }
