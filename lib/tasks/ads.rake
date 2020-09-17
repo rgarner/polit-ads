@@ -1,8 +1,10 @@
 require 'polit_ads/scraper'
 require 'polit_ads/hosts_populator'
 require 'polit_ads/utm_campaign_splitter'
+require 'polit_ads/biden_source_splitter'
 require 'polit_ads/utm_values_populator'
 require 'polit_ads/funding_entity_populator'
+require 'polit_ads/ad_code_descriptions_loader'
 require 'polit_ads/ad_code_value_descriptions_loader'
 
 namespace :ads do
@@ -40,6 +42,7 @@ namespace :ads do
     desc 'Populate ad_code_value_usages for any ads that have it in their external_url'
     task ad_code_value_usages: :environment do
       PolitAds::UtmCampaignSplitter.new.populate
+      PolitAds::BidenSourceSplitter.new.populate
       PolitAds::UtmValuesPopulator.populate
     end
 
@@ -54,8 +57,9 @@ namespace :ads do
       AdCodeValueSummary.refresh
     end
 
-    desc 'Populate ad code value descriptions'
+    desc 'Populate ad code and ad code value descriptions'
     task descriptions: :environment do
+      AdCodeDescriptionsLoader.new('doc/ad_codes').create_or_update
       AdCodeValueDescriptionsLoader.new('doc/ad_code_values').create_or_update
     end
   end
