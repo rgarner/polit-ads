@@ -6,7 +6,7 @@ class Host
 
     ##
     # rows needs these cols:
-    #   utm_campaign_values.value, hosts.hostname, hosts.purpose, COUNT(*)
+    #   ad_code_value_usages.value, hosts.hostname, hosts.purpose, COUNT(*)
     def initialize(rows)
       self.rows = rows
     end

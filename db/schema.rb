@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_10_151545) do
+ActiveRecord::Schema.define(version: 2020_09_16_170207) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -25,6 +25,16 @@ ActiveRecord::Schema.define(version: 2020_09_10_151545) do
     t.bigint "ad_code_id"
     t.date "published"
     t.index ["ad_code_id"], name: "index_ad_code_value_descriptions_on_ad_code_id"
+  end
+
+  create_table "ad_code_value_usages", force: :cascade do |t|
+    t.bigint "advert_id"
+    t.integer "index", null: false
+    t.string "value", null: false
+    t.index ["advert_id", "index", "value"], name: "index_ad_code_value_usages_on_advert_id_and_index_and_value", unique: true
+    t.index ["advert_id"], name: "index_ad_code_value_usages_on_advert_id"
+    t.index ["index", "value"], name: "index_ad_code_value_usages_on_index_and_value"
+    t.index ["value"], name: "index_ad_code_value_usages_on_value"
   end
 
   create_table "ad_codes", force: :cascade do |t|
@@ -99,16 +109,6 @@ ActiveRecord::Schema.define(version: 2020_09_10_151545) do
     t.index ["hostname"], name: "index_hosts_on_hostname", unique: true
   end
 
-  create_table "utm_campaign_values", force: :cascade do |t|
-    t.bigint "advert_id"
-    t.integer "index", null: false
-    t.string "value", null: false
-    t.index ["advert_id", "index", "value"], name: "index_utm_campaign_values_on_advert_id_and_index_and_value", unique: true
-    t.index ["advert_id"], name: "index_utm_campaign_values_on_advert_id"
-    t.index ["index", "value"], name: "index_utm_campaign_values_on_index_and_value"
-    t.index ["value"], name: "index_utm_campaign_values_on_value"
-  end
-
   add_foreign_key "ad_code_value_descriptions", "ad_codes"
 
   create_view "ad_code_value_summaries", materialized: true, sql_definition: <<-SQL
@@ -118,15 +118,15 @@ ActiveRecord::Schema.define(version: 2020_09_10_151545) do
       ad_codes.slug,
       ad_codes.name,
       ad_codes.quality,
-      utm_campaign_values.value,
+      ad_code_value_usages.value,
       min(adverts.ad_creation_time) AS first_used,
       count(*) AS count,
       round((((count(*))::numeric / sum(count(*)) OVER w_campaign_index) * (100)::numeric), 2) AS percentage
      FROM ((ad_codes
-       JOIN utm_campaign_values ON ((utm_campaign_values.index = ad_codes.index)))
-       JOIN adverts ON ((adverts.id = utm_campaign_values.advert_id)))
+       JOIN ad_code_value_usages ON ((ad_code_value_usages.index = ad_codes.index)))
+       JOIN adverts ON ((adverts.id = ad_code_value_usages.advert_id)))
     WHERE (ad_codes.campaign_id = 2)
-    GROUP BY ad_codes.id, utm_campaign_values.value
+    GROUP BY ad_codes.id, ad_code_value_usages.value
     WINDOW w_campaign_index AS (PARTITION BY ad_codes.campaign_id, ad_codes.index)
     ORDER BY ad_codes.quality DESC;
   SQL

@@ -1,4 +1,4 @@
-class UtmCampaignValue
+class AdCodeValueUsage
   ##
   # Create a two-way contingency table for the two given utm indices by crosstabbing
   # the data at those values with a count of adverts using that data
@@ -58,7 +58,7 @@ class UtmCampaignValue
         SELECT value1, value2, COUNT(*)
           FROM crosstab(
             'select advert_id, index, value
-                          from utm_campaign_values
+                          from ad_code_value_usages
                           where index in (#{index1}, #{index2})
                           order by 1,2 #{desc}'
           )

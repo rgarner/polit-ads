@@ -19,7 +19,7 @@ namespace :ads do
   desc 'Fill in everything from external_url post-scrape'
   task post_scrape: %w[
     populate:hosts
-    populate:utm_campaign_values
+    populate:ad_code_value_usages
     populate:funding_entities
     populate:ad_code_value_summaries
   ]
@@ -37,8 +37,8 @@ namespace :ads do
       PolitAds::HostsPopulator.run
     end
 
-    desc 'Populate utm_campaign_values for any ads that have it in their external_url'
-    task utm_campaign_values: :environment do
+    desc 'Populate ad_code_value_usages for any ads that have it in their external_url'
+    task ad_code_value_usages: :environment do
       PolitAds::UtmCampaignSplitter.new.populate
       PolitAds::UtmValuesPopulator.populate
     end

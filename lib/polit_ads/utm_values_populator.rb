@@ -38,7 +38,7 @@ module PolitAds
                            utm17,utm18,utm19,utm20,utm21,utm22
           FROM crosstab(
                        'SELECT advert_id, index, value
-                        FROM utm_campaign_values
+                        FROM ad_code_value_usages
                         ORDER BY 1,2'
                    )
                    AS ct(advert_id bigint,

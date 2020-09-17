@@ -1,4 +1,4 @@
-class UtmCampaignValue < ActiveRecord::Base
+class AdCodeValueUsage < ActiveRecord::Base
   include ChartkickGrouping
 
   belongs_to :advert
@@ -42,7 +42,7 @@ class UtmCampaignValue < ActiveRecord::Base
                      ) AS start
            ) AS days
       JOIN adverts ON adverts.ad_creation_time BETWEEN days.start AND days.end
-      JOIN utm_campaign_values u on adverts.id = u.advert_id AND u.index = $3
+      JOIN ad_code_value_usages u on adverts.id = u.advert_id AND u.index = $3
       WHERE adverts.host_id IS NOT NULL
       GROUP BY days.start, u.value
       ORDER BY COUNT(*) DESC, days.start
