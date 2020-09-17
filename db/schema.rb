@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_16_170207) do
+ActiveRecord::Schema.define(version: 2020_09_17_092029) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -112,22 +112,22 @@ ActiveRecord::Schema.define(version: 2020_09_16_170207) do
   add_foreign_key "ad_code_value_descriptions", "ad_codes"
 
   create_view "ad_code_value_summaries", materialized: true, sql_definition: <<-SQL
-      SELECT ad_codes.id AS ad_code_id,
-      ad_codes.campaign_id,
-      ad_codes.index,
-      ad_codes.slug,
-      ad_codes.name,
-      ad_codes.quality,
-      ad_code_value_usages.value,
-      min(adverts.ad_creation_time) AS first_used,
+      SELECT ac.id AS ad_code_id,
+      fe.campaign_id,
+      u.index,
+      u.value,
+      ac.name,
+      ac.quality,
+      min(a.ad_creation_time) AS first_used,
+      max(a.ad_creation_time) AS last_used,
       count(*) AS count,
       round((((count(*))::numeric / sum(count(*)) OVER w_campaign_index) * (100)::numeric), 2) AS percentage
-     FROM ((ad_codes
-       JOIN ad_code_value_usages ON ((ad_code_value_usages.index = ad_codes.index)))
-       JOIN adverts ON ((adverts.id = ad_code_value_usages.advert_id)))
-    WHERE (ad_codes.campaign_id = 2)
-    GROUP BY ad_codes.id, ad_code_value_usages.value
-    WINDOW w_campaign_index AS (PARTITION BY ad_codes.campaign_id, ad_codes.index)
-    ORDER BY ad_codes.quality DESC;
+     FROM ((((ad_code_value_usages u
+       JOIN adverts a ON ((u.advert_id = a.id)))
+       JOIN funding_entities fe ON ((a.funding_entity_id = fe.id)))
+       JOIN campaigns c ON ((fe.campaign_id = c.id)))
+       JOIN ad_codes ac ON (((c.id = ac.campaign_id) AND (ac.index = u.index))))
+    GROUP BY fe.campaign_id, u.index, u.value, ac.id
+    WINDOW w_campaign_index AS (PARTITION BY fe.campaign_id, u.index);
   SQL
 end
