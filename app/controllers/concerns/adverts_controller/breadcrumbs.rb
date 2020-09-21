@@ -1,5 +1,11 @@
 class AdvertsController
   module Breadcrumbs
+    def add_breadcrumbs_for_campaign_ad_codes!
+      breadcrumb @campaign.name, request.path
+      breadcrumb 'Ad codes', campaign_ad_codes_path(@campaign),
+        match: :exclusive unless action_name == 'show'
+    end
+
     ##
     # /adverts?<big-query-string> is the destination for a lot of things.
     # For certain combinations, we know where we're likely to have come from.
@@ -26,7 +32,7 @@ class AdvertsController
     end
 
     def humanize_utm(utm_values)
-      utm_values.map do |key, value|
+      utm_values.map do |_key, value|
         "'#{value}'"
       end.join(' and ')
     end
