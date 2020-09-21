@@ -30,7 +30,7 @@
     <dd>
       <%= link_to usage.value,
         campaign_ad_code_value_path(@advert.funded_by.campaign, ad_code.index, usage.value),
-        class: badge_class(usage)
+        class: badge_class(usage.value)
       %>
     </dd>
   <% end %>

@@ -7,7 +7,7 @@
 
       <span class="content">
         <%= link_to campaign_ad_code_value_path(@campaign, value.index, value.value) do %>
-          <span class="badge badge-primary"><%= value.value %></span>
+          <span class="<%= badge_class(value.value) %>"><%= value.value %></span>
           <% if value.value_name %>
             <%= value.value_name %>
           <% end %>
