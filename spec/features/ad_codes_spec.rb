@@ -25,10 +25,9 @@ RSpec.describe 'Looking at ad codes' do
 
     # I should see only that campaign's ad codes
     expect(page).to have_content('bv4t')
-    expect(page).to have_content('50.0% of adverts')
+    expect(page).to have_content('66.67% of adverts')
 
-    # Put back when Ad code values are campaign-aware
-    ## expect(page).not_to have_content('biden-val')
+    expect(page).not_to have_content('biden-val')
   end
 
   scenario 'viewing an ad code timeline by range' do

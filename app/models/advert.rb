@@ -1,5 +1,5 @@
 class Advert < ActiveRecord::Base
-  has_many :utm_campaign_values, -> { order(:index) }
+  has_many :ad_code_value_usages, -> { order(:index) }
   belongs_to :host
   belongs_to :funded_by, class_name: 'FundingEntity', foreign_key: 'funding_entity_id'
 
@@ -29,16 +29,19 @@ class Advert < ActiveRecord::Base
   scope :post_scraped, -> { where('adverts.host_id IS NOT NULL') }
 
   scope :has_utm_campaign_query_param, lambda {
-    left_joins(:utm_campaign_values).where("adverts.external_url ~ '\\?.*utm_campaign'")
+    where("adverts.external_url ~ '\\?.*utm_campaign'")
   }
 
-  scope :needs_utm_campaign_values, lambda {
-    left_joins(:utm_campaign_values)
-      .where("adverts.external_url ~ '\\?.*utm_campaign' AND utm_campaign_values.index IS NULL")
+  scope :has_source_query_param, lambda {
+    where("adverts.external_url ~ '[&?]source='")
   }
 
-  scope :has_utm_campaign_values, lambda {
-    where('EXISTS(SELECT 1 from utm_campaign_values where utm_campaign_values.advert_id = adverts.id)')
+  scope :needs_ad_code_value_usages, lambda {
+    left_joins(:ad_code_value_usages).where('ad_code_value_usages.index IS NULL')
+  }
+
+  scope :has_ad_code_value_usages, lambda {
+    where('EXISTS(SELECT 1 from ad_code_value_usages where ad_code_value_usages.advert_id = adverts.id)')
   }
 
   ##

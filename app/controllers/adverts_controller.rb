@@ -1,10 +1,6 @@
 class AdvertsController < ApplicationController
   include AdvertsController::Breadcrumbs
 
-  breadcrumb 'Donald J. Trump', :current
-  breadcrumb 'Ad codes', -> { campaign_ad_codes_path(campaign_id: 'trump') },
-             match: :exclusive, except: :show
-
   has_scope :with_utm_values, type: :hash
   has_scope :hostname
 
@@ -13,15 +9,20 @@ class AdvertsController < ApplicationController
                .order(ad_creation_time: :desc)
                .page(params[:page])
 
+    @campaign = @adverts.first.funded_by.campaign
     @hosts = apply_scopes(Advert).with_hosts
 
 
+    add_breadcrumbs_for_campaign_ad_codes!
     add_breadcrumbs_for_scopes!
   end
 
   def show
     @advert = Advert.find(params[:id])
-    @ad_codes = AdCode.where(campaign: @advert.funded_by.campaign).group_by(&:index)
+    @campaign = @advert.funded_by.campaign
+    @ad_codes = AdCode.where(campaign: @campaign).group_by(&:index)
+
+    add_breadcrumbs_for_campaign_ad_codes!
     breadcrumb 'Advert', request.path
   end
 end

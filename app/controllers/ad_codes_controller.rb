@@ -23,7 +23,7 @@ class AdCodesController < ApplicationController
   }.freeze
 
   def timeline
-    @values = UtmCampaignValue.between(@ad_code.index, start, finish)
+    @values = AdCodeValueUsage.between(@campaign, @ad_code.index, start, finish)
     @options = {
       rowHeight: DENSITY_ROWHEIGHTS[params[:density] || 'spacious'],
       svgClass: "utm#{@ad_code.index}"
@@ -35,20 +35,14 @@ class AdCodesController < ApplicationController
   def against
     @ad_code2 = AdCode.where(campaign: @campaign, index: params[:other_index]).first
 
-    @table = UtmCampaignValue::ContingencyTable.new(@ad_code.index, @ad_code2.index)
+    @table = AdCodeValueUsage::ContingencyTable.new(@campaign.id, @ad_code.index, @ad_code2.index)
 
     breadcrumb @ad_code.full_name, campaign_ad_code_path(@campaign, params[:ad_code_id]), match: :exclusive
     breadcrumb "against / #{@ad_code2.full_name}", request.path
   end
 
   def hosts
-    rows = UtmCampaignValue.select('utm_campaign_values.value, hosts.hostname, hosts.purpose, COUNT(*)')
-                           .where(index: @ad_code.index)
-                           .joins(advert: :host)
-                           .group('utm_campaign_values.value, hosts.id')
-                           .order(count: :desc)
-
-    @table = Host::ContingencyTable.new(rows)
+    @table = Host::ContingencyTable.new(AdCodeValueUsage.by_host(@campaign.id, @ad_code.index))
 
     breadcrumb @ad_code.full_name, campaign_ad_code_path(campaign_id: @campaign.slug, id: @ad_code.index), match: :exclusive
     breadcrumb 'Hosts', request.path

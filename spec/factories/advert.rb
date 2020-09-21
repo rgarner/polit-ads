@@ -19,7 +19,7 @@ FactoryBot.define do
 
     after(:create) do |advert, evaluator|
       evaluator.ad_codes.each_pair do |index, value|
-        advert.utm_campaign_values << UtmCampaignValue.new(index: index, value: value)
+        advert.ad_code_value_usages << AdCodeValueUsage.new(index: index, value: value)
       end
       advert.save!
     end

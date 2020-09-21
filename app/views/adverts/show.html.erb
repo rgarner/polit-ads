@@ -18,31 +18,36 @@
 </dl>
 
 <dl class="utm">
-  <% @advert.utm_campaign_values.each do |utm|
-    ad_code = @ad_codes[utm.index].first
+  <% @advert.ad_code_value_usages.each do |usage|
+    ad_code = @ad_codes[usage.index].first
   %>
     <dt>
-      <%= link_to campaign_ad_code_path(campaign_id: @advert.funded_by.campaign, id: utm.index) do %>
+      <%= link_to campaign_ad_code_path(campaign_id: @advert.funded_by.campaign, id: usage.index) do %>
         <%= ad_code.name %>
         <small class="text-muted">utm<%= ad_code.index %></small>
       <% end %>
     </dt>
-    <dd><%= link_to utm.value, campaign_ad_code_value_path(@advert.funded_by.campaign, ad_code.index, utm.value) %></dd>
+    <dd>
+      <%= link_to usage.value,
+        campaign_ad_code_value_path(@advert.funded_by.campaign, ad_code.index, usage.value),
+        class: badge_class(usage)
+      %>
+    </dd>
   <% end %>
 </dl>
 
 <div class="container-fluid previews">
-<div class="row no-gutters">
-  <div class="col">
-    <%= link_to 'Open in new tab', @advert.ad_snapshot_url, target: '_blank' %>
-    <br>
-    <iframe src="<%= @advert.ad_snapshot_url %>"></iframe>
-  </div>
+  <div class="row no-gutters">
+    <div class="col">
+      <%= link_to 'Open in new tab', @advert.ad_snapshot_url, target: '_blank' %>
+      <br>
+      <iframe src="<%= @advert.ad_snapshot_url %>"></iframe>
+    </div>
 
-  <div class="col">
-    <%= link_to 'Open in new tab', @advert.ad_library_url, target: '_blank' %>
-    <br>
-    <iframe src="<%= @advert.ad_library_url %>"></iframe>
+    <div class="col">
+      <%= link_to 'Open in new tab', @advert.ad_library_url, target: '_blank' %>
+      <br>
+      <iframe src="<%= @advert.ad_library_url %>"></iframe>
+    </div>
   </div>
-</div>
 </div>

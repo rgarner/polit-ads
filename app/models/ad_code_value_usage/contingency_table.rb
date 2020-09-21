@@ -1,15 +1,16 @@
-class UtmCampaignValue
+class AdCodeValueUsage
   ##
   # Create a two-way contingency table for the two given utm indices by crosstabbing
   # the data at those values with a count of adverts using that data
   class ContingencyTable
     class SameIndexError < StandardError; end
 
-    attr_accessor :index1, :index2
+    attr_accessor :campaign_id, :index1, :index2
 
-    def initialize(index1, index2)
+    def initialize(campaign_id, index1, index2)
       raise SameIndexError if index1 == index2
 
+      self.campaign_id = campaign_id.to_i
       self.index1 = index1.to_i
       self.index2 = index2.to_i
     end
@@ -58,8 +59,10 @@ class UtmCampaignValue
         SELECT value1, value2, COUNT(*)
           FROM crosstab(
             'select advert_id, index, value
-                          from utm_campaign_values
-                          where index in (#{index1}, #{index2})
+                          from ad_code_value_usages
+                          join adverts a on ad_code_value_usages.advert_id = a.id
+                          join funding_entities fe on a.funding_entity_id = fe.id
+                          where index in (#{index1}, #{index2}) AND fe.campaign_id = #{campaign_id}
                           order by 1,2 #{desc}'
           )
           AS ct(advert_id bigint, value1 character varying, value2 character varying)
