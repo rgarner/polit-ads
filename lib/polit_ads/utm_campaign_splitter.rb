@@ -12,7 +12,7 @@ module PolitAds
     end
 
     def populate
-      Advert.trump.needs_ad_code_value_usages.find_each do |advert|
+      Advert.trump.has_utm_campaign_query_param.needs_ad_code_value_usages.find_each do |advert|
         utm_campaign_values = utm_campaign_values(advert)
 
         logger.info "'#{advert.ad_creative_link_title}' gets #{utm_campaign_values.length} utm_campaign values"
