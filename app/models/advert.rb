@@ -29,12 +29,15 @@ class Advert < ActiveRecord::Base
   scope :post_scraped, -> { where('adverts.host_id IS NOT NULL') }
 
   scope :has_utm_campaign_query_param, lambda {
-    left_joins(:ad_code_value_usages).where("adverts.external_url ~ '\\?.*utm_campaign'")
+    where("adverts.external_url ~ '\\?.*utm_campaign'")
+  }
+
+  scope :has_source_query_param, lambda {
+    where("adverts.external_url ~ '[&?]source='")
   }
 
   scope :needs_ad_code_value_usages, lambda {
-    left_joins(:ad_code_value_usages)
-      .where("adverts.external_url ~ '\\?.*utm_campaign' AND ad_code_value_usages.index IS NULL")
+    left_joins(:ad_code_value_usages).where('ad_code_value_usages.index IS NULL')
   }
 
   scope :has_ad_code_value_usages, lambda {
