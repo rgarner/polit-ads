@@ -25,10 +25,11 @@ class AdvertsController
 
     def breadcrumb_utm(utm_values)
       index = utm_values.keys.first
-      ad_code = AdCode.for_trump.find_by(index: index)
+      ad_code = AdCode.find_by(index: index, campaign: @campaign)
 
       breadcrumb ad_code.full_name, campaign_ad_code_path(ad_code.campaign, index)
-      breadcrumb "#{utm_values.values.first} adverts", request.path
+      breadcrumb utm_values.values.first, campaign_ad_code_value_path(@campaign, index, utm_values.values.first)
+      breadcrumb 'Adverts', request.path
     end
 
     def humanize_utm(utm_values)
@@ -39,7 +40,7 @@ class AdvertsController
 
     # We most likely came from utmM against utmN
     def breadcrumb_utm_against_utm(utm_values)
-      ad_codes = utm_values.keys.map { |index| AdCode.for_trump.find_by(index: index) }
+      ad_codes = utm_values.keys.map { |index| AdCode.find_by(index: index, campaign: @campaign) }
 
       breadcrumb ad_codes.first.full_name, campaign_ad_code_path(ad_codes.first.campaign, ad_codes.first.index)
       breadcrumb "against #{ad_codes.last.full_name}", campaign_ad_code_against_path(ad_codes.first.campaign, ad_codes.first.index, ad_codes.last.index)

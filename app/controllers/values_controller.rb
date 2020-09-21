@@ -25,7 +25,7 @@ class ValuesController < ApplicationController
   def set_breadcrumbs!
     breadcrumb @value.campaign.name, :current
     breadcrumb 'Ad codes', campaign_ad_codes_path(@value.campaign), match: :exclusive
-    breadcrumb @value.name, campaign_ad_code_path(params[:campaign_id], @value.index), match: :exclusive
+    breadcrumb @value.full_name, campaign_ad_code_path(params[:campaign_id], @value.index), match: :exclusive
     breadcrumb @value.value, request.path
   end
 end

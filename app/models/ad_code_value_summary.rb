@@ -15,6 +15,10 @@ class AdCodeValueSummary < ApplicationRecord
       .order('quality DESC, count DESC')
   }
 
+  def full_name
+    "#{name} (utm#{index})"
+  end
+
   def readonly?
     true
   end

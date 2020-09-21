@@ -3,8 +3,6 @@ class AdCode < ApplicationRecord
 
   has_many :ad_code_value_summaries
 
-  scope :for_trump, -> { joins(:campaign).where("campaigns.slug = 'trump'") }
-
   def full_name
     "#{name} (utm#{index})"
   end
