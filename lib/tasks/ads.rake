@@ -69,17 +69,22 @@ namespace :ads do
     task biden: :environment do
       require 'addressable'
 
-      h = Hash.new(0)
-      Advert.biden.populated.limit(5000).each do |ad|
+      host_lengths = Hash.new(0)
+      ads = Advert.biden.populated
+      puts ads.count
+      ads.each do |ad|
         url = Addressable::URI.parse(ad.external_url)
         next unless url.query_values && url.query_values['source']
 
         values = url.query_values['source'].split(/[_|]/)
-        h[values.length] = h[values.length] + 1
-        puts "#{ad.ad_creation_time}: #{url.host}(#{values.length}) – #{values} "
+
+        key = "#{url.host}:#{values.length}"
+        puts key
+        host_lengths[key] = host_lengths[key] + 1
+        # puts "#{ad.ad_creation_time}: #{url.host}(#{values.length}) – #{values} "
       end
 
-      pp h
+      pp host_lengths
     end
   end
 end
