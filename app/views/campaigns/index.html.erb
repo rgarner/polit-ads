@@ -20,7 +20,9 @@
       <div class="col-sm-6 campaign campaign-<%= campaign.slug %>">
         <div class="row">
           <div class="col-sm-12 col-md-4">
-            <%= campaign_face(campaign.slug) %>
+            <%= link_to campaign_ad_codes_path(campaign.slug) do %>
+              <%= campaign_face(campaign.slug) %>
+            <% end %>
           </div>
 
           <div class="col-sm-12 col-md-8">
