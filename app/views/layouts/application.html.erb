@@ -16,7 +16,7 @@
       <%= link_to campaigns_path, class: 'navbar-brand' do %>
         <%= image_tag asset_path('wtm_logo_2020.png'), size: '50x50' %>
       <% end %>
-      <ul class="navbar-nav justify-content-end">
+      <ul class="navbar-nav">
         <li class="nav-item">
           <%= link_to 'Ad Codes', campaign_ad_codes_path('trump'), class: 'nav-link' %>
         </li>
@@ -24,6 +24,14 @@
           <%= link_to 'Hosts', hosts_path, class: 'nav-link' %>
         </li>
       </ul>
+      <span class="navbar-text ml-auto">
+        <%= link_to 'Download Extension',
+          'https://whotargets.me/en/install/installing-the-browser-extension/',
+          class: 'btn nav-link download-extension'
+        %>
+      </span>
+
+      </form>
     </nav>
     <%= yield %></div>
   </body>
