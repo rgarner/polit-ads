@@ -82,7 +82,7 @@ load-ads: adverts.csv
 MAX_ID=$(shell psql $(DATABASE_URL) -Xtc 'SELECT COALESCE(MAX(id), 0) FROM adverts')
 adverts.csv:
 	$(if ${ADS_PG_URL},,$(error must set ADS_PG_URL))
-	@echo "Getting adverts with id over $(strip $(MAX_ID))...\n"
+	@echo "Getting adverts with id over $(strip $(MAX_ID)) ...\n"
 	@psql $(ADS_PG_URL) -Xc "COPY (SELECT * FROM adverts WHERE id > $(MAX_ID)) TO STDOUT DELIMITER ',' CSV HEADER;" > $@
 
 .PHONY: clean
