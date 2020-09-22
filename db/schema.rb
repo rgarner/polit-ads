@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_17_092029) do
+ActiveRecord::Schema.define(version: 2020_09_22_135812) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -79,6 +79,8 @@ ActiveRecord::Schema.define(version: 2020_09_17_092029) do
     t.string "ad_library_url"
     t.bigint "funding_entity_id"
     t.jsonb "utm_values"
+    t.integer "spend_lower_bound"
+    t.integer "spend_upper_bound"
     t.index ["funding_entity_id"], name: "index_adverts_on_funding_entity_id"
     t.index ["host_id"], name: "index_adverts_on_host_id"
     t.index ["utm_values"], name: "index_adverts_on_utm_values", using: :gin
@@ -109,6 +111,16 @@ ActiveRecord::Schema.define(version: 2020_09_17_092029) do
     t.index ["hostname"], name: "index_hosts_on_hostname", unique: true
   end
 
+  create_table "utm_campaign_values", force: :cascade do |t|
+    t.bigint "advert_id"
+    t.integer "index", null: false
+    t.string "value", null: false
+    t.index ["advert_id", "index", "value"], name: "index_utm_campaign_values_on_advert_id_and_index_and_value", unique: true
+    t.index ["advert_id"], name: "index_utm_campaign_values_on_advert_id"
+    t.index ["index", "value"], name: "index_utm_campaign_values_on_index_and_value"
+    t.index ["value"], name: "index_utm_campaign_values_on_value"
+  end
+
   add_foreign_key "ad_code_value_descriptions", "ad_codes"
 
   create_view "ad_code_value_summaries", materialized: true, sql_definition: <<-SQL
@@ -121,7 +133,8 @@ ActiveRecord::Schema.define(version: 2020_09_17_092029) do
       min(a.ad_creation_time) AS first_used,
       max(a.ad_creation_time) AS last_used,
       count(*) AS count,
-      round((((count(*))::numeric / sum(count(*)) OVER w_campaign_index) * (100)::numeric), 2) AS percentage
+      round((((count(*))::numeric / sum(count(*)) OVER w_campaign_index) * (100)::numeric), 2) AS percentage,
+      sum(((a.spend_lower_bound + a.spend_upper_bound) / 2)) AS approximate_spend
      FROM ((((ad_code_value_usages u
        JOIN adverts a ON ((u.advert_id = a.id)))
        JOIN funding_entities fe ON ((a.funding_entity_id = fe.id)))
