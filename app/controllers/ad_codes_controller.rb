@@ -6,15 +6,12 @@ class AdCodesController < ApplicationController
   breadcrumb 'Ad codes', -> { campaign_ad_codes_path(@campaign) }, match: :exclusive
 
   def index
-    @ad_codes = @campaign.ad_code_value_summaries.with_value_names.group_by(&:name)
+    @ad_codes = ad_codes_with_sort.group_by(&:name)
   end
 
   def show
-    @ad_codes = @campaign.ad_code_value_summaries
-                         .with_value_names
-                         .where(campaign_id: @campaign.id, index: params[:id])
-
-    breadcrumb "#{@ad_code.full_name}", request.path
+    @ad_codes = ad_codes_with_sort.where(campaign_id: @campaign.id, index: params[:id])
+    breadcrumb @ad_code.full_name, request.path
   end
 
   DENSITY_ROWHEIGHTS = {
@@ -49,6 +46,15 @@ class AdCodesController < ApplicationController
   end
 
   private
+
+  def ad_codes_with_sort
+    ad_codes = @campaign.ad_code_value_summaries.with_value_names
+    if params[:sort] == 'spend'
+      ad_codes.order('COALESCE(approximate_spend, 0) DESC')
+    else
+      ad_codes.order(count: :desc)
+    end
+  end
 
   def set_ad_code
     @ad_code = AdCode.where(campaign: @campaign, index: params[:ad_code_id] || params[:id]).first

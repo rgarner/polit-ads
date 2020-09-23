@@ -4,6 +4,8 @@
 
 <h1>Ad codes and their values</h1>
 
+<%= render 'sort_links' %>
+
 <ul class="tag-list">
   <% @ad_codes.each_pair do |name, values| %>
     <li>
@@ -20,7 +22,7 @@
   <div class="a8-code">
     <a name="<%= name.downcase.gsub(' ', '-') %>"></a>
     <h2 class="heading">
-      <%= link_to name, campaign_ad_code_path(@campaign, values.first.index) %>
+      <%= link_to name, campaign_ad_code_path(@campaign, values.first.index, sort: params[:sort]) %>
       <small class="text-muted">utm<%= values.first.index %></small>
     </h2>
 
