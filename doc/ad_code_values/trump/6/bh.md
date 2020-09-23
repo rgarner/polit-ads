@@ -1,10 +1,10 @@
 ---
 value: bh
-name: Unknown
-confidence: low
-published: 2020-09-01
+name: Interest-based targeting
+confidence: high
+published: 2020-09-23
 ---
 
 ## Why do we think that?
 
-We are unsure what this code refers to at this time. 
+Data from the Who Targets Me browser extension shows us that 'bh' refers to ads that target on the basis of a Facebook interest, such as "Donald Trump", "Melania Trump" or "National Rifle Association".
