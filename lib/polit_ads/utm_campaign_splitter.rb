@@ -11,13 +11,15 @@ module PolitAds
       @logger = logger
     end
 
+    EMPTY = '<empty>'.freeze
+
     def populate
       Advert.trump.has_utm_campaign_query_param.needs_ad_code_value_usages.find_each do |advert|
         utm_campaign_values = utm_campaign_values(advert)
 
         logger.info "'#{advert.ad_creative_link_title}' gets #{utm_campaign_values.length} utm_campaign values"
         utm_campaign_values.each_with_index do |value, index|
-          advert.ad_code_value_usages.build(index: index, value: value)
+          advert.ad_code_value_usages.build(index: index, value: value.present? ? value : EMPTY)
         end
         advert.save!
       end
