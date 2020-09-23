@@ -2,7 +2,7 @@
 
 <h1>
   <span class="text-muted font-weight-light"> <%= @value.name %></span>
-  <%= @value.value %>
+  <span class="badge badge-primary"><%= @value.value %></span>
   <small class="text-muted">, utm<%= @value.index %></small> </h1>
 <% if @description %>
   <dl class="values">
