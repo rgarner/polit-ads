@@ -124,7 +124,7 @@ define ALL_IMPRESSIONS_FROM_SQL
 endef
 
 impressions.csv:
-	@echo "Getting impressions newer than $(CUTOFF_DATE) ...\n"
+	@echo "Getting impressions between '$(IMPRESSIONS_FROM)' and '$(IMPRESSIONS_TO)' ...\n"
 	psql $(ADS_PG_URL) -Xc "COPY (${ALL_IMPRESSIONS_FROM_SQL}) TO STDOUT DELIMITER ',' CSV HEADER;" > $@
 
 .PHONY: update-impressions
