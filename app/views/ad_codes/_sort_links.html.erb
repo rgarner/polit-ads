@@ -1,0 +1,20 @@
+<div class="row mb-3">
+  <div class="nav nav-pills">
+    <span class="nav-item">
+      <span class="nav-link text-muted">Sort by descending</span>
+    </span>
+  </div>
+  <ul class="col nav nav-pills">
+    <li class="nav-item">
+      <%= link_to 'Count',
+                  request.query_parameters.merge(sort: 'count'),
+                  class: "nav-link #{'active' if params[:sort] != 'spend'}" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to 'Spend',
+        request.query_parameters.merge(sort: 'spend'),
+        class: "nav-link #{'active' if params[:sort] == 'spend'}" %>
+    </li>
+  </ul>
+</div>
+<hr>

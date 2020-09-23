@@ -23,6 +23,7 @@ namespace :ads do
     populate:hosts
     populate:ad_code_value_usages
     populate:funding_entities
+    populate:impressions
     populate:ad_code_value_summaries
   ]
 
@@ -33,10 +34,37 @@ namespace :ads do
     end
   end
 
+  namespace :backfill do
+    desc 'backfill impressions month to month. Larger sets cause infinite* queries'
+    task impressions: :environment do
+      oldest_month = 6
+      this_month = Date.today.month
+      (oldest_month..this_month).each do |month|
+        system(
+          "make clean impressions.csv update-impressions \\
+            IMPRESSIONS_FROM=2020-#{month}-01 \\
+            IMPRESSIONS_TO=2020-#{(month + 1) % 12}-01"
+        )
+      end
+    end
+
+  end
+
   namespace :populate do
     desc 'populate hosts'
     task hosts: :environment do
       PolitAds::HostsPopulator.run
+    end
+
+    desc 'populate recent impressions'
+    task impressions: :environment do
+      oldest_day = (Date.today - 7).strftime('%Y-%m-%d')
+      newest_day = (Date.tomorrow).strftime('%Y-%m-%d')
+      system(
+        "make clean impressions.csv update-impressions \\
+          IMPRESSIONS_FROM=#{oldest_day} \\
+          IMPRESSIONS_TO=#{newest_day}"
+      )
     end
 
     desc 'Populate ad_code_value_usages for any ads that have it in their external_url'

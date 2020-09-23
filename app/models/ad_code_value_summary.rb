@@ -12,7 +12,7 @@ class AdCodeValueSummary < ApplicationRecord
              'ad_code_value_descriptions.ad_code_id = ad_code_value_summaries.ad_code_id AND ' \
              'ad_code_value_descriptions.value = ad_code_value_summaries.value')
       .joins('JOIN ad_codes ON ad_codes.id = ad_code_value_summaries.ad_code_id')
-      .order('quality DESC, count DESC')
+      .order('quality DESC, ad_codes.id')
   }
 
   def full_name

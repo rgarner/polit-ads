@@ -6,6 +6,7 @@
 
 .DS_Store
 adverts.csv
+impressions.csv
 connection-url
 
 # Ignore bundler config.
