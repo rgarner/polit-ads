@@ -7,6 +7,8 @@ RSpec.describe '/campaigns' do
   def given_both_campaigns_have_adverts
     create :advert, :trump, funded_by: trump.funding_entities.first
     create :advert, :biden, funded_by: biden.funding_entities.first
+
+    CampaignDailySummary.refresh
   end
 
   scenario 'both campaigns have adverts' do
@@ -14,6 +16,6 @@ RSpec.describe '/campaigns' do
 
     visit '/campaigns'
 
-    expect(page).to have_content("based on 2 adverts from the Biden and Trump campaigns")
+    expect(page).to have_content('based on 2 adverts from the Biden and Trump campaigns')
   end
 end
