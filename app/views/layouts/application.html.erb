@@ -1,12 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>PolitAds</title>
+    <title>
+      Decoding Trump & Biden
+      <%= if content_for?(:title) then ' | ' + yield(:title) end %>
+    </title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <%= favicon_link_tag asset_path('wtm_logo_icon.png'), rel: 'icon', size: '192x192', type: 'image/png' %>
+    <%= favicon_link_tag asset_path('wtm_logo_icon.png'), rel: 'apple-touch-icon', size: '192x192', type: 'image/png' %>
   </head>
 
   <body>
