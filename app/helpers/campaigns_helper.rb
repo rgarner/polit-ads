@@ -9,4 +9,11 @@ module CampaignsHelper
       class: 'face img-fluid'
     )
   end
+
+  def dimension_label
+    {
+      'count' => 'Count',
+      'approximate_spend' => 'Spend'
+    }[params[:dimension]&.downcase] || 'Count'
+  end
 end
