@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_22_135812) do
+ActiveRecord::Schema.define(version: 2020_09_24_124405) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -142,5 +142,20 @@ ActiveRecord::Schema.define(version: 2020_09_22_135812) do
        JOIN ad_codes ac ON (((c.id = ac.campaign_id) AND (ac.index = u.index))))
     GROUP BY fe.campaign_id, u.index, u.value, ac.id
     WINDOW w_campaign_index AS (PARTITION BY fe.campaign_id, u.index);
+  SQL
+  create_view "campaign_daily_summaries", materialized: true, sql_definition: <<-SQL
+      SELECT campaigns.id AS campaign_id,
+      campaigns.name,
+      (days.start)::date AS start,
+      (count(*))::integer AS count,
+      sum(round((((adverts.spend_lower_bound + adverts.spend_upper_bound) / 2))::numeric, 2)) AS approximate_spend
+     FROM (((( SELECT start.start,
+              (start.start + '23:59:59'::interval) AS "end"
+             FROM generate_series('2020-01-01 00:00:00'::timestamp without time zone, '2021-01-01 00:00:00'::timestamp without time zone, '1 day'::interval) start(start)) days
+       JOIN adverts ON (((adverts.ad_creation_time >= days.start) AND (adverts.ad_creation_time <= days."end"))))
+       JOIN funding_entities ON ((funding_entities.id = adverts.funding_entity_id)))
+       JOIN campaigns ON ((campaigns.id = funding_entities.campaign_id)))
+    GROUP BY days.start, campaigns.id
+    ORDER BY campaigns.id;
   SQL
 end

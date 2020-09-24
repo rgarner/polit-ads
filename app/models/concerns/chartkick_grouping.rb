@@ -9,12 +9,12 @@ module ChartkickGrouping
     # ]
     # to
     # { name: 'cm', data: [['2020-08-03', 122], ['2020-08-04', 1420]] }
-    def group_for_chartkick(result, by: 'value')
+    def group_for_chartkick(result, by: 'value', dimension: 'count')
       result.group_by { |row| row[by] }
             .each_with_object([]) do |(series, values), list|
         list << {
           name: series,
-          data: values.map { |value| [value['start'], value['count']] }
+          data: values.map { |value| [value['start'], value[dimension]] }
         }
       end
     end

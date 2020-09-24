@@ -3,8 +3,14 @@ class CampaignsController < ApplicationController
 
   def index
     @ads_since = Date.parse(ADS_SINCE)
-    @campaigns = Campaign.with_summaries.since(@ads_since)
-    @ad_counts = Campaign.summary_graph_data
+    @campaigns = Campaign.with_summaries.order(:id)
+    @ad_counts = Campaign.summary_graph_data(from: @ads_since, dimension: dimension)
     @funding_entity_count = FundingEntity.count
+  end
+
+  private
+
+  def dimension
+    params[:dimension].presence || 'count'
   end
 end
