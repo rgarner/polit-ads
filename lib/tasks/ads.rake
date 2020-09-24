@@ -25,6 +25,7 @@ namespace :ads do
     populate:funding_entities
     populate:impressions
     populate:ad_code_value_summaries
+    populate:campaign_daily_summaries
   ]
 
   namespace :watch do
@@ -83,6 +84,12 @@ namespace :ads do
     task ad_code_value_summaries: :environment do
       $stderr.puts 'Refreshing ad_code_value_summaries materialized view...'
       AdCodeValueSummary.refresh
+    end
+
+    desc 'Populate materialized view for campaign daily summaries'
+    task campaign_daily_summaries: :environment do
+      $stderr.puts 'Refreshing campaign_daily_summaries materialized view...'
+      CampaignDailySummary.refresh
     end
 
     desc 'Populate ad code and ad code value descriptions'
