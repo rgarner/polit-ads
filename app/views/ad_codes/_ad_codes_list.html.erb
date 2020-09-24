@@ -16,7 +16,9 @@
         <small class="text-right">
           <%= link_to "#{value.percentage}% of adverts",
             adverts_path("with_utm_values[#{value.index}]" => "#{value.value}") %>
-          <%= number_to_currency(value.approximate_spend) %>
+          <span class="ml-1">
+            <%= round_dollars(value.approximate_spend) %>
+          </span>
         </small>
       </span>
 

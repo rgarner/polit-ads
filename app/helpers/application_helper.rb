@@ -16,4 +16,8 @@ module ApplicationHelper
   def markdown_to_html(markdown)
     Kramdown::Document.new(markdown).to_html.html_safe
   end
+
+  def round_dollars(value)
+    number_to_currency(value, precision: 0)
+  end
 end

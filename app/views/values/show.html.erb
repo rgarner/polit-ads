@@ -28,7 +28,7 @@
   <%= link_to "#{number_with_delimiter(@value.count)} adverts",
         adverts_path("with_utm_values[#{@value.index}]" => @value.value) %>
   <% if @value.approximate_spend.present? && @value.approximate_spend > 0 %>
-    with a spend of <%= number_to_currency(@value.approximate_spend) %>
+    with a spend of <%= round_dollars(@value.approximate_spend) %>
   <% end %>
 </p>
 
