@@ -3,6 +3,7 @@ class ValuesController < ApplicationController
     @value = AdCodeValueSummary.joins(:campaign).find_by(
       'campaigns.slug' => params[:campaign_id], index: params[:ad_code_id], value: params[:id]
     )
+    @campaign = @value.campaign
     @description = AdCodeValueDescription.joins(ad_code: :campaign).find_by(
       'campaigns.slug' => params[:campaign_id], 'ad_codes.index' => params[:ad_code_id], value: params[:id]
     )

@@ -18,6 +18,10 @@ class Campaign < ApplicationRecord
     slug
   end
 
+  def surname
+    slug.capitalize
+  end
+
   def self.summary_graph_data(date = Date.today)
     sql = <<~SQL
       SELECT campaigns.name, days.start::date, COUNT(*)
