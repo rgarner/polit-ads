@@ -1,9 +1,13 @@
+<% content_for :title, "#{@campaign.surname} | #{@value.name} | #{@value.value}#{" (#{@description.value_name})" if @description}" %>
+
 <%= render 'shared/breadcrumb' %>
 
 <h1>
-  <span class="text-muted font-weight-light"> <%= @value.name %></span>
+  <span class="text-muted font-weight-light"><%= @value.name %></span>
   <span class="badge badge-primary"><%= @value.value %></span>
-  <small class="text-muted">, utm<%= @value.index %></small> </h1>
+  <small class="text-muted">, utm<%= @value.index %></small>
+</h1>
+
 <% if @description %>
   <dl class="values">
     <dt>We think this means</dt>

@@ -1,5 +1,6 @@
 <%= render 'shared/breadcrumb' %>
 
+<% content_for :title, "Adverts at all combinations of #{@ad_code.name} and #{@ad_code2.name}"  %>
 <h1>Adverts at all combinations of <%= @ad_code.name %> and <%= @ad_code2.name %></h1>
 
 <%= render 'tabs' %>
