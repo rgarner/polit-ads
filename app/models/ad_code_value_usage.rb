@@ -40,19 +40,10 @@ class AdCodeValueUsage < ActiveRecord::Base
 
   BETWEEN_SQL =
     <<~SQL.freeze
-      SELECT u.value, days.start::date, COUNT(*)
-      FROM (SELECT start, start + '23 hours 59 minutes 59 seconds' AS end
-            FROM generate_series(
-                         $1::timestamptz,
-                         $2::timestamptz, '1 day'
-                     ) AS start
-           ) AS days
-      JOIN adverts ON adverts.ad_creation_time BETWEEN days.start AND days.end
-      JOIN ad_code_value_usages u on adverts.id = u.advert_id AND u.index = $3
-      JOIN funding_entities ON funding_entities.id = adverts.funding_entity_id
-      WHERE adverts.host_id IS NOT NULL
-      AND funding_entities.campaign_id = $4
-      GROUP BY days.start, u.value
-      ORDER BY COUNT(*) DESC, days.start
+      SELECT value, start, count, approximate_spend
+      FROM value_daily_summaries
+      WHERE start BETWEEN $1 AND $2
+        AND index = $3 AND campaign_id = $4
+      ORDER BY count DESC, start
     SQL
 end
