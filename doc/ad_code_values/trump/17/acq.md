@@ -1,6 +1,6 @@
 ---
 value: acq
-name: Acquire followers
+name: Acquire supporter data
 confidence: medium
 published: 2020-09-01
 ---
