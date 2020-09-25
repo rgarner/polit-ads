@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_24_124405) do
+ActiveRecord::Schema.define(version: 2020_09_25_154248) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -157,5 +157,19 @@ ActiveRecord::Schema.define(version: 2020_09_24_124405) do
        JOIN campaigns ON ((campaigns.id = funding_entities.campaign_id)))
     GROUP BY days.start, campaigns.id
     ORDER BY campaigns.id;
+  SQL
+  create_view "host_daily_summaries", materialized: true, sql_definition: <<-SQL
+      SELECT hosts.hostname,
+      (days.start)::date AS start,
+      count(*) AS count,
+      sum(round((((adverts.spend_lower_bound + adverts.spend_upper_bound) / 2))::numeric, 2)) AS approximate_spend
+     FROM ((( SELECT start.start,
+              (start.start + '23:59:59'::interval) AS "end"
+             FROM generate_series('2020-07-01 00:00:00+00'::timestamp with time zone, '2020-12-31 00:00:00+00'::timestamp with time zone, '1 day'::interval) start(start)) days
+       JOIN adverts ON (((adverts.ad_creation_time >= days.start) AND (adverts.ad_creation_time <= days."end"))))
+       JOIN hosts ON ((adverts.host_id = hosts.id)))
+    WHERE (adverts.host_id IS NOT NULL)
+    GROUP BY days.start, hosts.hostname
+    ORDER BY (count(*)) DESC;
   SQL
 end

@@ -26,6 +26,7 @@ namespace :ads do
     populate:impressions
     populate:ad_code_value_summaries
     populate:campaign_daily_summaries
+    populate:host_daily_summaries
   ]
 
   namespace :watch do
@@ -90,6 +91,12 @@ namespace :ads do
     task campaign_daily_summaries: :environment do
       $stderr.puts 'Refreshing campaign_daily_summaries materialized view...'
       CampaignDailySummary.refresh
+    end
+
+    desc 'Populate materialized view for host daily summaries'
+    task host_daily_summaries: :environment do
+      $stderr.puts 'Refreshing host_daily_summaries materialized view...'
+      HostDailySummary.refresh
     end
 
     desc 'Populate ad code and ad code value descriptions'
