@@ -7,6 +7,8 @@
 .DS_Store
 adverts.csv
 impressions.csv
+results.json.gz
+results.psql.json
 connection-url
 
 # Ignore bundler config.
