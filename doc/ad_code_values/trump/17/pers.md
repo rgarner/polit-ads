@@ -1,12 +1,11 @@
 ---
 value: pers
-name: Get personal data
+name: Persuasion
 confidence: high
 published: 2020-09-01
 ---
 
 ## Why do we think that?
 
-All of the [adverts](/adverts?with_utm_values%5B17%5D=pers) using this value
-link to data collection sites.
+The ads are issue-based, focusing on stated policy achievements and the perceived weaknesses of his opponent.
 
