@@ -5,10 +5,17 @@
 #   git config --global core.excludesfile '~/.gitignore_global'
 
 .DS_Store
+# WTM intermediate downloads
 adverts.csv
 impressions.csv
+
+# Illuminate downloads
 results.json.gz
 results.psql.json
+
+# DB backups
+latest.dump*
+
 connection-url
 
 # Ignore bundler config.
