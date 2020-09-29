@@ -1,6 +1,6 @@
 ---
 value: bh
-name: Interest-based targeting
+name: Behavioural targeting
 confidence: high
 published: 2020-09-23
 ---
@@ -11,4 +11,4 @@ Data from the Who Targets Me browser extension shows us that 'bh' refers to ads 
 
 ### What might `bh` mean?
 
-We hypothesise that an associated campaign system might be mapping the concept of "Buying Habits" to Facebook interests.
+Refers to 'behavioural' targeting in Facebook, also known as 'interest-based' targeting.
