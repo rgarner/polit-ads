@@ -52,6 +52,8 @@
   </div>
 </div>
 
-<div class="text-muted">
-  <%= advert.illuminate_tags || 'no illuminate tags' %>
-</div>
+<% if Rails.env.development? %>
+  <div class="text-muted">
+    <%= advert.illuminate_tags || 'no illuminate tags' %>
+  </div>
+<% end %>
