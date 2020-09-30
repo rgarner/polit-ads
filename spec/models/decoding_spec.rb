@@ -191,4 +191,23 @@ RSpec.describe Decoding do
       expect(decoding.thinks).to include('you are 18-34 years old')
     end
   end
+
+  context 'link is a Biden new supporter acq ad' do
+    let(:advert) do
+      create :advert,
+             :biden, external_url: link, host: create(:host, :go_joe_biden, campaign: biden)
+    end
+
+    let(:link) do
+      'https://go.joebiden.com/page/s/BVF-endorse-joe-a?source=omvf_fb_july20sudtc_acq_pla1-10&subsource=omvf'
+    end
+
+    it 'wants data' do
+      expect(decoding.wants).to eql('your personal data')
+    end
+
+    it 'thinks you are not currently a supporter' do
+      expect(decoding.thinks).to include('you are not yet an active supporter')
+    end
+  end
 end

@@ -43,6 +43,7 @@ en:
     audience_type:
       has_interests: "you are interested in their campaign because of your Facebook likes or interests"
       custom_audience: "you are on a custom audience list, and perhaps have interacted with the campaign before"
+    you_are_not_a_supporter: "you are not yet an active supporter"
   wants:
     money: "money"
     data: "your personal data"
