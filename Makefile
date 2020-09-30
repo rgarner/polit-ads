@@ -127,11 +127,32 @@ impressions.csv:
 	@echo "Getting impressions between '$(IMPRESSIONS_FROM)' and '$(IMPRESSIONS_TO)' ...\n"
 	psql $(ADS_PG_URL) -Xc "COPY (${ALL_IMPRESSIONS_FROM_SQL}) TO STDOUT DELIMITER ',' CSV HEADER;" > $@
 
+define UPDATE_ILLUMINATE_TAGS_SQL
+CREATE TEMPORARY TABLE tmp_tags (row jsonb); \
+COPY tmp_tags FROM STDIN; \
+UPDATE adverts SET illuminate_tags = tmp_tags.row \
+FROM tmp_tags \
+WHERE row->>'ad_id' = adverts.post_id; \
+DROP TABLE tmp_tags;
+endef
+
 .PHONY: update-impressions
 update-impressions: impressions.csv
 	@echo "Updating impressions ..."
 	cat $^ | psql ${DATABASE_URL} -Xc "${UPDATE_IMPRESSIONS_SQL}"
 
+results.json.gz:
+	$(if ${ILLUMINATE_BACKFILL_JSON_GZ_URL},,$(error must set ILLUMINATE_BACKFILL_JSON_GZ_URL))
+	curl -L ${ILLUMINATE_BACKFILL_JSON_GZ_URL} > $@
+
+results.psql.json: results.json.gz # Strip array for psql COPY; One json {} stanza per line
+	gunzip -c $^ | ruby -e 'require "json"; JSON.parse(STDIN.read).each { |j| puts j.to_json }' > $@
+
+.PHONY: backfill-illuminate-tags
+backfill-illuminate-tags: results.psql.json
+	@echo "Backfilling illuminate tags"
+	cat $^ | psql ${DATABASE_URL} -Xc "${UPDATE_ILLUMINATE_TAGS_SQL}"
+
 .PHONY: clean
 clean:
-	- rm adverts.csv impressions.csv
+	- rm adverts.csv impressions.csv results.psql.json

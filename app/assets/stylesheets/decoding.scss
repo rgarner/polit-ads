@@ -1,0 +1,41 @@
+.ad-details {
+  .face {
+    min-width: 100px;
+    max-height: 200px;
+    margin: auto;
+  }
+}
+
+.wants {
+  .fas {
+    font-size: 180%;
+
+    @media (max-width: 576px) {
+      font-size: 100%;
+    }
+  }
+  .money {
+    color: green;
+  }
+  .data {
+    color: orangered;
+  }
+  .you-to-vote {
+    color: midnightblue;
+  }
+  .you-to-volunteer {
+    color: yellowgreen;
+  }
+  .you-to-buy {
+    color: steelblue;
+  }
+  .you-to-attend {
+    color: darkslateblue;
+  }
+  .you-to-be-deterred {
+    color: darkred;
+  }
+  .to-persuade-you {
+    color: darkorchid;
+  }
+}

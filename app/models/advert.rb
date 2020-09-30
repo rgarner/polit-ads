@@ -67,4 +67,12 @@ class Advert < ActiveRecord::Base
                     matches[:id]
                   end
   end
+
+  def civil?
+    illuminate_tags && illuminate_tags['is_civil']
+  end
+
+  def uncivil?
+    !civil?
+  end
 end

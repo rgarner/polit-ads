@@ -81,8 +81,10 @@ ActiveRecord::Schema.define(version: 2020_09_25_171744) do
     t.jsonb "utm_values"
     t.integer "spend_lower_bound"
     t.integer "spend_upper_bound"
+    t.jsonb "illuminate_tags"
     t.index ["funding_entity_id"], name: "index_adverts_on_funding_entity_id"
     t.index ["host_id"], name: "index_adverts_on_host_id"
+    t.index ["post_id"], name: "index_adverts_on_post_id"
     t.index ["utm_values"], name: "index_adverts_on_utm_values", using: :gin
   end
 

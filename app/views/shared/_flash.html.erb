@@ -1,0 +1,25 @@
+<% if flash[:primary] %>
+  <div class="alert alert-primary" role="alert">
+    <%= flash[:primary] %>
+  </div>
+<% elsif flash[:secondary] %>
+  <div class="alert alert-secondary" role="alert">
+    <%= flash[:secondary] %>
+  </div>
+<% elsif flash[:success] %>
+  <div class="alert alert-success" role="alert">
+    <%= flash[:success] %>
+  </div>
+<% elsif flash[:danger] %>
+  <div class="alert alert-danger" role="alert">
+    <%= flash[:danger] %>
+  </div>
+<% elsif flash[:warning] %>
+  <div class="alert alert-warning" role="alert">
+    <%= flash[:warning] %>
+  </div>
+<% elsif flash[:info] %>
+  <div class="alert alert-info" role="alert">
+    <%= flash[:info] %>
+  </div>
+<% end %>

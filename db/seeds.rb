@@ -42,9 +42,9 @@ end
   'shop.donaldjtrump.com' => { campaign: trump, purpose: 'shop' },
   'www.barelytherebiden.com' => { campaign: trump, purpose: 'attack' },
   'www.donaldjtrump.com' => { campaign: trump, purpose: 'data' },
-  'vote.donaldjtrump.com' => { campaign: trump, purpose: 'data' },
+  'vote.donaldjtrump.com' => { campaign: trump, purpose: 'vote' },
   'www.youtube.com' => { campaign: nil, purpose: 'video' },
-  'iwillvote.com' => { campaign: biden, purpose: 'data' },
+  'iwillvote.com' => { campaign: biden, purpose: 'vote' },
   'catholics.donaldjtrump.com' => { campaign: trump, purpose: 'data' },
 }.each_pair do |hostname, data|
   host = Host.where(hostname: hostname).first
