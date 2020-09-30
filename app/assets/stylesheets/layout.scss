@@ -5,6 +5,10 @@ nav.navbar {
     background-color: $wtm-yellow;
     color: black;
   }
+
+  .nav-link.btn.btn-primary {
+    color: white;
+  }
 }
 
 .container-fluid.previews {

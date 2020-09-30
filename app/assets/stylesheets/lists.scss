@@ -1,5 +1,9 @@
 dl {
   columns: 4;
+
+  &.dl-1 {
+    columns: 1;
+  }
 }
 
 dl.values {

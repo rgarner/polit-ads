@@ -7,5 +7,9 @@ FactoryBot.define do
     sequence(:index)
 
     name { "ad-code-#{index}" }
+
+    trait :trump_geo do
+      index { 10 }
+    end
   end
 end

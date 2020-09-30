@@ -13,6 +13,8 @@
 
     <%= favicon_link_tag asset_path('wtm_logo_icon.png'), rel: 'icon', size: '192x192', type: 'image/png' %>
     <%= favicon_link_tag asset_path('wtm_logo_icon.png'), rel: 'apple-touch-icon', size: '192x192', type: 'image/png' %>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
   </head>
 
   <body>
@@ -22,16 +24,13 @@
       <%= link_to campaigns_path, class: 'navbar-brand' do %>
         <%= image_tag asset_path('wtm_logo_2020.png'), size: '50x50' %>
       <% end %>
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <%= link_to 'Biden Ad Codes', campaign_ad_codes_path('biden'), class: 'nav-link' %>
-        </li>
-        <li class="nav-item">
-          <%= link_to 'Trump Ad Codes', campaign_ad_codes_path('trump'), class: 'nav-link' %>
-        </li>
-        <li class="nav-item">
-          <%= link_to 'Campaign hosts', hosts_path, class: 'nav-link' %>
-        </li>
+      <ul class="navbar-nav mr-auto">
+        <%= nav_item 'Biden Ad Codes', campaign_ad_codes_path('biden') %>
+        <%= nav_item 'Trump Ad Codes', campaign_ad_codes_path('trump') %>
+        <%= nav_item 'Campaign hosts', hosts_path %>
+      </ul>
+      <ul class="navbar-nav my-2">
+        <%= nav_item 'Decode a link', adverts_decode_a_link_path, class: 'ml-auto btn btn-primary' %>
       </ul>
       <span class="navbar-text ml-auto">
         <%= link_to 'Download Extension',

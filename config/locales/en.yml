@@ -32,3 +32,23 @@
 en:
   site:
     title: '2020 Presidential Campaign Advertising'
+  thinks:
+    you_are_this_old: "you are %{age} years old"
+    you_live_here: "you live in %{location}"
+    they_can_make_you_angry: "they can make you angry"
+    donor:
+      you_have_not_donated_before: "you have not donated before"
+      you_have_donated_before: "you have donated before"
+      you_already_donate_monthly: "you already donate monthly"
+    audience_type:
+      has_interests: "you are interested in their campaign because of your Facebook likes or interests"
+      custom_audience: "you are on a custom audience list, and perhaps have interacted with the campaign before"
+  wants:
+    money: "money"
+    data: "your personal data"
+    you_to_buy: "you to buy merchandise"
+    you_to_vote: "you to vote"
+    you_to_attend: "you to attend an event"
+    you_to_be_deterred: "to deter you from voting"
+  forms:
+    paste_a_link: "Paste a link to decode a Facebook ad"

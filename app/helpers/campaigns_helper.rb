@@ -3,10 +3,10 @@ module CampaignsHelper
     "#{number_with_delimiter(@campaigns.map(&:ad_count).reduce(&:+))} adverts"
   end
 
-  def campaign_face(slug)
+  def campaign_face(slug, options = {})
     image_tag(
       asset_path("face-circle-#{slug}-700x700.png"),
-      class: 'face img-fluid'
+      class: "face img-fluid #{slug} " + options[:class].to_s
     )
   end
 

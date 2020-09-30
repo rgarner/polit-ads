@@ -9,7 +9,8 @@ FactoryBot.define do
     post_id
     host
 
-    ad_creation_time { 2.days.ago }
+    ad_creation_time       { 2.days.ago }
+    ad_delivery_start_time { 2.days.ago }
 
     country { 'US' }
 
@@ -34,6 +35,20 @@ FactoryBot.define do
       page_name       { 'Donald J. Trump' }
       funding_entity  { 'DONALD J. TRUMP FOR PRESIDENT, INC.' }
       ad_snapshot_url { 'https://www.facebook.com/ads/archive/render_ad/?id=2640868079488103&access_token=foobar' }
+
+      after(:create) do |advert|
+        if advert.external_url && advert.utm_values.nil?
+          advert.utm_values ||= {}
+
+          uri = Addressable::URI.parse(advert.external_url)
+          utm_values = uri.query_values['utm_campaign'].split('_')
+
+          utm_values.each_with_index do |value, index|
+            advert.utm_values[index.to_s] = value
+          end
+          advert.save!
+        end
+      end
     end
 
     trait :other do

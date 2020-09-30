@@ -11,7 +11,10 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/adverts/decode-a-link'
   resources :adverts, only: %i[show index]
+
+  resources :decodings, only: %i[create show]
 
   ##
   # Redirects; this once only did one campaign - Trump's, and now

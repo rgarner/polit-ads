@@ -25,5 +25,9 @@ class AdvertsController < ApplicationController
     add_breadcrumbs_for_campaign_ad_codes!
     breadcrumb 'Advert', request.path
   end
+
+  def decode_a_link
+    @campaigns = Campaign.all
+  end
 end
 
