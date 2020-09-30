@@ -29,9 +29,11 @@
         <%= nav_item 'Trump Ad Codes', campaign_ad_codes_path('trump') %>
         <%= nav_item 'Campaign hosts', hosts_path %>
       </ul>
-      <ul class="navbar-nav my-2">
-        <%= nav_item 'Decode a link', adverts_decode_a_link_path, class: 'ml-auto btn btn-primary' %>
-      </ul>
+      <% unless Rails.env.development? %>
+        <ul class="navbar-nav my-2">
+          <%= nav_item 'Decode a link', adverts_decode_a_link_path, class: 'ml-auto btn btn-primary' %>
+        </ul>
+      <% end  %>
       <span class="navbar-text ml-auto">
         <%= link_to 'Download Extension',
           'https://whotargets.me/en/install/installing-the-browser-extension/',
