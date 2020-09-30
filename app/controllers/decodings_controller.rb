@@ -10,7 +10,7 @@ class DecodingsController < ApplicationController
   end
 
   def show
-    @decoding = Decoding.new(params[:id])
+    @decoding = Decoding.create(params[:id])
     render :show
   end
 end

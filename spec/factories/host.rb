@@ -8,6 +8,10 @@ FactoryBot.define do
       purpose  { 'funding' }
       hostname { 'secure.winred.com' }
     end
+    trait :biden_funding do
+      purpose  { 'funding' }
+      hostname { 'secure.actblue.com' }
+    end
     trait :data do
       purpose  { 'data' }
       hostname { 'action.donaldjtrump.com' }
@@ -27,6 +31,10 @@ FactoryBot.define do
     trait :event do
       purpose  { 'event' }
       hostname { 'events.donaldjtrump.com'}
+    end
+    trait :go_joe_biden do
+      purpose  { 'data' }
+      hostname { 'go.joebiden.com'}
     end
   end
 end

@@ -29,6 +29,20 @@ FactoryBot.define do
       page_name       { 'Joe Biden' }
       funding_entity  { 'BIDEN VICTORY FUND' }
       ad_snapshot_url { 'https://www.facebook.com/ads/archive/render_ad/?id=1610017795840485&access_token=foobar' }
+
+      after(:create) do |advert|
+        if advert.external_url && advert.utm_values.nil?
+          advert.utm_values ||= {}
+
+          uri = Addressable::URI.parse(advert.external_url)
+          utm_values = uri.query_values['source'].split(/[_|]/)
+
+          utm_values.each_with_index do |value, index|
+            advert.utm_values[index.to_s] = value
+          end
+          advert.save!
+        end
+      end
     end
 
     trait :trump do

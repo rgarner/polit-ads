@@ -1,10 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe Decoding do
-  subject(:decoding) { Decoding.new(advert.id) }
+  subject(:decoding) { Decoding.create(advert.id) }
 
   let(:trump)        { create :campaign, :trump }
   let(:biden)        { create :campaign, :biden }
+
   let(:funding_host) { create :host, :funding, campaign: trump }
   let(:action_host)  { create :host, :data, campaign: trump }
   let(:merch_host)   { create :host, :shop, campaign: trump }
@@ -141,9 +142,7 @@ RSpec.describe Decoding do
 
   context 'link is a vote host' do
     let(:advert) do
-      create :advert, :trump,
-             external_url: link, host: vote_host,
-             illuminate_tags: { 'is_civil' => false }
+      create :advert, :trump, external_url: link, host: vote_host
     end
 
     let(:link) do
@@ -152,6 +151,44 @@ RSpec.describe Decoding do
 
     it 'wants you to vote' do
       expect(decoding.wants).to eql('you to vote')
+    end
+  end
+
+  context 'link is a Biden volunteer ad' do
+    let(:advert) do
+      create :advert,
+             :biden, external_url: link, host: create(:host, :go_joe_biden, campaign: biden)
+    end
+
+    let(:link) do
+      'https://go.joebiden.com/page/s/vol-hb-september-california/?source=om_fb_20200906getinvolved_vol_000_a001_&refcode=om_fb_20200906getinvolved_VOL_000_a001_&utm_medium=om'
+    end
+
+    it 'wants you to volunteer' do
+      expect(decoding.wants).to eql('you to volunteer')
+    end
+
+    it 'has insufficient info for #thinks' do
+      expect(decoding.thinks).to be_empty
+    end
+  end
+
+  context 'link is a Biden donation ad' do
+    let(:advert) do
+      create :advert,
+             :biden, external_url: link, host: create(:host, :biden_funding, campaign: biden)
+    end
+
+    let(:link) do
+      'https://secure.actblue.com/donate/ads_dd_fb_launch_july2020?source=omvf_fb_20200719averagegifts_DD_013emlal5%7CFB%7CUS%7C18-34%7CMF_a003%7CAverageGifts%7CSTA%7CDN10%7CREC&refcode=omvf_fb_20200719averagegifts_DD_013emlal5%7CFB%7CUS%7C18-34%7CMF_a003%7CAverageGifts%7CSTA%7CDN10%7CREC&utm_medium=omvf&utm_source=fb&utm_campaign=averagegifts&utm_content=DD'
+    end
+
+    it 'wants money' do
+      expect(decoding.wants).to eql('money')
+    end
+
+    it 'thinks you are 18-34' do
+      expect(decoding.thinks).to include('you are 18-34 years old')
     end
   end
 end
