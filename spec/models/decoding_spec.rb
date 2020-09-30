@@ -154,6 +154,20 @@ RSpec.describe Decoding do
     end
   end
 
+  context 'link is a data host but you are persuadable' do
+    let(:advert) do
+      create :advert, :trump, external_url: link, host: action_host
+    end
+
+    let(:link) do
+      'https://forms.donaldjtrump.com/landing/biden-progressive/?utm_medium=ad&utm_source=dp_fb&utm_campaign=20200928_na_resn_djt_djtnonfund_ocpmye_cm_audience1353_creative04558_copy00857_wi_b_18-65_nfig_all_na_lp0173_pers_aware_video_16_9_015s&utm_content=pol'
+    end
+
+    it 'wants to persuade you' do
+      expect(decoding.wants).to eql('to persuade you')
+    end
+  end
+
   context 'link is a Biden volunteer ad' do
     let(:advert) do
       create :advert,

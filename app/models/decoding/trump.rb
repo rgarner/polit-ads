@@ -39,6 +39,16 @@ class Decoding::Trump < Decoding
     I18n.translate('thinks.you_are_this_old', age: age)
   end
 
+  def wants_key
+    super
+    case [@wants_key, ad_goal]
+    in ['data', /per(s?)/]
+      'to_persuade_you'
+    else
+      @wants_key
+    end
+  end
+
   def thinks
     [
       you_live_here,
