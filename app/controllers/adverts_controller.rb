@@ -26,8 +26,6 @@ class AdvertsController < ApplicationController
     breadcrumb 'Advert', request.path
   end
 
-  def decode_a_link
-    @campaigns = Campaign.all
-  end
+  def decode_a_link; end
 end
 
