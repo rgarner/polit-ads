@@ -28,6 +28,10 @@ FactoryBot.define do
       purpose  { 'attack' }
       hostname { 'www.barelytherebiden.com'}
     end
+    trait :app do
+      purpose  { 'app' }
+      hostname { 'play.google.com'}
+    end
     trait :event do
       purpose  { 'event' }
       hostname { 'events.donaldjtrump.com'}

@@ -32,6 +32,8 @@ class Decoding::Biden < Decoding
   private
 
   def ad_goal
+    return nil if advert.utm_values.nil?
+
     advert.utm_values[INDEX_AD_GOAL]
   end
 end

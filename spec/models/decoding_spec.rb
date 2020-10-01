@@ -12,6 +12,7 @@ RSpec.describe Decoding do
   let(:event_host)   { create :host, :event, campaign: trump }
   let(:vote_host)    { create :host, :vote, campaign: trump }
   let(:attack_host)  { create :host, :attack, campaign: biden }
+  let(:app_host)     { create :host, :app, campaign: biden }
 
   context 'link is for a Trump ad that thinks you are a monthly donor in a battleground state' do
     let(:advert) do
@@ -105,6 +106,15 @@ RSpec.describe Decoding do
 
     it 'wants you to buy' do
       expect(decoding.wants).to eql('you to buy merchandise')
+    end
+  end
+
+  context 'link is for a Trump app' do
+    let(:advert) { create :advert, :trump, external_url: link, host: app_host }
+    let(:link) { 'http://play.google.com/store/apps/details?id=com.ucampaignapp.americafirst' }
+
+    it 'wants you to install' do
+      expect(decoding.wants).to eql('you to install their app')
     end
   end
 
