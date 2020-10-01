@@ -29,7 +29,7 @@ RSpec.describe '/adverts/decode-a-link' do
 
     # When I supply a link for analysis
     visit '/adverts/decode-a-link'
-    fill_in 'Paste a link', with: @advert.external_url
+    fill_in 'Paste a link', with: @advert.external_url + '&fbclid=IwAR2H1jTbXedvDs5YOo5TxylDGN_ndGYoZERkQnkVNj7NALZmVeTaVGnu7Qo'
     click_button 'Go'
 
     # Then I should see an indicator of what the campaign wants from me

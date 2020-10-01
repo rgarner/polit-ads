@@ -1,6 +1,6 @@
 class DecodingsController < ApplicationController
   def create
-    advert = Advert.find_by(external_url: params[:link])
+    advert = Advert.find_by_c14n_external_url(params[:link])
     if advert
       redirect_to decoding_path(advert)
     else

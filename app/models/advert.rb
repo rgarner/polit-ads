@@ -61,6 +61,14 @@ class Advert < ActiveRecord::Base
     joins(:host).where('hosts.hostname = ?', hostname)
   }
 
+  def self.find_by_c14n_external_url(external_url)
+    Advert.find_by(external_url: canonicalize(external_url))
+  end
+
+  def self.canonicalize(external_url)
+    external_url.sub(/&fbclid=.*[^&]/, '')
+  end
+
   def fb_ad_id
     @fb_ad_id ||= begin
                     matches = ad_snapshot_url.match(/\?id=(?<id>[0-9]*)/)
