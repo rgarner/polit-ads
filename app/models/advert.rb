@@ -70,10 +70,7 @@ class Advert < ActiveRecord::Base
   end
 
   def fb_ad_id
-    @fb_ad_id ||= begin
-                    matches = ad_snapshot_url.match(/\?id=(?<id>[0-9]*)/)
-                    matches[:id]
-                  end
+    post_id
   end
 
   def civil?
