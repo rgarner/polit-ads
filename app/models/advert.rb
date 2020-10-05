@@ -73,6 +73,10 @@ class Advert < ActiveRecord::Base
     post_id
   end
 
+  def to_param
+    fb_ad_id
+  end
+
   def civil?
     illuminate_tags && illuminate_tags['is_civil']
   end

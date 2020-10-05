@@ -4,17 +4,22 @@
 
 <table class="table">
   <thead class="thead-dark">
-  <tr>
-    <th scope="col" width="60%">Advert</th>
-    <th scope="col" class="external_url" width="25%">External URL</th>
-    <th scope="col" width="15%">Ad creation time</th>
-  </tr>
+    <tr>
+      <th scope="col" class="external_url" width="20%">Show</th>
+      <th scope="col" width="65%">External Advert</th>
+      <th scope="col" width="15%">Ad creation time</th>
+    </tr>
   </thead>
   <tbody>
   <% @adverts.each do |advert| %>
     <tr>
-      <td><%= link_to (advert.ad_creative_body || advert.ad_creative_link_title), advert_path(advert) %></td>
-      <td class="url"><%= link_to advert.external_url, advert.external_url %></td>
+      <td class="url">
+        <div class="btn-group-sm">
+          <%= link_to 'Decoded', decoding_path(advert), class: 'btn btn-outline-info' %>
+          <%= link_to 'Raw', advert_path(advert), class: 'btn btn-outline-primary' %>
+        </div>
+      </td>
+      <td><%= link_to (advert.ad_creative_body || advert.ad_creative_link_title), advert.external_url %></td>
       <td><%= advert.ad_creation_time %></td>
     </tr>
   <% end %>

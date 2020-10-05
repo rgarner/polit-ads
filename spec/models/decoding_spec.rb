@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Decoding do
-  subject(:decoding) { Decoding.create(advert.id) }
+  subject(:decoding) { Decoding.create(advert.fb_ad_id) }
 
   let(:trump)        { create :campaign, :trump }
   let(:biden)        { create :campaign, :biden }

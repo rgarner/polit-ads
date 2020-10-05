@@ -16,7 +16,7 @@ class Decoding
   }.freeze
 
   def self.create(ad_or_id)
-    advert = ad_or_id.is_a?(Advert) ? ad_or_id : Advert.find(ad_or_id)
+    advert = ad_or_id.is_a?(Advert) ? ad_or_id : Advert.find_by!(post_id: ad_or_id)
     klass = if advert.host.campaign.present?
               const_get("Decoding::#{advert.host.campaign.slug.capitalize}")
             elsif advert.host.present?

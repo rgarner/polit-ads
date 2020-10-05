@@ -14,7 +14,7 @@
     <tr>
       <td><%= host.hostname %></td>
       <td><%= host.purpose %></td>
-      <td><%= link_to "#{host.ad_count} adverts", host_adverts_path(host) %></td>
+      <td><%= link_to "#{host.ad_count} adverts", host_adverts_path(host.id) %></td>
       <td><%= host.ad_first %></td>
       <td><%= host.ad_last %></td>
     </tr>
