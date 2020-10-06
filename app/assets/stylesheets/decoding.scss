@@ -6,6 +6,13 @@
   }
 }
 
+.decode-another {
+  [aria-expanded="true"] .fa-chevron-circle-up,
+  [aria-expanded="false"] .fa-chevron-circle-down {
+    display:none;
+  }
+}
+
 .wants {
   .fas {
     font-size: 180%;

@@ -1,26 +1,3 @@
 <%= render 'shared/flash' %>
 
-<div class="decode-a-link card">
-  <div class="card-body">
-    <h1>Decode an ad from a Presidential candidate</h1>
-
-    <ol>
-      <li>
-        For any Facebook ad paid for by the Trump or Biden campaigns, copy:
-        <ul>
-          <li>The link in any Trump or Biden ad you see on Facebook</li>
-          <li>Any link to a Trump or Biden ad in the Facebook Ad Library</li>
-          <li>Any Facebook Ad Library ID</li>
-        </ul>
-      <li>Paste it in the text box below and click "Decode it!"</li>
-    </ol>
-
-    <%= form_with url: decodings_path do |form| %>
-      <%= form.label t('forms.paste_a_link'), for: :link, class: 'lead' %>
-      <div class="decoding form-group form-inline">
-        <%= form.text_field :link, class: 'form-control col' %>
-        <%= form.submit t('forms.decode_it'), class: 'btn btn-primary ml-2' %>
-      </div>
-    <% end %>
-  </div>
-</div>
+<%= render 'decode_a_link_card' %>
