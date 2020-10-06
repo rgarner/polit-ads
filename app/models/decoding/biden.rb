@@ -14,7 +14,7 @@ class Decoding::Biden < Decoding
 
   def you_are_this_old
     age = advert.utm_values[INDEX_AGE]
-    I18n.translate('thinks.you_are_this_old', age: age) if age
+    I18n.translate('thinks.you_are_this_old', age: age) if age && age != '<empty>'
   end
 
   def you_are_not_a_supporter

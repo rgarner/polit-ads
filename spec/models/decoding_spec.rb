@@ -241,7 +241,7 @@ RSpec.describe Decoding do
       create :advert,
              :biden,
              external_url: link, host: create(:host, :go_joe_biden, campaign: biden),
-             illuminate_tags: { 'is_message_type_advocacy': true }
+             illuminate_tags: { 'is_message_type_advocacy': true, 'is_civil': true }
     end
 
     let(:link) do
@@ -250,6 +250,25 @@ RSpec.describe Decoding do
 
     it 'wants to persuade you' do
       expect(decoding.wants).to eql('to persuade you')
+    end
+  end
+
+  context 'link has empty age' do
+    let(:advert) do
+      # We can't let the factory do it for us as it's only simulating production,
+      # so hard-code some <empty> values
+      create :advert,
+             :biden,
+             external_url: link, host: create(:host, :go_joe_biden, campaign: biden),
+             utm_values: {"0": 'omvf', "1": 'fb', "2": '20200925trumpsscotuspick', "3": 'ea', "4": '000', "5": '<empty>', "6": '<empty>', "7": '<empty>', "8": '<empty>', "9": 'a004', "10": '<empty>', "11": '<empty>', "12": '<empty>', "13": '<empty>'}
+    end
+
+    let(:link) do
+      'https://go.joebiden.com/page/s/bvf2020-supreme-court-pick-petition-fb-sept2020/?source=omvf_fb_20200925trumpsscotuspick_ea_000_a004_&refcode=omvf_fb_20200925trumpsscotuspick_EA_000_a004_&utm_medium=omvf'
+    end
+
+    it 'does not know how old you are' do
+      expect(decoding.thinks).to be_empty
     end
   end
 end
