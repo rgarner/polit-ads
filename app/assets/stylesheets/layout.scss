@@ -5,6 +5,11 @@ nav.navbar {
     background-color: $wtm-yellow;
     color: black;
   }
+  
+  .nav-link.donate-link {
+    background-color: $wtm-red;
+    color: black;
+  }
 
   .nav-link.btn.btn-primary {
     color: white;
