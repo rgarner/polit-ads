@@ -32,15 +32,7 @@
   <% end %>
 </p>
 
-<div class="btn-toolbar">
-  <div class="btn-group mr-4" aria-label="Timeline range">
-    <%= timeline_range_links %>
-  </div>
-  <div class="btn-group" aria-label="Show">
-    <button class="btn btn-outline" disabled>Show</button>
-    <%= render 'shared/dimension_dropdown' %>
-  </div>
-</div>
+<%= render 'shared/timeline_dimension_toolbar' %>
 
 <% if @values.any? %>
   <%= timeline @values %>

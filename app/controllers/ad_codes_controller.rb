@@ -20,7 +20,7 @@ class AdCodesController < ApplicationController
   }.freeze
 
   def timeline
-    @values = AdCodeValueUsage.between(@campaign, @ad_code.index, start, finish)
+    @values = AdCodeValueUsage.between(@campaign, @ad_code.index, start, finish, dimension: dimension)
     @options = {
       rowHeight: DENSITY_ROWHEIGHTS[params[:density] || 'spacious'],
       svgClass: "utm#{@ad_code.index}"
@@ -71,5 +71,9 @@ class AdCodesController < ApplicationController
 
   def finish
     @finish ||= params[:end] ? Date.parse(params[:end]) : Date.today
+  end
+
+  def dimension
+    params[:dimension].presence || 'count'
   end
 end
