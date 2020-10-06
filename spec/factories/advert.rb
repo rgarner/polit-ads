@@ -22,6 +22,7 @@ FactoryBot.define do
       evaluator.ad_codes.each_pair do |index, value|
         advert.ad_code_value_usages << AdCodeValueUsage.new(index: index, value: value)
       end
+      advert.ad_library_url = "https://www.facebook.com/ads/library/?id=#{advert.post_id}"
       advert.save!
     end
 

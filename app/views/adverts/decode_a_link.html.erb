@@ -1,16 +1,3 @@
 <%= render 'shared/flash' %>
 
-<div class="decode-a-link card">
-  <div class="card-body">
-    <%= form_with url: decodings_path do |form| %>
-      <h1>What do Trump or Biden know about me?</h1>
-
-      <div class="form-group">
-        <%= form.label t('forms.paste_a_link'), for: :link, class: 'lead' %>
-        <%= form.text_field :link, class: 'form-control' %>
-      </div>
-
-      <%= form.submit 'Go', class: 'btn btn-primary' %>
-    <% end %>
-  </div>
-</div>
+<%= render 'decode_a_link_card' %>

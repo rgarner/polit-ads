@@ -1,6 +1,18 @@
 <% campaign = @decoding.campaign %>
 <% advert = @decoding.advert %>
 
+<div class="alert alert-secondary text-right decode-another" role="alert">
+  <a class="" data-toggle="collapse" href="#decode-another" role="button" aria-expanded="false" aria-controls="decode-another">
+    Decode another?
+    <i class="fa fa-chevron-circle-up"></i>
+    <i class="fa fa-chevron-circle-down"></i>
+  </a>
+</div>
+
+<div class="collapse" id="decode-another">
+  <%= render 'adverts/decode_a_link_card' %>
+</div>
+
 <h1 class="mb-4 wants row">
   <span class="text-center col-1 mr-4 mr-sm-0 col-sm-3"><%= font_awesome_icon_for(@decoding.wants_key) %></span>
 
