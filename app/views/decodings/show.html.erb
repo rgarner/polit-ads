@@ -54,13 +54,21 @@
 <div class="row thinks mt-4">
   <div class="col-12 col-sm-3"></div>
   <div class="col-sm-8">
-    <h2>They think:</h2>
 
-    <ul class="campaign-thinks-you">
-      <% @decoding.thinks.each do |think| %>
-        <li><%= think %></li>
-      <% end %>
-    </ul>
+    <% if @decoding.thinks.any? %>
+      <h2>They think:</h2>
+      <ul class="campaign-thinks-you lead">
+        <% @decoding.thinks.each do |think| %>
+          <li><%= think %></li>
+        <% end %>
+      </ul>
+    <% else %>
+      <h2>This campaign either:</h2>
+      <ul class="lead">
+        <li>might know something about you, but isn't tracking it in its URLs right now, <strong>or</strong></li>
+        <li>is targeting very broadly.</li>
+      </ul>
+    <% end %>
   </div>
 </div>
 
