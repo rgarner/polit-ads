@@ -117,7 +117,7 @@ namespace :ads do
       ads = Advert.where('wants_key IS NULL AND hosts.purpose IS NOT NULL')
                   .joins(:host)
                   .order(ad_creation_time: :desc)
-      puts ads.count
+      puts "Filling wants_key for #{ads.count} ads"
 
       ads.find_each do |ad|
         if ad.host.nil?
