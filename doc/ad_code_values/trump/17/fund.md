@@ -1,6 +1,6 @@
 ---
 value: fund
-name: Get funding
+name: Fundraise
 confidence: high
 published: 2020-09-01
 ---
