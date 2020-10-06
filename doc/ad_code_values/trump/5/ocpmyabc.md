@@ -1,6 +1,6 @@
 ---
 value: ocpmyabc
-name: Optimisze for leads (voter registration)
+name: Optimize for leads (voter registration)
 confidence: high
 published: 2020-09-03
 ---
