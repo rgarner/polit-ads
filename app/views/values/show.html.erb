@@ -32,7 +32,8 @@
   <% end %>
 </p>
 
-<%= timeline_range_links %>
+<%= render 'shared/timeline_dimension_toolbar' %>
+
 <% if @values.any? %>
   <%= timeline @values %>
 <% else %>

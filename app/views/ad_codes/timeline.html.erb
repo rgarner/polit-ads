@@ -7,15 +7,7 @@
 
 <h2>Values between <%= @start %> and <%= @finish %> </h2>
 
-<div class="btn-toolbar" role="toolbar" aria-label="Timeline options">
-  <div class="btn-group mr-4">
-    <%= timeline_range_links %>
-  </div>
-
-  <div class="btn-group">
-    <%= render 'timeline_density_dropdown' %>
-  </div>
-</div>
+<%= render 'shared/timeline_dimension_toolbar', show_density: true %>
 
 <%= timeline(@values, @options) %>
 

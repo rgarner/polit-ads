@@ -8,7 +8,7 @@ class ValuesController < ApplicationController
       'campaigns.slug' => params[:campaign_id], 'ad_codes.index' => params[:ad_code_id], value: params[:id]
     )
 
-    @values = AdCodeDailySummary.between(@value.index, @value.value, start, finish)
+    @values = AdCodeDailySummary.between(@value.index, @value.value, start, finish, dimension: dimension)
 
     set_breadcrumbs!
   end
@@ -22,6 +22,10 @@ class ValuesController < ApplicationController
   end
 
   private
+
+  def dimension
+    params[:dimension].presence || 'count'
+  end
 
   def set_breadcrumbs!
     breadcrumb @value.campaign.name, :current
