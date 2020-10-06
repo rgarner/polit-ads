@@ -181,7 +181,8 @@ RSpec.describe Decoding do
   context 'link is a Biden volunteer ad' do
     let(:advert) do
       create :advert,
-             :biden, external_url: link, host: create(:host, :go_joe_biden, campaign: biden)
+             :biden, external_url: link, host: create(:host, :go_joe_biden, campaign: biden),
+                     illuminate_tags: { 'is_civil': true, 'is_message_type_advocacy' => true }
     end
 
     let(:link) do

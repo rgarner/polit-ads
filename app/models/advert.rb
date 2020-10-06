@@ -78,7 +78,7 @@ class Advert < ActiveRecord::Base
   end
 
   def civil?
-    illuminate_tags && illuminate_tags['is_civil']
+    illuminate_tags.fetch('is_civil')
   end
 
   def uncivil?

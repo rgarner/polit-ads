@@ -5,7 +5,7 @@ class Decoding::Biden < Decoding
   def wants_key
     @wants_key = super
 
-    if @wants_key == 'data' && ad_goal == 'vol'
+    if %w[data to_persuade_you].include?(@wants_key) && ad_goal == 'vol'
       'you_to_volunteer'
     else
       @wants_key
