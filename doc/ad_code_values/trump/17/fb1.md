@@ -1,7 +1,7 @@
 ---
 value: fb1
 name: Get monthly donor
-confidence: high
+confidence: medium
 published: 2020-09-01
 ---
 
