@@ -1,6 +1,6 @@
 ---
 value: ocpmrego
-name: Optimize for voter registrations
+name: Optimize for leads (voter registrations)
 confidence: high
 published: 2020-08-25
 ---
