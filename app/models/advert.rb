@@ -84,4 +84,10 @@ class Advert < ActiveRecord::Base
   def uncivil?
     !civil?
   end
+
+  def persuasive?
+    illuminate_tags && (
+      illuminate_tags['is_message_type_advocacy'] || illuminate_tags['is_message_type_attack']
+    )
+  end
 end

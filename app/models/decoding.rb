@@ -40,7 +40,10 @@ class Decoding
   end
 
   def wants_key
-    @wants_key ||= HOST_PURPOSE_TO_WANTS_KEY[host.purpose]
+    @wants_key ||= begin
+                     wants = HOST_PURPOSE_TO_WANTS_KEY[host.purpose]
+                     wants == 'data' && advert.persuasive? ? 'to_persuade_you' : wants
+                   end
   end
 
   def wants

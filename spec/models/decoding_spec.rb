@@ -234,4 +234,21 @@ RSpec.describe Decoding do
       expect(decoding.thinks).to include('you are not yet an active supporter')
     end
   end
+
+  context 'link is a Biden persuasion ad' do
+    let(:advert) do
+      create :advert,
+             :biden,
+             external_url: link, host: create(:host, :go_joe_biden, campaign: biden),
+             illuminate_tags: { 'is_message_type_advocacy': true }
+    end
+
+    let(:link) do
+      'https://go.joebiden.com/page/sp/bfp-story-collection?source=om_fb_2008storycollection_6bgst&subsource=om'
+    end
+
+    it 'wants to persuade you' do
+      expect(decoding.wants).to eql('to persuade you')
+    end
+  end
 end
