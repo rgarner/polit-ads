@@ -1,0 +1,10 @@
+<span class="dropdown show">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button"
+     id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <%= dimension_label %>
+  </a>
+  <span class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <%= link_to 'Count', request.query_parameters.merge(dimension: 'count'), class: 'nav-link' %>
+    <%= link_to 'Spend', request.query_parameters.merge(dimension: 'approximate_spend'), class: 'nav-link' %>
+  </span>
+</span>
