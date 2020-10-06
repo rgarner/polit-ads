@@ -28,6 +28,7 @@ namespace :ads do
     populate:campaign_daily_summaries
     populate:host_daily_summaries
     populate:value_daily_summaries
+    populate:wants_key
   ]
 
   namespace :watch do
