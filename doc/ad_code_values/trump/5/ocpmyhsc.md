@@ -1,6 +1,6 @@
 ---
 value: ocpmyhsc
-name: Optimize for voting leads
+name: Optimize for leads (voter registration)
 confidence: medium
 published: 2020-08-31
 ---
