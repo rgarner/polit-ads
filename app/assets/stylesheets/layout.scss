@@ -8,7 +8,7 @@ nav.navbar {
   
   .nav-link.donate-link {
     background-color: $wtm-red;
-    color: black;
+    color: white;
   }
 
   .nav-link.btn.btn-primary {
@@ -28,6 +28,10 @@ nav.navbar {
       width: 100%;
     }
   }
+}
+
+.bold {
+  font-weight: bold;
 }
 
 @media (max-width: 1024px){
