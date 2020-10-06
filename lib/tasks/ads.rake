@@ -133,28 +133,4 @@ namespace :ads do
       end
     end
   end
-
-  namespace :utm_campaign do
-    desc 'Show me Biden stuffs'
-    task biden: :environment do
-      require 'addressable'
-
-      host_lengths = Hash.new(0)
-      ads = Advert.biden.populated
-      puts ads.count
-      ads.each do |ad|
-        url = Addressable::URI.parse(ad.external_url)
-        next unless url.query_values && url.query_values['source']
-
-        values = url.query_values['source'].split(/[_|]/)
-
-        key = "#{url.host}:#{values.length}"
-        puts key
-        host_lengths[key] = host_lengths[key] + 1
-        # puts "#{ad.ad_creation_time}: #{url.host}(#{values.length}) – #{values} "
-      end
-
-      pp host_lengths
-    end
-  end
 end
