@@ -74,6 +74,8 @@ class Decoding::Trump < Decoding
   end
 
   def ad_goal
+    return nil unless advert.utm_values
+
     advert.utm_values[INDEX_AD_GOAL]
   end
 end

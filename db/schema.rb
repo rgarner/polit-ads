@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_30_150625) do
+ActiveRecord::Schema.define(version: 2020_10_01_091438) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 2020_09_30_150625) do
     t.integer "spend_lower_bound"
     t.integer "spend_upper_bound"
     t.jsonb "illuminate_tags"
+    t.string "wants_key"
     t.index ["external_url"], name: "index_adverts_on_external_url", using: :hash
     t.index ["funding_entity_id"], name: "index_adverts_on_funding_entity_id"
     t.index ["host_id"], name: "index_adverts_on_host_id"

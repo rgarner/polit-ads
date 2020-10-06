@@ -6,7 +6,8 @@ RSpec.describe '/adverts/decode-a-link' do
     host = create :host, :data, campaign: campaign
     @advert = create :advert, :trump, host: host, external_url:
       'https://action.donaldjtrump.com/trump-vs-biden-poll-v3/?utm_medium=ad&utm_source=dp_fb&utm_campaign='\
-      '20200818_nd_bvtsurveyupdate_djt_tmagac_ocpmypur_bh_audience0704_creative05087_copy01705_us_b_18-65_nfig_all_na_lp0263_fb3_sa_static_1_1_na&utm_content=sur'
+      '20200818_nd_bvtsurveyupdate_djt_tmagac_ocpmypur_bh_audience0704_creative05087_copy01705_us_b_18-65_nfig_all_na_lp0263_fb3_sa_static_1_1_na&utm_content=sur',
+      illuminate_tags: { 'is_message_type_attack' => true, 'is_civil' => false }
   end
 
   scenario 'no advert exists' do
@@ -33,7 +34,7 @@ RSpec.describe '/adverts/decode-a-link' do
     click_button 'Go'
 
     # Then I should see an indicator of what the campaign wants from me
-    expect(page).to have_content('The Trump campaign wants your personal data')
+    expect(page).to have_content('The Trump campaign wants to persuade you')
 
     # And I should see what the campaign thinks it knows about me
     expect(page).to have_content('They think:')

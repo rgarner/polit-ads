@@ -111,29 +111,26 @@ namespace :ads do
       AdCodeDescriptionsLoader.new('doc/ad_codes').create_or_update
       AdCodeValueDescriptionsLoader.new('doc/ad_code_values').create_or_update
     end
-  end
 
-  namespace :utm_campaign do
-    desc 'Show me Biden stuffs'
-    task biden: :environment do
-      require 'addressable'
+    desc 'populate wants_key; UPDATE SET wants_key = ? first to recalculate selectively'
+    task wants_key: :environment do
+      ads = Advert.where('wants_key IS NULL AND hosts.purpose IS NOT NULL')
+                  .joins(:host)
+                  .order(ad_creation_time: :desc)
+      puts "Filling wants_key for #{ads.count} ads"
 
-      host_lengths = Hash.new(0)
-      ads = Advert.biden.populated
-      puts ads.count
-      ads.each do |ad|
-        url = Addressable::URI.parse(ad.external_url)
-        next unless url.query_values && url.query_values['source']
+      ads.find_each do |ad|
+        if ad.host.nil?
+          warn "#{ad.id} has no host"
+          next
+        end
 
-        values = url.query_values['source'].split(/[_|]/)
-
-        key = "#{url.host}:#{values.length}"
-        puts key
-        host_lengths[key] = host_lengths[key] + 1
-        # puts "#{ad.ad_creation_time}: #{url.host}(#{values.length}) – #{values} "
+        decoding = Decoding.create(ad)
+        ad.update_attribute(:wants_key, decoding.wants_key)
+      rescue StandardError
+        warn "#{ad.id} #{ad.host.hostname}"
+        raise
       end
-
-      pp host_lengths
     end
   end
 end

@@ -4,8 +4,8 @@
     <th width="30%">Host name</th>
     <th width="7.5%">Purpose</th>
     <th width="12.5%">Adverts</th>
-    <th width="20%">First ad</th>
-    <th width="20%">Last ad</th>
+    <th class="d-none d-sm-table-cell" width="20%">First ad</th>
+    <th class="d-none d-sm-table-cell" width="20%">Last ad</th>
   </tr>
   </thead>
 
@@ -14,9 +14,9 @@
     <tr>
       <td><%= host.hostname %></td>
       <td><%= host.purpose %></td>
-      <td><%= link_to "#{host.ad_count} adverts", host_adverts_path(host) %></td>
-      <td><%= host.ad_first %></td>
-      <td><%= host.ad_last %></td>
+      <td><%= link_to "#{host.ad_count} adverts", host_adverts_path(host.id) %></td>
+      <td class="d-none d-sm-table-cell"><%= host.ad_first %></td>
+      <td class="d-none d-sm-table-cell"><%= host.ad_last %></td>
     </tr>
   <% end %>
   </tbody>

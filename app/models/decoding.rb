@@ -5,9 +5,25 @@
 class Decoding
   attr_reader :advert
 
-  def self.create(advert_id)
-    advert = Advert.find(advert_id)
-    klass = const_get("Decoding::#{advert.host.campaign.slug.capitalize}")
+  HOST_PURPOSE_TO_WANTS_KEY = {
+    'funding' => 'money',
+    'data' => 'data',
+    'shop' => 'you_to_buy',
+    'vote' => 'you_to_vote',
+    'attack' => 'you_to_be_deterred',
+    'event' => 'you_to_attend',
+    'app' => 'you_to_install_an_app'
+  }.freeze
+
+  def self.create(ad_or_id)
+    advert = ad_or_id.is_a?(Advert) ? ad_or_id : Advert.find_by!(post_id: ad_or_id)
+    klass = if advert.host.campaign.present?
+              const_get("Decoding::#{advert.host.campaign.slug.capitalize}")
+            elsif advert.host.present?
+              Decoding
+            else
+              raise 'Advert does not have a host. Decoding.create is only for ads with hosts.'
+            end
     klass.new(advert)
   end
 
@@ -24,14 +40,10 @@ class Decoding
   end
 
   def wants_key
-    @wants_key ||= {
-      'funding' => 'money',
-      'data' => 'data',
-      'shop' => 'you_to_buy',
-      'vote' => 'you_to_vote',
-      'attack' => 'you_to_be_deterred',
-      'event' => 'you_to_attend'
-    }[host.purpose]
+    @wants_key ||= begin
+                     wants = HOST_PURPOSE_TO_WANTS_KEY[host.purpose]
+                     wants == 'data' && advert.persuasive? ? 'to_persuade_you' : wants
+                   end
   end
 
   def wants

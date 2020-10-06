@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Decoding do
-  subject(:decoding) { Decoding.create(advert.id) }
+  subject(:decoding) { Decoding.create(advert.fb_ad_id) }
 
   let(:trump)        { create :campaign, :trump }
   let(:biden)        { create :campaign, :biden }
@@ -12,6 +12,7 @@ RSpec.describe Decoding do
   let(:event_host)   { create :host, :event, campaign: trump }
   let(:vote_host)    { create :host, :vote, campaign: trump }
   let(:attack_host)  { create :host, :attack, campaign: biden }
+  let(:app_host)     { create :host, :app, campaign: biden }
 
   context 'link is for a Trump ad that thinks you are a monthly donor in a battleground state' do
     let(:advert) do
@@ -108,6 +109,15 @@ RSpec.describe Decoding do
     end
   end
 
+  context 'link is for a Trump app' do
+    let(:advert) { create :advert, :trump, external_url: link, host: app_host }
+    let(:link) { 'http://play.google.com/store/apps/details?id=com.ucampaignapp.americafirst' }
+
+    it 'wants you to install' do
+      expect(decoding.wants).to eql('you to install their app')
+    end
+  end
+
   context 'link is an attack host' do
     let(:advert) do
       create :advert, :trump,
@@ -171,7 +181,8 @@ RSpec.describe Decoding do
   context 'link is a Biden volunteer ad' do
     let(:advert) do
       create :advert,
-             :biden, external_url: link, host: create(:host, :go_joe_biden, campaign: biden)
+             :biden, external_url: link, host: create(:host, :go_joe_biden, campaign: biden),
+                     illuminate_tags: { 'is_civil': true, 'is_message_type_advocacy' => true }
     end
 
     let(:link) do
@@ -222,6 +233,23 @@ RSpec.describe Decoding do
 
     it 'thinks you are not currently a supporter' do
       expect(decoding.thinks).to include('you are not yet an active supporter')
+    end
+  end
+
+  context 'link is a Biden persuasion ad' do
+    let(:advert) do
+      create :advert,
+             :biden,
+             external_url: link, host: create(:host, :go_joe_biden, campaign: biden),
+             illuminate_tags: { 'is_message_type_advocacy': true }
+    end
+
+    let(:link) do
+      'https://go.joebiden.com/page/sp/bfp-story-collection?source=om_fb_2008storycollection_6bgst&subsource=om'
+    end
+
+    it 'wants to persuade you' do
+      expect(decoding.wants).to eql('to persuade you')
     end
   end
 end

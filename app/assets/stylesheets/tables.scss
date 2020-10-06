@@ -1,14 +1,22 @@
 @import 'bootstrap';
 
-.url {
-  overflow: auto;
-  max-width: 100px;
-  text-overflow: ellipsis;
+table {
+  td.url {
+    overflow: auto;
+    max-width: 100px;
+    text-overflow: ellipsis;
+    padding: 0.75em 0;
+
+    .btn {
+      min-width: 6em;
+    }
+  }
 }
 
 thead th {
   top: 0;
   position: sticky;
+  z-index: 1;
 }
 
 .against {

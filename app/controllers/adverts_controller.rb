@@ -12,13 +12,12 @@ class AdvertsController < ApplicationController
     @campaign = @adverts.first.funded_by.campaign
     @hosts = apply_scopes(Advert).with_hosts
 
-
     add_breadcrumbs_for_campaign_ad_codes!
     add_breadcrumbs_for_scopes!
   end
 
   def show
-    @advert = Advert.find(params[:id])
+    @advert = Advert.find_by!(post_id: params[:id])
     @campaign = @advert.funded_by.campaign
     @ad_codes = AdCode.where(campaign: @campaign).group_by(&:index)
 

@@ -70,17 +70,24 @@ class Advert < ActiveRecord::Base
   end
 
   def fb_ad_id
-    @fb_ad_id ||= begin
-                    matches = ad_snapshot_url.match(/\?id=(?<id>[0-9]*)/)
-                    matches[:id]
-                  end
+    post_id
+  end
+
+  def to_param
+    fb_ad_id
   end
 
   def civil?
-    illuminate_tags && illuminate_tags['is_civil']
+    illuminate_tags.fetch('is_civil')
   end
 
   def uncivil?
     !civil?
+  end
+
+  def persuasive?
+    illuminate_tags && (
+      illuminate_tags['is_message_type_advocacy'] || illuminate_tags['is_message_type_attack']
+    )
   end
 end
