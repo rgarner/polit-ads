@@ -32,6 +32,9 @@
 en:
   site:
     title: '2020 Presidential Campaign Advertising'
+    links:
+      wtm_donate: "https://whotargets.me/donate-to-who-targets-me/"
+      wtm_download_extension: "https://whotargets.me/en/install/installing-the-browser-extension/"
   thinks:
     you_are_this_old: "you are %{age} years old"
     you_live_here: "you live in %{location}"

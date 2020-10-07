@@ -15,11 +15,15 @@ module ApplicationHelper
 
   ##
   # A bootstrap nav item with auto active class
-  def nav_item(text, path, options = {})
+  def nav_item(text, path, options = {}, &block)
     tag.li class: 'nav-item' do
       options[:class] ||= ''
       options[:class] = options[:class] + " nav-link #{'active' if request.path == path}"
-      link_to text, path, options
+      if block
+        link_to path, options, &block
+      else
+        link_to text, path, options
+      end
     end
   end
 

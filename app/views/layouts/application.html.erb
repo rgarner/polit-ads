@@ -26,20 +26,27 @@
       <%= link_to campaigns_path, class: 'navbar-brand' do %>
         <%= image_tag asset_path('wtm_logo_2020.png'), size: '50x50' %>
       <% end %>
-      <ul class="navbar-nav mr-auto">
-        <%= nav_item 'Biden Ad Codes', campaign_ad_codes_path('biden') %>
-        <%= nav_item 'Trump Ad Codes', campaign_ad_codes_path('trump') %>
-        <%= nav_item 'Campaign hosts', hosts_path %>
-      </ul>
-      <ul class="navbar-nav my-2">
-        <%= nav_item 'Decode a link', adverts_decode_a_link_path, class: 'ml-auto btn btn-primary' %>
-      </ul>
-      <span class="navbar-text ml-auto">
-        <%= link_to 'Download Extension',
-          'https://whotargets.me/en/install/installing-the-browser-extension/',
-          class: 'btn nav-link download-extension'
-        %>
-      </span>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <%= nav_item 'Biden Ad Codes', campaign_ad_codes_path('biden') do %>
+            Biden <span class="d-md-none d-lg-inline">Ad Codes</span>
+          <% end  %>
+          <%= nav_item 'Trump Ad Codes', campaign_ad_codes_path('trump') do %>
+            Trump <span class="d-md-none d-lg-inline">Ad Codes</span>
+          <% end %>
+          <%= nav_item 'Campaign Hosts', hosts_path do %>
+            <span class="d-md-none d-lg-inline">Campaign </span>Hosts
+          <% end %>
+        </ul>
+        <ul class="navbar-nav external-cta">
+          <%= nav_item 'Decode an ad', adverts_decode_a_link_path, class: 'ml-auto btn btn-outline-primary mr-md-3' %>
+          <%= nav_item 'Donate', t('site.links.wtm_donate'), class: 'btn wtm-donate' %>
+          <%= nav_item 'Download Extension', t('site.links.wtm_download_extension'), class: 'btn download-extension' %>
+        </ul>
+      </div>
     </nav>
     <%= yield %></div>
   </body>
