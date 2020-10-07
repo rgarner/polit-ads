@@ -1,7 +1,7 @@
 ---
 value: acq
-name: Acquire supporter data
-confidence: medium
+name: Supporter acquisition
+confidence: high
 published: 2020-09-01
 ---
 
@@ -10,6 +10,4 @@ published: 2020-09-01
 A large proportion of adverts using this ad code value refer to "hot button"
 long-lived [ad campaigns](/campaigns/trump/ad_codes/2) such as `buildthewall`, `antifapetition` or `demcorruption`.
 
-Viewing this value [against Donor Action](/campaigns/trump/ad_codes/17/against/1) shows
-us that this value is never used for donors, only
-[non-action (`na`)](/campaigns/trump/ad_codes/1/values/na).
+This value is never used in combination with any donor segment, only 'non-action takers'.

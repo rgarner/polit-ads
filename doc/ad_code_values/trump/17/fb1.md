@@ -1,7 +1,7 @@
 ---
 value: fb1
-name: Monthly donor ad goal
-confidence: high
+name: Get monthly donor
+confidence: medium
 published: 2020-09-01
 ---
 

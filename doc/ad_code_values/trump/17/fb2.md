@@ -1,6 +1,6 @@
 ---
 value: fb2
-name: Repeat donor ad goal
+name: Get a regular or repeat donor
 confidence: high
 published: 2020-09-01
 ---

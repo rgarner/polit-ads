@@ -1,6 +1,6 @@
 ---
 value: per
-name: Persuasion
+name: Persuade
 confidence: high
 published: 2020-09-01
 ---
