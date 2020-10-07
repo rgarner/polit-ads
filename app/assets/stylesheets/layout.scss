@@ -1,4 +1,5 @@
 @import 'colors';
+@import 'bootstrap';
 
 nav.navbar {
   .nav-link.download-extension {
@@ -9,13 +10,47 @@ nav.navbar {
   .nav-link.btn.btn-primary {
     color: white;
   }
+
+  .nav-link.btn.wtm-donate {
+    background-color: $wtm-red;
+    color: white;
+  }
+
+  @include media-breakpoint-up(sm) {
+    // Twin the CTA buttons by removing their borders when not collapsed (>= sm)
+    .navbar-nav.external-cta {
+      .decode-an-ad {
+        &:hover {
+          background-color: #007bff;
+          color: white;
+        }
+        &.active {
+          color: white;
+          background-color: #0062cc;
+        }
+      }
+
+      .wtm-donate {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      .download-extension {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+  }
 }
 
 .container-fluid.previews {
-  margin: 0; padding: 0;
+  margin: 0;
+  padding: 0;
 
   .col {
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
+
     iframe {
       border: 0;
       margin-left: auto;
@@ -25,7 +60,7 @@ nav.navbar {
   }
 }
 
-@media (max-width: 1024px){
+@media (max-width: 1024px) {
   body .container {
     max-width: 100%;
   }
