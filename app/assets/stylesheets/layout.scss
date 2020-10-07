@@ -19,6 +19,17 @@ nav.navbar {
   @include media-breakpoint-up(sm) {
     // Twin the CTA buttons by removing their borders when not collapsed (>= sm)
     .navbar-nav.external-cta {
+      .decode-an-ad {
+        &:hover {
+          background-color: #007bff;
+          color: white;
+        }
+        &.active {
+          color: white;
+          background-color: #0062cc;
+        }
+      }
+
       .wtm-donate {
         border-top-right-radius: 0;
         border-bottom-right-radius: 0;
