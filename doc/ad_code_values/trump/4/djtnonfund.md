@@ -1,6 +1,6 @@
 ---
 value: djtnonfund
-name: Trump campaign non-fundraising ads
+name: Donald J. Trump for President non-fundraising ads
 confidence: high
 published: 2020-09-04
 ---
