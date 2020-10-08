@@ -1,6 +1,6 @@
 ---
 value: tmagacmerch
-name: Merch sales for TMAGAC
+name: Trump Make America Great Again Committee merchandise sales
 confidence: high
 published: 2020-09-04
 ---
