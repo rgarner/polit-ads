@@ -1,6 +1,6 @@
 ---
 value: sa
-name: Supporter acquisition
+name: 'Soft' acquisition
 confidence: medium
 published: 2020-09-03
 ---
