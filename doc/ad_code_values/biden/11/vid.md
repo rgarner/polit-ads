@@ -8,3 +8,5 @@ published: 2020-09-21
 ## Why do we think that?
 
 All of the ads feature video.
+
+This is a test edit.
