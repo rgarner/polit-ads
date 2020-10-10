@@ -28,11 +28,11 @@
   <div class="col-sm-8">
     <div class="card">
       <div class="card-header">
-        <%= link_to advert.external_text, advert.external_url %>
+        <%= link_to linefeed_to_br(advert.external_text), advert.external_url %>
       </div>
 
       <div class="card-body">
-        <blockquote><%= advert.ad_creative_body %></blockquote>
+        <blockquote><%= linefeed_to_br(advert.ad_creative_body) %></blockquote>
 
         <dl class="text-muted dl-1">
           <dt>Ad delivery start</dt>
@@ -43,9 +43,15 @@
           <% end %>
         </dl>
 
-        <p class="text-right">
-          <%= link_to 'See this in the Facebook ad library', advert.ad_library_url, class: 'btn btn-secondary' %>
-        </p>
+        <div class="d-flex justify-content-end">
+          <label class="h6 align-self-center mt-2 mr-3">View</label>
+          <div class="btn-group" role="group" aria-label="View">
+            <%= link_to 'with ad codes', advert_path(advert), class: 'btn btn-outline-primary' %>
+            <%= link_to advert.ad_library_url, class: 'btn btn-outline-secondary' do %>
+              in <span class="d-none d-lg-inline">the Facebook</span> ad library
+            <% end %>
+          </div>
+        </div>
       </div>
     </div>
   </div>
