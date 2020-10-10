@@ -53,4 +53,10 @@ module ApplicationHelper
   def full_date(date)
     date.in_time_zone('EST').strftime('%d %B %Y, %H:%M:%S EST')
   end
+
+  def linefeed_to_br(text)
+    return nil if text.nil?
+
+    text.gsub(/\n/, '<br>').html_safe
+  end
 end
