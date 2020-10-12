@@ -1,6 +1,6 @@
 class ValuesController < ApplicationController
   def show
-    @value = AdCodeValueSummary.joins(:campaign).find_by(
+    @value = AdCodeValueSummary.joins(:campaign).find_by!(
       'campaigns.slug' => params[:campaign_id], index: params[:ad_code_id], value: params[:id]
     )
     @campaign = @value.campaign

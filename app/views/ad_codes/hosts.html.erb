@@ -20,7 +20,7 @@
       <th>
         <%=
           link_to col_value,
-            adverts_path("with_utm_values[#{@index}]" => col_value) if col_value
+                  campaign_ad_code_value_path(@campaign, @ad_code.index, col_value) if col_value
         %>
       </th>
     <% end %>
