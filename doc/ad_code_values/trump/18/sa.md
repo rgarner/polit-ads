@@ -1,6 +1,6 @@
 ---
 value: sa
-name: 'Soft' ask
+name: ‘Soft’ ask
 confidence: medium
 published: 2020-09-03
 ---
