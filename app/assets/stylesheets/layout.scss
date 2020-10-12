@@ -65,3 +65,24 @@ nav.navbar {
     max-width: 100%;
   }
 }
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+$footer-height: 70px;
+$main-margin-to-footer: 30px;
+
+main {
+  min-height: 100%;
+  margin-bottom: $footer-height + $main-margin-to-footer;
+}
+
+.footer {
+  background-color: #e9ecef;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  font-size: 0.8rem;
+  height: $footer-height;
+}

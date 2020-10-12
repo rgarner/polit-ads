@@ -23,7 +23,7 @@
 
   <body>
 
-  <div class="container">
+  <main class="container">
     <nav class="navbar navbar-expand-md navbar-light mb-3">
       <%= link_to campaigns_path, class: 'navbar-brand' do %>
         <%= image_tag asset_path('wtm_logo_2020.png'), size: '50x50' %>
@@ -50,6 +50,16 @@
         </ul>
       </div>
     </nav>
-    <%= yield %></div>
+    <%= yield %>
+  </main>
+
+  <footer class="footer mt-5 p-3 text-center">
+    <div class="container">
+      Conceptualized and created by <a href="https://whotargets.me" target="_blank">Who Targets Me</a>
+      and <a href="https://twitter.com/rgarner">Russell Garner</a>, using data from the Facebook Ad Library<br />
+      and the <a href="https://illuminating.ischool.syr.edu/" target="_blank">Illuminating Project at Syracuse University</a>.
+      Questions and suggestions to contact (at) whotargets dot me
+    </div>
+  </footer>
   </body>
 </html>
