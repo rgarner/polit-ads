@@ -1,7 +1,7 @@
 ---
 value: ha
-name: 'hard ask'
-confidence: low
+name: ‘Hard’ ask
+confidence: medium
 published: 2020-09-01
 ---
 
