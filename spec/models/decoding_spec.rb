@@ -253,6 +253,23 @@ RSpec.describe Decoding do
     end
   end
 
+  context 'link is a Biden news ad' do
+    let(:advert) do
+      create :advert,
+             :biden,
+             external_url: link, host: create(:host, hostname: 'www.fox6now.com', purpose: 'news', campaign: biden),
+             illuminate_tags: {}
+    end
+
+    let(:link) do
+      'https://www.fox6now.com/news/joe-biden-campaigns-in-manitowoc-promises-to-buy-american'
+    end
+
+    it 'wants to persuade you' do
+      expect(decoding.wants).to eql('to persuade you')
+    end
+  end
+
   context 'link has empty age' do
     let(:advert) do
       # We can't let the factory do it for us as it's only simulating production,
