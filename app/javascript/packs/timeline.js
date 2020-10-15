@@ -76,11 +76,14 @@ class Timeline {
       .attr("class", "a8-code-value")
       .attr('transform', (d, i) => `translate(0, ${i * this.rowHeight + this.standoffAxis} )` )
       .on("mouseenter", this.onMouseEnter.bind(this))
-      .on("mouseleave", this.onMouseLeave.bind(this))
+      .on("mouseleave", this.dismissTooltip.bind(this))
 
     this.drawExtentLines(groups, x)
 
     groups
+      .append("a")
+      .attr("href", (d) => this.pathToAdCodeValue(d))
+      .on("click", this.dismissTooltip.bind(this))
       .append("rect")
       .attr('class', 'highlight')
       .attr('x', 0)
@@ -115,6 +118,13 @@ class Timeline {
 
     groups.append('svg:title').text((d) => d.name)
     this.groups = groups
+  }
+
+  pathToAdCodeValue(d) {
+    const searchParams = new URLSearchParams(window.location.search);
+    const queryString = searchParams.toString()
+
+    return `/campaigns/${d.campaign_slug}/ad_codes/${d.index}/values/${d.name}?${queryString}`;
   }
 
   drawExtentLines(groups, x, endHeight= 16) {
@@ -187,7 +197,10 @@ class Timeline {
       ))
     `);
     this.tooltip.select("#value")
-      .text(d.name);
+      .text(d.name)
+      .attr('class', () => d.name === '<empty>' ? 'badge badge-secondary' : 'badge badge-primary');
+    this.tooltip.select("#value_name")
+      .text(d.value_name);
     this.tooltip.select("#count")
       .text(`First seen ${this.formatDate(dateExtents[0])}, last seen ${this.formatDate(dateExtents[1])}`);
     this.tooltip.style("opacity", 1);
@@ -195,7 +208,7 @@ class Timeline {
       .classed('active', true)
   }
 
-  onMouseLeave(d, i) {
+  dismissTooltip(d, i) {
     this.tooltip.style("opacity", 0);
     this.groups.filter((d,j) => i === j)
       .classed('active', false)
@@ -209,7 +222,8 @@ class Timeline {
       .attr("class", "tooltip")
       .html(`
         <div class="tooltip-name">
-          <span id="value"></span>
+          <span id="value" class="badge badge-primary"></span>
+          <span id="value_name"></span>
         </div>
         <div class="tooltip-value">
           <span id="count"></span>
