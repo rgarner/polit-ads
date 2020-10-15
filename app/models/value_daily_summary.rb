@@ -16,12 +16,13 @@ class ValueDailySummary < ApplicationRecord
       BETWEEN_SQL, 'sql', [[nil, start], [nil, finish], [nil, index], [nil, campaign.id]]
     )
 
-    group_for_chartkick(result, dimension: dimension, include: %w[value_name])
+    group_for_chartkick(result, dimension: dimension, include: %w[value_name campaign_slug index])
   end
 
   BETWEEN_SQL =
     <<~SQL.freeze
-      SELECT value, value_name, start, count, COALESCE(approximate_spend, 0)::bigint AS approximate_spend
+      SELECT value, value_name, campaign_slug,
+             index, start, count, COALESCE(approximate_spend, 0)::bigint AS approximate_spend
       FROM value_daily_summaries
       WHERE start BETWEEN $1 AND $2
         AND index = $3 AND campaign_id = $4

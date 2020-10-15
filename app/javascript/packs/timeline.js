@@ -76,11 +76,14 @@ class Timeline {
       .attr("class", "a8-code-value")
       .attr('transform', (d, i) => `translate(0, ${i * this.rowHeight + this.standoffAxis} )` )
       .on("mouseenter", this.onMouseEnter.bind(this))
-      .on("mouseleave", this.onMouseLeave.bind(this))
+      .on("mouseleave", this.dismissTooltip.bind(this))
 
     this.drawExtentLines(groups, x)
 
     groups
+      .append("a")
+      .attr("href", (d) => this.pathToAdCodeValue(d))
+      .on("click", this.dismissTooltip.bind(this))
       .append("rect")
       .attr('class', 'highlight')
       .attr('x', 0)
@@ -115,6 +118,13 @@ class Timeline {
 
     groups.append('svg:title').text((d) => d.name)
     this.groups = groups
+  }
+
+  pathToAdCodeValue(d) {
+    const searchParams = new URLSearchParams(window.location.search);
+    const queryString = searchParams.toString()
+
+    return `/campaigns/${d.campaign_slug}/ad_codes/${d.index}/values/${d.name}?${queryString}`;
   }
 
   drawExtentLines(groups, x, endHeight= 16) {
@@ -198,7 +208,7 @@ class Timeline {
       .classed('active', true)
   }
 
-  onMouseLeave(d, i) {
+  dismissTooltip(d, i) {
     this.tooltip.style("opacity", 0);
     this.groups.filter((d,j) => i === j)
       .classed('active', false)
