@@ -187,7 +187,8 @@ class Timeline {
       ))
     `);
     this.tooltip.select("#value")
-      .text(d.name);
+      .text(d.name)
+      .attr('class', () => d.name === '<empty>' ? 'badge badge-secondary' : 'badge badge-primary');
     this.tooltip.select("#value_name")
       .text(d.value_name);
     this.tooltip.select("#count")
