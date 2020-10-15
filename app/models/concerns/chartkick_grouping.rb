@@ -9,13 +9,23 @@ module ChartkickGrouping
     # ]
     # to
     # { name: 'cm', data: [['2020-08-03', 122], ['2020-08-04', 1420]] }
-    def group_for_chartkick(result, by: 'value', dimension: 'count')
+    #
+    # +dimension+: defaults to Count, approximate_spend also often available
+    # +include+: extra keys from the result row you want at series level
+    def group_for_chartkick(result, by: 'value', dimension: 'count', include: [])
       result.group_by { |row| row[by] }
             .each_with_object([]) do |(series, values), list|
-        list << {
+        item =  {
           name: series,
           data: values.map { |value| [value['start'], value[dimension]] }
         }
+
+        Array(include).each do |label_key|
+          value_name = values.first[label_key.to_s]
+          item[label_key.to_sym] = value_name if value_name
+        end
+
+        list << item
       end
     end
   end

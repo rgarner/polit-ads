@@ -188,6 +188,8 @@ class Timeline {
     `);
     this.tooltip.select("#value")
       .text(d.name);
+    this.tooltip.select("#value_name")
+      .text(d.value_name);
     this.tooltip.select("#count")
       .text(`First seen ${this.formatDate(dateExtents[0])}, last seen ${this.formatDate(dateExtents[1])}`);
     this.tooltip.style("opacity", 1);
@@ -209,7 +211,8 @@ class Timeline {
       .attr("class", "tooltip")
       .html(`
         <div class="tooltip-name">
-          <span id="value"></span>
+          <span id="value" class="badge badge-primary"></span>
+          <span id="value_name"></span>
         </div>
         <div class="tooltip-value">
           <span id="count"></span>
