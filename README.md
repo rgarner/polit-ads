@@ -68,3 +68,13 @@ All of the ads shown to this audience appear to reference topics of concern to w
 
 Please feel free to get in touch on Twitter via either [@whotargetsme](https://twitter.com/whotargetsme) or
 [@rgarner](https://twitter.com/rgarner) for any extra help or advice you might need.
+
+## Credits
+
+– Tags for "decode an ad" persuasion identification – [Illuminating project](https://illuminating.ischool.syr.edu/campaign_2020/), Syracuse
+
+### Contributors to ad code values
+
+With many thanks:
+
+– Aidan T. Hughes, Kings College London
