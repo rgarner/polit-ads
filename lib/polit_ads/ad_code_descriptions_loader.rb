@@ -65,8 +65,9 @@ class AdCodeDescriptionsLoader
     end
   end
 
-  def initialize(dir)
+  def initialize(dir, output = STDOUT)
     @dir = dir
+    @output = output
   end
 
   def markdown_files
@@ -79,7 +80,8 @@ class AdCodeDescriptionsLoader
 
   def create_or_update
     markdown_files.each do |markdown_file|
-      puts markdown_file
+      @output.puts markdown_file
+
       markdown_file.where.first_or_create.tap do |ad_code|
         ad_code.description = markdown_file.content_without_front_matter
         ad_code.short_desc = markdown_file.short_desc
