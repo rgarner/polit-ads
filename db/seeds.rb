@@ -77,6 +77,7 @@ end
   'www.cnn.com' => { campaign: biden, purpose: 'news' },
   'www.forbes.com' => { campaign: biden, purpose: 'news' },
   'request.iwillvote.com' => { campaign: biden, purpose: 'vote' },
+  'www.makeaplan.com' => { campaign: biden, purpose: 'vote' },
   'www.inquirer.com' => { campaign: biden, purpose: 'news' },
   'www.mlive.com' => { campaign: biden, purpose: 'news' },
   'www.reuters.com' => { campaign: biden, purpose: 'news' },
