@@ -2,7 +2,7 @@
 # Take a structured directory and create or update
 # AdCodeValueDescriptions from it
 class AdCodeValueDescriptionsLoader
-  attr_reader :dir
+  attr_reader :dir, :output
 
   ##
   # A file containing markdown and front matter
@@ -61,8 +61,9 @@ class AdCodeValueDescriptionsLoader
     end
   end
 
-  def initialize(dir)
+  def initialize(dir, output = STDOUT)
     @dir = dir
+    @output = output
   end
 
   def markdown_files
@@ -78,7 +79,8 @@ class AdCodeValueDescriptionsLoader
   # AdCodeValueDescriptions
   def create_or_update
     markdown_files.each do |markdown_file|
-      puts markdown_file
+      @output.puts markdown_file
+
       description = markdown_file.where.first_or_create.tap do |value_description|
         value_description.description = markdown_file.content_without_front_matter
         value_description.confidence = markdown_file.confidence
