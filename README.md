@@ -77,4 +77,4 @@ Please feel free to get in touch on Twitter via either [@whotargetsme](https://t
 
 With many thanks:
 
-– Aidan T. Hughes, Kings College London
+– [Aidan T. Hughes](mailto:aidan.t.hughes@kcl.ac.uk), Kings College London
