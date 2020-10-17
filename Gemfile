@@ -12,6 +12,7 @@ gem 'has_scope'
 gem 'kaminari'
 gem 'kramdown'
 gem 'loaf'
+gem 'rollbar'
 gem 'scenic'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
