@@ -188,6 +188,7 @@ GEM
     rerun (0.13.0)
       listen (~> 3.0)
     rexml (3.2.4)
+    rollbar (3.0.1)
     rspec-core (3.9.2)
       rspec-support (~> 3.9.3)
     rspec-expectations (3.9.2)
@@ -277,6 +278,7 @@ DEPENDENCIES
   puma (~> 4.1)
   rails (~> 6.0.3, >= 6.0.3.2)
   rerun
+  rollbar
   rspec-rails
   sass-rails (>= 6)
   scenic
