@@ -8,6 +8,10 @@ class CampaignsController < ApplicationController
     @funding_entity_count = FundingEntity.count
   end
 
+  def show
+    @wants_summary = WantsDailySummary.weekly(params[:id])
+  end
+
   private
 
   def dimension

@@ -1,0 +1,37 @@
+<div class="row graph">
+  <%=
+    column_chart @wants_summary,
+      height: '700px', curve: true, download: true, stacked: true
+      # colors: %w[E5845C 47b047 9e70b0 514B79 darkred]
+  %>
+
+  <style>
+    .test {
+      color: #e5845c;
+    }
+    .money {
+      color: green;
+    }
+    .data {
+      color: orangered;
+    }
+    .you-to-vote {
+      color: midnightblue;
+    }
+    .you-to-volunteer {
+      color: yellowgreen;
+    }
+    .you-to-buy {
+      color: steelblue;
+    }
+    .you-to-attend {
+      color: darkslateblue;
+    }
+    .you-to-be-deterred {
+      color: darkred;
+    }
+    .to-persuade-you {
+      color: darkorchid;
+    }
+  </style>
+</div>

@@ -1,0 +1,2 @@
+User-agent: MJ12bot 1.4.8
+Disallow: /

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_15_074646) do
+ActiveRecord::Schema.define(version: 2020_10_17_150408) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -209,5 +209,19 @@ ActiveRecord::Schema.define(version: 2020_10_15_074646) do
             ORDER BY (count(*)) DESC, days.start) daily_values
        JOIN ad_codes ON (((ad_codes.campaign_id = daily_values.campaign_id) AND (ad_codes.index = daily_values.index))))
        LEFT JOIN ad_code_value_descriptions acvd ON (((ad_codes.id = acvd.ad_code_id) AND ((acvd.value)::text = (daily_values.value)::text))));
+  SQL
+  create_view "wants_daily_summaries", materialized: true, sql_definition: <<-SQL
+      SELECT (days.start)::date AS start,
+      c.slug,
+      adverts.wants_key,
+      count(*) AS count,
+      (sum(round((((adverts.spend_upper_bound + adverts.spend_lower_bound) / 2))::numeric, 2)))::bigint AS approximate_spend
+     FROM (((( SELECT start.start,
+              (start.start + '23:59:59'::interval) AS "end"
+             FROM generate_series('2020-07-01 00:00:00+00'::timestamp with time zone, '2020-12-31 00:00:00+00'::timestamp with time zone, '1 day'::interval) start(start)) days
+       JOIN adverts ON (((adverts.ad_creation_time >= days.start) AND (adverts.ad_creation_time <= days."end"))))
+       JOIN hosts h ON ((adverts.host_id = h.id)))
+       JOIN campaigns c ON ((h.campaign_id = c.id)))
+    GROUP BY c.slug, days.start, adverts.wants_key;
   SQL
 end
