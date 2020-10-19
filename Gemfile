@@ -12,6 +12,7 @@ gem 'has_scope'
 gem 'kaminari'
 gem 'kramdown'
 gem 'loaf'
+gem 'rack-attack'
 gem 'rollbar'
 gem 'scenic'
 
