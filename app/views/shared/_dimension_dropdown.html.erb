@@ -1,3 +1,5 @@
+<% show_percentage ||= false %>
+
 <span class="dropdown show">
   <button class="btn btn-secondary dropdown-toggle" href="#" role="button"
      id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -5,6 +7,9 @@
   </button>
   <span class="dropdown-menu" aria-labelledby="dropdownMenuLink">
     <%= link_to 'Count', request.query_parameters.merge(dimension: 'count'), class: 'nav-link' %>
+    <% if show_percentage %>
+      <%= link_to '% of count', request.query_parameters.merge(dimension: 'percentage'), class: 'nav-link' %>
+    <% end  %>
     <%= link_to 'Spend', request.query_parameters.merge(dimension: 'approximate_spend'), class: 'nav-link' %>
   </span>
 </span>

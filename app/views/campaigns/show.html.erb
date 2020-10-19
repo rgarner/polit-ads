@@ -1,37 +1,31 @@
+<%= render 'shared/breadcrumb' %>
+
+<% content_for :title, "#{@campaign.surname} campaign summary by want" %>
+<h1 class="mt-4 mb-4">
+  <%= image_tag asset_path("face-circle-#{@campaign.slug}-700x700.png"), class: 'face', size: '50x50' %>
+  <%= @campaign.surname %> campaign summary <small class="text-muted">by want</small>
+</h1>
+
+<div class="btn-toolbar mt-4 mb-4 ml-1">
+  <div class="btn-group mr-4" aria-label="Campaign range">
+    <%= campaign_range_links %>
+  </div>
+  <div class="btn-group" aria-label="Show">
+    <button class="btn btn-outline" disabled>Show</button>
+    <%= render 'shared/dimension_dropdown', show_percentage: true %>
+  </div>
+</div>
+
 <div class="row graph">
   <%=
-    column_chart @wants_summary,
-      height: '700px', curve: true, download: true, stacked: true
-      # colors: %w[E5845C 47b047 9e70b0 514B79 darkred]
-  %>
+    options = {
+      height: '700px',
+      download: true,
+      stacked: true,
+    }
 
-  <style>
-    .test {
-      color: #e5845c;
-    }
-    .money {
-      color: green;
-    }
-    .data {
-      color: orangered;
-    }
-    .you-to-vote {
-      color: midnightblue;
-    }
-    .you-to-volunteer {
-      color: yellowgreen;
-    }
-    .you-to-buy {
-      color: steelblue;
-    }
-    .you-to-attend {
-      color: darkslateblue;
-    }
-    .you-to-be-deterred {
-      color: darkred;
-    }
-    .to-persuade-you {
-      color: darkorchid;
-    }
-  </style>
+    options.merge!(min:0, max: 100) if @dimension == 'percentage'
+
+    column_chart @wants_summary, options
+  %>
 </div>
