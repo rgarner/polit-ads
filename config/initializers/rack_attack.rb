@@ -1,4 +1,11 @@
 class Rack::Attack
+  # Block OVH/SAS (Fraud risk) https://scamalytics.com/ip/192.99.15.33
+  # If this was you and you have a legitimate use case, get in touch!
+  # We can hook you up with data quicker than you knocking over our service
+  blocklist_ip('192.99.0.0/16')
+  # Block webNX
+  blocklist_ip('173.231.59.207')
+
   ### Configure Cache ###
 
   # If you don't want to use Rails.cache (Rack::Attack's default), then
