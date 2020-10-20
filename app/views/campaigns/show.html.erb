@@ -1,9 +1,9 @@
 <%= render 'shared/breadcrumb' %>
 
-<% content_for :title, "#{@campaign.surname} campaign summary by want" %>
+<% content_for :title, "#{@campaign.surname} campaign wants" %>
 <h1 class="mt-4 mb-4">
   <%= image_tag asset_path("face-circle-#{@campaign.slug}-700x700.png"), class: 'face', size: '50x50' %>
-  <%= @campaign.surname %> campaign summary <small class="text-muted">by want</small>
+  <%= @campaign.surname %> campaign wants <small class="text-muted">over time</small>
 </h1>
 
 <div class="btn-toolbar mt-4 mb-4 ml-1">

@@ -35,10 +35,12 @@
             <p class="lead">Total ads: <%= number_with_delimiter(campaign.ad_count) %></p>
           </div>
         </div>
-        <%=
-          link_to "Explore #{campaign.slug.titleize}’s ad codes",
-            campaign_ad_codes_path(campaign.slug), class: 'btn btn-primary'
-        %>
+
+        <h3 class="h5">Explore</h3>
+        <div class="d-flex flex-column flex-md-row justify-content-center">
+          <%= link_to "Ad codes", campaign_ad_codes_path(campaign.slug), class: 'btn btn-primary flex-grow-1 mr-md-2 mb-2 mb-md-0' %>
+          <%= link_to "Campaign wants", campaign_path(campaign.slug), class: 'btn btn-outline-secondary' %>
+        </div>
       </div>
     <% end %>
   </div>
