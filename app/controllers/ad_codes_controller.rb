@@ -2,7 +2,7 @@ class AdCodesController < ApplicationController
   before_action :set_campaign
   before_action :set_ad_code, except: :index
 
-  breadcrumb -> { @campaign.name }, :current
+  breadcrumb -> { @campaign.name }, -> { campaign_path(@campaign.slug) }, match: :exclusive
   breadcrumb 'Ad codes', -> { campaign_ad_codes_path(@campaign) }, match: :exclusive
 
   def index
@@ -62,7 +62,11 @@ class AdCodesController < ApplicationController
   end
 
   def set_campaign
-    @campaign ||= Campaign.where(slug: params[:campaign_id]).first
+    @campaign ||= Campaign.where(slug: campaign_slug).first
+  end
+
+  def campaign_slug
+    params[:campaign_id]
   end
 
   def start
