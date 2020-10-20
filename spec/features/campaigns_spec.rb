@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe '/campaigns' do
+RSpec.describe 'Campaigns' do
   let(:trump) { create :campaign, :trump }
   let(:biden) { create :campaign, :biden }
 
@@ -11,11 +11,22 @@ RSpec.describe '/campaigns' do
     CampaignDailySummary.refresh
   end
 
-  scenario 'both campaigns have adverts' do
+  scenario 'Showing both campaigns against one another' do
     given_both_campaigns_have_adverts
 
     visit '/campaigns'
 
     expect(page).to have_content('based on 2 adverts from the Biden and Trump campaigns')
+  end
+
+  scenario 'Showing in individual campaign' do
+    given_both_campaigns_have_adverts
+
+    # When I visit the campaign
+    visit '/campaigns/trump'
+
+    # Then I should see that campaign's summary with a graph
+    expect(page).to have_content('Trump campaign wants')
+    expect(page).to have_selector('div#chart-1')
   end
 end

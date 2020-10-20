@@ -33,13 +33,13 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <%= nav_item 'Biden Ad Codes', campaign_ad_codes_path('biden') do %>
+          <%= nav_item nil, campaign_ad_codes_path('biden') do %>
             Biden <span class="d-md-none d-lg-inline">Ad Codes</span>
           <% end  %>
-          <%= nav_item 'Trump Ad Codes', campaign_ad_codes_path('trump') do %>
+          <%= nav_item nil, campaign_ad_codes_path('trump') do %>
             Trump <span class="d-md-none d-lg-inline">Ad Codes</span>
           <% end %>
-          <%= nav_item 'Campaign Hosts', hosts_path do %>
+          <%= nav_item nil, hosts_path do %>
             <span class="d-md-none d-lg-inline">Campaign </span>Hosts
           <% end %>
         </ul>

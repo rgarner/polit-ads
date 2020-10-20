@@ -9,10 +9,22 @@ class CampaignsController < ApplicationController
   end
 
   def show
-    @wants_summary = WantsDailySummary.weekly(params[:id])
+    @campaign = Campaign.find_by!(slug: params[:id])
+    @dimension = dimension
+    @wants_summary = WantsDailySummary.send(range, params[:id], dimension: dimension)
+
+    breadcrumb @campaign.name, :current
   end
 
   private
+
+  def range
+    if CampaignsHelper::CAMPAIGN_RANGES.include?(params[:range])
+      params[:range]
+    else
+      'weekly'
+    end
+  end
 
   def dimension
     params[:dimension].presence || 'count'
