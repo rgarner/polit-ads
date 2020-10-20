@@ -30,6 +30,7 @@ namespace :ads do
     populate:host_daily_summaries
     populate:value_daily_summaries
     populate:wants_key
+    populate:wants_daily_summaries
   ]
 
   namespace :watch do
@@ -139,6 +140,12 @@ namespace :ads do
         warn "#{ad.id} #{ad.host.hostname}"
         raise
       end
+    end
+
+    desc 'Populate materialized view for wants daily summaries'
+    task wants_daily_summaries: :environment do
+      $stderr.puts 'Refreshing wants_daily_summaries materialized view...'
+      WantsDailySummary.refresh
     end
   end
 end
