@@ -7,7 +7,7 @@ module PolitAds
   class HostsPopulator
     INSERT_HOSTS = <<~POSTGRESQL
       INSERT INTO hosts (hostname)
-      SELECT host FROM (
+      SELECT LOWER(host) FROM (
         SELECT (SELECT token FROM ts_debug(external_url) WHERE alias = 'host') AS host
         FROM adverts
         WHERE host_id IS NULL AND external_url IS NOT NULL
@@ -18,8 +18,8 @@ module PolitAds
     POSTGRESQL
 
     UPDATE_ADVERTS = <<~POSTGRESQL
-      UPDATE adverts 
-      SET host_id = hosts.id FROM hosts 
+      UPDATE adverts
+      SET host_id = hosts.id FROM hosts
       WHERE external_url IS NOT NULL AND host_id IS NULL
       AND hosts.hostname = (
         SELECT token FROM ts_debug(external_url) WHERE alias = 'host'
