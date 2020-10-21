@@ -1,2 +1,5 @@
-User-agent: MJ12bot 1.4.8
-Disallow: /
+User-agent: *
+Disallow: /adverts/?with_utm_values*
+Disallow: /campaigns/*/ad_codes/*/against/*
+Disallow: /campaigns/*/ad_codes/*/hosts
+Disallow: /hosts
