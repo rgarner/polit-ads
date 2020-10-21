@@ -14,7 +14,14 @@
     <tr>
       <td><%= host.hostname %></td>
       <td><%= host.purpose %></td>
-      <td><%= link_to "#{host.ad_count} adverts", host_adverts_path(host.id) %></td>
+      <td>
+        <% custom_link = yield(host) %>
+        <% if custom_link.present? %>
+          <%= custom_link %>
+        <% else %>
+          <%= link_to "#{host.ad_count} adverts", host_adverts_path(host.id) %>
+        <% end %>
+      </td>
       <td class="d-none d-sm-table-cell"><%= host.ad_first %></td>
       <td class="d-none d-sm-table-cell"><%= host.ad_last %></td>
     </tr>
