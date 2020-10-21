@@ -53,6 +53,11 @@ Rails.application.configure do
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 
+  # Log user agents (this should be an nginx job, but Heroku gives us no visibility without
+  #   riskily altering the buildpack)
+  require 'polit_ads/middleware/user_agent_logger'
+  config.middleware.use PolitAds::Middleware::UserAgentLogger
+
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
