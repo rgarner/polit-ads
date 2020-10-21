@@ -70,8 +70,8 @@ html {
   min-height: 100%;
 }
 
-$footer-height: 70px;
-$main-margin-to-footer: 30px;
+$footer-height: 6rem;
+$main-margin-to-footer: 1rem;
 
 main {
   min-height: 100%;
@@ -83,6 +83,6 @@ main {
   width: 100%;
   position: absolute;
   bottom: 0;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   height: $footer-height;
 }
