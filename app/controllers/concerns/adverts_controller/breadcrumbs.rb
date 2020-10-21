@@ -51,7 +51,8 @@ class AdvertsController
     def breadcrumb_values_against_hosts(hostname, utm_values)
       key, value = utm_values.to_a.first
 
-      breadcrumb "utm#{key}", utm_campaign_value_path(key)
+      ad_code = AdCode.find_by!(campaign_id: @campaign.id, index: key)
+      breadcrumb ad_code.full_name, campaign_ad_code_value_path(@campaign, ad_code.index, value)
       breadcrumb "#{value} and #{hostname} / adverts", request.path
     end
   end

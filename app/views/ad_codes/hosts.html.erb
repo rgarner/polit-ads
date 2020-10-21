@@ -41,7 +41,7 @@
         <td>
           <% if value %>
             <%= link_to value, adverts_path(
-              "with_utm_values[#{@index}]" => @table.col_values[col_index],
+              "with_utm_values[#{@ad_code.index}]" => @table.col_values[col_index],
               'hostname' => hostname
             )
             %>
