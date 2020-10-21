@@ -25,6 +25,8 @@ module ChartkickGrouping
           item[label_key.to_sym] = value_name if value_name
         end
 
+        yield item if block_given?
+
         list << item
       end
     end

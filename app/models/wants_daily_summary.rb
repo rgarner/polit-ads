@@ -5,12 +5,24 @@ class WantsDailySummary < ApplicationRecord
     Scenic.database.refresh_materialized_view(table_name, concurrently: false, cascade: false)
   end
 
+  WANTS_TO_COLOR = {
+    'data' => '#3366cc',
+    'money' => '#dc3912',
+    'you_to_buy' => '#990099',
+    'you_to_vote' => '#0099c6',
+    'you_to_be_deterred' => '#109618',
+    'you_to_attend' => '#3b3eac',
+    'you_to_install_an_app' => 'silver',
+    'to_persuade_you' => '#ff9900',
+    'you_to_volunteer' => '#52c793'
+  }.freeze
+
   ##
   # Daily, for campaign
   def self.daily(slug, dimension: 'count')
     days = WantsDailySummary.where(slug: slug).order(:start)
 
-    group_for_chartkick(days, by: 'wants_key', dimension: dimension)
+    group_by_want_color(days, dimension)
   end
 
   ##
@@ -20,7 +32,7 @@ class WantsDailySummary < ApplicationRecord
       WEEKLY_SQL, 'sql', [[nil, slug]]
     )
 
-    group_for_chartkick(weeks, by: 'wants_key', dimension: dimension)
+    group_by_want_color(weeks, dimension)
   end
 
   ##
@@ -29,7 +41,8 @@ class WantsDailySummary < ApplicationRecord
     months = ActiveRecord::Base.connection.exec_query(
       MONTHLY_SQL, 'sql', [[nil, slug]]
     )
-    group_for_chartkick(months, by: 'wants_key', dimension: dimension)
+
+    group_by_want_color(months, dimension)
   end
 
   WEEKLY_SQL = <<~SQL.freeze
@@ -55,4 +68,11 @@ class WantsDailySummary < ApplicationRecord
       w_month AS (PARTITION BY extract('month' from start))
     ORDER BY start, wants_key
   SQL
+
+  def self.group_by_want_color(weeks, dimension)
+    group_for_chartkick(weeks, by: 'wants_key', dimension: dimension) do |item|
+      wants_key = item[:name]
+      item[:color] = WANTS_TO_COLOR[wants_key]
+    end
+  end
 end
