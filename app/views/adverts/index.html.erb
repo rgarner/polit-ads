@@ -2,6 +2,8 @@
 
 <%= render 'shared/breadcrumb' %>
 
-<%= render 'hosts/hosts_table' %>
+<%= render 'hosts/hosts_table' do |host| %>
+  <%= link_to "#{host.ad_count} adverts", request.query_parameters.merge(hostname: host.hostname) %>
+<% end %>
 
 <%= render 'adverts/adverts_table' %>
