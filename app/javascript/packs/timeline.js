@@ -15,6 +15,9 @@ class Timeline {
     this.svgClass = options['svgClass']
     this.circleRange = options['circleRange'] || [3, 25]
     this.width = 930 - this.margin.left - this.margin.right
+    if(options['linkRowUsing'] === 'pathToAdCodeValue') {
+      this.linkRowUsing = this.pathToAdCodeValue
+    }
   }
 
   get svg() {
@@ -80,10 +83,9 @@ class Timeline {
 
     this.drawExtentLines(groups, x)
 
-    groups
-      .append("a")
-      .attr("href", (d) => this.pathToAdCodeValue(d))
-      .on("click", this.dismissTooltip.bind(this))
+    const links = this.linkIndividualRow(groups)
+
+    links
       .append("rect")
       .attr('class', 'highlight')
       .attr('x', 0)
@@ -118,6 +120,16 @@ class Timeline {
 
     groups.append('svg:title').text((d) => d.name)
     this.groups = groups
+  }
+
+  linkIndividualRow(groups) {
+    if(this.linkRowUsing)
+      return groups
+        .append("a")
+        .attr("href", (d) => this.linkRowUsing(d))
+        .on("click", this.dismissTooltip.bind(this));
+
+    return groups;
   }
 
   pathToAdCodeValue(d) {
