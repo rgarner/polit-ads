@@ -1,4 +1,11 @@
 class Advert < ActiveRecord::Base
+  TEXT_SEARCH_COLUMNS = %i[external_text ad_creative_body].freeze
+
+  scope :q, lambda { |terms|
+    terms = terms.strip.squish
+    where("text_search @@ plainto_tsquery('english', ?)", terms)
+  }
+
   has_many :ad_code_value_usages, -> { order(:index) }
   belongs_to :host
   belongs_to :funded_by, class_name: 'FundingEntity', foreign_key: 'funding_entity_id'

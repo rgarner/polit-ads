@@ -1,6 +1,8 @@
 class AdvertsController
   module Breadcrumbs
     def add_breadcrumbs_for_campaign_ad_codes!
+      return unless @campaign
+
       breadcrumb @campaign.name, campaign_path(@campaign)
       breadcrumb 'Ad codes', campaign_ad_codes_path(@campaign),
         match: :exclusive unless action_name == 'show'
