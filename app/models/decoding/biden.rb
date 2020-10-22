@@ -13,7 +13,7 @@ class Decoding::Biden < Decoding
   end
 
   def you_are_this_old
-    age = advert.utm_values&.[](INDEX_AGE)
+    age = advert.utm_values&.fetch(INDEX_AGE, nil)
     I18n.translate('thinks.you_are_this_old', age: age) if age && age != '<empty>'
   end
 
@@ -32,8 +32,6 @@ class Decoding::Biden < Decoding
   private
 
   def ad_goal
-    return nil if advert.utm_values.nil?
-
-    advert.utm_values[INDEX_AD_GOAL]
+    advert.utm_values&.fetch(INDEX_AD_GOAL, nil)
   end
 end

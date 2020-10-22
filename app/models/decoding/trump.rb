@@ -19,7 +19,7 @@ class Decoding::Trump < Decoding
   end
 
   def you_are_an_audience_type
-    case advert.utm_values[INDEX_AUDIENCE_TYPE]
+    case advert.utm_values&.fetch(INDEX_AUDIENCE_TYPE, nil)
     when 'bh' then I18n.t('thinks.audience_type.has_interests')
     when 'cm' then I18n.t('thinks.audience_type.custom_audience')
     end
@@ -36,7 +36,7 @@ class Decoding::Trump < Decoding
   end
 
   def you_are_this_old
-    I18n.translate('thinks.you_are_this_old', age: age)
+    I18n.translate('thinks.you_are_this_old', age: age) if age.present?
   end
 
   def wants_key
@@ -62,20 +62,18 @@ class Decoding::Trump < Decoding
   private
 
   def location_code
-    advert.utm_values[INDEX_LOCATION]
+    advert.utm_values&.fetch(INDEX_LOCATION, nil)
   end
 
   def donor_action
-    advert.utm_values[INDEX_DONOR_ACTION]
+    advert.utm_values&.fetch(INDEX_DONOR_ACTION, nil)
   end
 
   def age
-    advert.utm_values[INDEX_AGE]
+    advert.utm_values&.fetch(INDEX_AGE, nil)
   end
 
   def ad_goal
-    return nil unless advert.utm_values
-
-    advert.utm_values[INDEX_AD_GOAL]
+    advert.utm_values&.fetch(INDEX_AD_GOAL, nil)
   end
 end

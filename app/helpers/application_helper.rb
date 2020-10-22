@@ -35,6 +35,7 @@ module ApplicationHelper
       'you_to_vote' => 'fa-vote-yea',
       'you_to_volunteer' => 'fa-hands-helping',
       'you_to_attend' => 'fa-calendar-day',
+      'you_to_install_an_app' => 'fa-mobile-alt',
       'to_persuade_you' => 'fa-hands',
       'you_to_be_deterred' => 'fa-user-alt-slash'
     }[wants_key]
