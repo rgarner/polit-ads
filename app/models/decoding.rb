@@ -18,8 +18,9 @@ class Decoding
 
   def self.create(ad_or_id)
     advert = ad_or_id.is_a?(Advert) ? ad_or_id : Advert.find_by!(post_id: ad_or_id)
-    klass = if advert.host.campaign.present?
-              const_get("Decoding::#{advert.host.campaign.slug.capitalize}")
+    campaign = advert.funded_by&.campaign || advert.host.campaign
+    klass = if campaign.present?
+              const_get("Decoding::#{campaign.slug.capitalize}")
             elsif advert.host.present?
               Decoding
             else
@@ -37,7 +38,7 @@ class Decoding
   end
 
   def campaign
-    advert.host.campaign
+    advert.funded_by&.campaign || advert.host.campaign
   end
 
   def wants_key
