@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_19_205005) do
+ActiveRecord::Schema.define(version: 2020_10_22_122037) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(version: 2020_10_19_205005) do
     t.index ["funding_entity_id"], name: "index_adverts_on_funding_entity_id"
     t.index ["host_id"], name: "index_adverts_on_host_id"
     t.index ["post_id"], name: "index_adverts_on_post_id"
+    t.index ["text_search"], name: "index_adverts_on_text_search", where: "(host_id IS NOT NULL)", using: :gin
     t.index ["utm_values"], name: "index_adverts_on_utm_values", using: :gin
   end
 
@@ -117,6 +118,21 @@ ActiveRecord::Schema.define(version: 2020_10_19_205005) do
 
   add_foreign_key "ad_code_value_descriptions", "ad_codes"
 
+  create_view "ad_code_daily_summaries", materialized: true, sql_definition: <<-SQL
+      SELECT (days.start)::date AS start,
+      acvu.index,
+      acvu.value,
+      count(*) AS count,
+      sum(((adverts.spend_lower_bound + adverts.spend_upper_bound) / 2)) AS approximate_spend
+     FROM ((( SELECT start.start,
+              (start.start + '23:59:59'::interval) AS "end"
+             FROM generate_series('2020-06-01 00:00:00+00'::timestamp with time zone, '2020-12-31 00:00:00+00'::timestamp with time zone, '1 day'::interval) start(start)) days
+       JOIN adverts ON (((adverts.ad_creation_time >= days.start) AND (adverts.ad_creation_time <= days."end"))))
+       JOIN ad_code_value_usages acvu ON ((adverts.id = acvu.advert_id)))
+    WHERE (adverts.host_id IS NOT NULL)
+    GROUP BY days.start, acvu.index, acvu.value
+    ORDER BY (count(*)) DESC, days.start;
+  SQL
   create_view "host_daily_summaries", materialized: true, sql_definition: <<-SQL
       SELECT hosts.hostname,
       (days.start)::date AS start,
@@ -130,6 +146,22 @@ ActiveRecord::Schema.define(version: 2020_10_19_205005) do
     WHERE (adverts.host_id IS NOT NULL)
     GROUP BY days.start, hosts.hostname
     ORDER BY (count(*)) DESC;
+  SQL
+  create_view "wants_daily_summaries", materialized: true, sql_definition: <<-SQL
+      SELECT (days.start)::date AS start,
+      c.slug,
+      adverts.wants_key,
+      count(*) AS count,
+      (sum(round((((adverts.spend_upper_bound + adverts.spend_lower_bound) / 2))::numeric, 2)))::bigint AS approximate_spend,
+      round((((count(*))::numeric / sum(count(*)) OVER w_day) * (100)::numeric), 2) AS percentage
+     FROM (((( SELECT start.start,
+              (start.start + '23:59:59'::interval) AS "end"
+             FROM generate_series('2020-07-01 00:00:00+00'::timestamp with time zone, '2020-12-31 00:00:00+00'::timestamp with time zone, '1 day'::interval) start(start)) days
+       JOIN adverts ON (((adverts.ad_creation_time >= days.start) AND (adverts.ad_creation_time <= days."end"))))
+       JOIN hosts h ON ((adverts.host_id = h.id)))
+       JOIN campaigns c ON ((h.campaign_id = c.id)))
+    GROUP BY c.slug, days.start, adverts.wants_key
+    WINDOW w_day AS (PARTITION BY c.slug, ((days.start)::date));
   SQL
   create_view "ad_code_value_summaries", materialized: true, sql_definition: <<-SQL
       SELECT ac.id AS ad_code_id,
@@ -166,21 +198,6 @@ ActiveRecord::Schema.define(version: 2020_10_19_205005) do
     GROUP BY days.start, campaigns.id
     ORDER BY campaigns.id;
   SQL
-  create_view "ad_code_daily_summaries", materialized: true, sql_definition: <<-SQL
-      SELECT (days.start)::date AS start,
-      acvu.index,
-      acvu.value,
-      count(*) AS count,
-      sum(((adverts.spend_lower_bound + adverts.spend_upper_bound) / 2)) AS approximate_spend
-     FROM ((( SELECT start.start,
-              (start.start + '23:59:59'::interval) AS "end"
-             FROM generate_series('2020-06-01 00:00:00+00'::timestamp with time zone, '2020-12-31 00:00:00+00'::timestamp with time zone, '1 day'::interval) start(start)) days
-       JOIN adverts ON (((adverts.ad_creation_time >= days.start) AND (adverts.ad_creation_time <= days."end"))))
-       JOIN ad_code_value_usages acvu ON ((adverts.id = acvu.advert_id)))
-    WHERE (adverts.host_id IS NOT NULL)
-    GROUP BY days.start, acvu.index, acvu.value
-    ORDER BY (count(*)) DESC, days.start;
-  SQL
   create_view "value_daily_summaries", materialized: true, sql_definition: <<-SQL
       SELECT daily_values.campaign_id,
       daily_values.campaign_slug,
@@ -209,21 +226,5 @@ ActiveRecord::Schema.define(version: 2020_10_19_205005) do
             ORDER BY (count(*)) DESC, days.start) daily_values
        JOIN ad_codes ON (((ad_codes.campaign_id = daily_values.campaign_id) AND (ad_codes.index = daily_values.index))))
        LEFT JOIN ad_code_value_descriptions acvd ON (((ad_codes.id = acvd.ad_code_id) AND ((acvd.value)::text = (daily_values.value)::text))));
-  SQL
-  create_view "wants_daily_summaries", materialized: true, sql_definition: <<-SQL
-      SELECT (days.start)::date AS start,
-      c.slug,
-      adverts.wants_key,
-      count(*) AS count,
-      (sum(round((((adverts.spend_upper_bound + adverts.spend_lower_bound) / 2))::numeric, 2)))::bigint AS approximate_spend,
-      round((((count(*))::numeric / sum(count(*)) OVER w_day) * (100)::numeric), 2) AS percentage
-     FROM (((( SELECT start.start,
-              (start.start + '23:59:59'::interval) AS "end"
-             FROM generate_series('2020-07-01 00:00:00+00'::timestamp with time zone, '2020-12-31 00:00:00+00'::timestamp with time zone, '1 day'::interval) start(start)) days
-       JOIN adverts ON (((adverts.ad_creation_time >= days.start) AND (adverts.ad_creation_time <= days."end"))))
-       JOIN hosts h ON ((adverts.host_id = h.id)))
-       JOIN campaigns c ON ((h.campaign_id = c.id)))
-    GROUP BY c.slug, days.start, adverts.wants_key
-    WINDOW w_day AS (PARTITION BY c.slug, ((days.start)::date));
   SQL
 end

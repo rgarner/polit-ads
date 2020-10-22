@@ -1,0 +1,13 @@
+<div class="decode-a-link card mb-4">
+  <div class="card-body">
+    <h1>Search</h1>
+
+    <%= form_with url: searches_path do |form| %>
+      <%= form.label t('forms.search_label'), for: :q, class: 'lead' %>
+      <div class="decoding form-group form-inline">
+        <%= form.text_field :q, class: 'form-control col' %>
+        <%= form.submit t('forms.search'), class: 'btn btn-primary ml-2' %>
+      </div>
+    <% end %>
+  </div>
+</div>
