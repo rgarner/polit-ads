@@ -1,1 +1,11 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+User-Agent: MJ12bot
+Disallow: /
+
+User-Agent: Adsbot
+Disallow: /
+
+User-agent: *
+Disallow: /adverts/?with_utm_values*
+Disallow: /campaigns/*/ad_codes/*/against/*
+Disallow: /campaigns/*/ad_codes/*/hosts
+Disallow: /hosts
