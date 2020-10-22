@@ -1,3 +1,9 @@
+User-Agent: MJ12bot
+Disallow: /
+
+User-Agent: Adsbot
+Disallow: /
+
 User-agent: *
 Disallow: /adverts/?with_utm_values*
 Disallow: /campaigns/*/ad_codes/*/against/*
