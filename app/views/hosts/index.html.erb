@@ -3,6 +3,13 @@
 <%= content_for :title, 'Campaign hosts' %>
 <h1>Campaign hosts</h1>
 
-<%= timeline(@host_ad_counts, rowHeight: 18, circleRange: [3, 16], svgClass: 'hosts') %>
+<%=
+  timeline(
+    @host_ad_counts,
+    rowHeight: 18,
+    circleRange: [3, 16],
+    svgClass: 'hosts'
+  )
+%>
 
 <%= render 'hosts_table' %>

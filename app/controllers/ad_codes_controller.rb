@@ -23,7 +23,8 @@ class AdCodesController < ApplicationController
     @values = ValueDailySummary.between(@campaign, @ad_code.index, start, finish, dimension: dimension)
     @options = {
       rowHeight: DENSITY_ROWHEIGHTS[params[:density] || 'spacious'],
-      svgClass: "utm#{@ad_code.index}"
+      svgClass: "utm#{@ad_code.index}",
+      linkRowUsing: 'pathToAdCodeValue'
     }
 
     breadcrumb "#{@ad_code.full_name} / Timeline", request.path
