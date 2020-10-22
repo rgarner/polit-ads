@@ -40,15 +40,19 @@
 <div class="container-fluid previews">
   <div class="row no-gutters">
     <div class="col">
-      <%= link_to 'Open in new tab', @advert.ad_snapshot_url, target: '_blank' %>
+      <%= link_to @advert.ad_snapshot_url, class: 'btn btn-outline-primary mb-2', target: '_blank' do %>
+        Open snapshot <small>in new tab</small>
+      <% end %>
       <br>
-      <iframe src="<%= @advert.ad_snapshot_url %>"></iframe>
+      <%= render 'iframe_info', src: @advert.ad_snapshot_url %>
     </div>
 
     <div class="col">
-      <%= link_to 'Open in new tab', @advert.ad_library_url, target: '_blank' %>
+      <%= link_to @advert.ad_library_url, class: 'btn btn-outline-secondary mb-2', target: '_blank' do %>
+        Open Facebook ad library <small>in new tab</small>
+      <% end %>
       <br>
-      <iframe src="<%= @advert.ad_library_url %>"></iframe>
+      <%= render 'iframe_info', src:  @advert.ad_library_url %>
     </div>
   </div>
 </div>
