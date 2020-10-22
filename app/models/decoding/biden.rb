@@ -13,7 +13,7 @@ class Decoding::Biden < Decoding
   end
 
   def you_are_this_old
-    age = advert.utm_values[INDEX_AGE]
+    age = advert.utm_values&.[](INDEX_AGE)
     I18n.translate('thinks.you_are_this_old', age: age) if age && age != '<empty>'
   end
 
