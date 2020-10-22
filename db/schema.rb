@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_22_122037) do
+ActiveRecord::Schema.define(version: 2020_10_22_132058) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -227,4 +227,14 @@ ActiveRecord::Schema.define(version: 2020_10_22_122037) do
        JOIN ad_codes ON (((ad_codes.campaign_id = daily_values.campaign_id) AND (ad_codes.index = daily_values.index))))
        LEFT JOIN ad_code_value_descriptions acvd ON (((ad_codes.id = acvd.ad_code_id) AND ((acvd.value)::text = (daily_values.value)::text))));
   SQL
+  create_trigger("adverts_after_update_of_external_text_ad_creative_body_row_tr", :generated => true, :compatibility => 1).
+      on("adverts").
+      after(:update).
+      of(:external_text, :ad_creative_body) do
+    <<-SQL_ACTIONS
+        UPDATE adverts SET text_search = to_tsvector(external_text || ' ' || ad_creative_body)
+        WHERE id = NEW.id;
+    SQL_ACTIONS
+  end
+
 end

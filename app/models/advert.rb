@@ -6,6 +6,13 @@ class Advert < ActiveRecord::Base
     where("text_search @@ plainto_tsquery('english', ?)", terms)
   }
 
+  trigger.after(:update).of(:external_text, :ad_creative_body) do
+    <<~SQL
+      UPDATE adverts SET text_search = to_tsvector(external_text || ' ' || ad_creative_body)
+      WHERE id = NEW.id
+    SQL
+  end
+
   has_many :ad_code_value_usages, -> { order(:index) }
   belongs_to :host
   belongs_to :funded_by, class_name: 'FundingEntity', foreign_key: 'funding_entity_id'
