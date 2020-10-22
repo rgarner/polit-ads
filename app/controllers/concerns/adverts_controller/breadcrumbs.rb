@@ -20,6 +20,8 @@ class AdvertsController
         breadcrumb_utm_against_utm(utm_values)
       in { with_utm_values: utm_values } if utm_values.length == 1
         breadcrumb_utm(utm_values)
+      in { q: query }
+        breadcrumb "Ad search for '#{query}'", :current
       else
         nil
       end
