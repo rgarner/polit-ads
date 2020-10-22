@@ -2,6 +2,7 @@ require 'polit_ads/scraper'
 require 'polit_ads/hosts_populator'
 require 'polit_ads/utm_campaign_splitter'
 require 'polit_ads/biden_source_splitter'
+require 'polit_ads/text_search_backfill'
 require 'polit_ads/utm_values_populator'
 require 'polit_ads/funding_entity_populator'
 require 'polit_ads/ad_code_descriptions_loader'
@@ -54,6 +55,10 @@ namespace :ads do
       end
     end
 
+    desc 'backfill text_search with fields we care about. Takes minutes'
+    task text_search: :environment do
+      PolitAds::TextSearchBackfill.run
+    end
   end
 
   namespace :populate do

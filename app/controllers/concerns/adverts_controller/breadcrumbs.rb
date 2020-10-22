@@ -1,6 +1,8 @@
 class AdvertsController
   module Breadcrumbs
     def add_breadcrumbs_for_campaign_ad_codes!
+      return unless @campaign
+
       breadcrumb @campaign.name, campaign_path(@campaign)
       breadcrumb 'Ad codes', campaign_ad_codes_path(@campaign),
         match: :exclusive unless action_name == 'show'
@@ -18,6 +20,8 @@ class AdvertsController
         breadcrumb_utm_against_utm(utm_values)
       in { with_utm_values: utm_values } if utm_values.length == 1
         breadcrumb_utm(utm_values)
+      in { q: query }
+        breadcrumb "Ad search for '#{query}'", :current
       else
         nil
       end

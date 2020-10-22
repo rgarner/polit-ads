@@ -3,13 +3,14 @@ class AdvertsController < ApplicationController
 
   has_scope :with_utm_values, type: :hash
   has_scope :hostname
+  has_scope :q
 
   def index
     @adverts = apply_scopes(Advert.post_scraped)
                .order(ad_creation_time: :desc)
                .page(params[:page])
 
-    @campaign = @adverts.first.funded_by.campaign
+    @campaign = @adverts&.first&.funded_by&.campaign
     @hosts = apply_scopes(Advert).with_hosts
 
     add_breadcrumbs_for_campaign_ad_codes!

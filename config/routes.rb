@@ -16,6 +16,8 @@ Rails.application.routes.draw do
 
   resources :decodings, only: %i[create show]
 
+  resources :searches, only: %i[new create]
+
   ##
   # Redirects; this once only did one campaign - Trump's, and now
   # we must preserve URLs in spreadsheets and so on.
