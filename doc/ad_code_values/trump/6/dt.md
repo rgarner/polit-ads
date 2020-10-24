@@ -1,10 +1,10 @@
 ---
 value: dt
-name: Donald Trump
+name: Data Trust
 confidence: medium
-published: 2020-09-01
+published: 2020-10-24
 ---
 
 ## Why do we think that?
 
-This code doesn't fit well with the other codes in this category. All of the ads point to pages on the donaldjtrump.com domain (or one of its subdomains), rather than to winred.com domains (used for fundraising).
+The Data Trust is a provider of data and targeting to Republican campaigns. The Trump campaign is likely using their 'onboarding' product (https://thedatatrust.com/services/digital-onboarding/) which provides up-to-the-day lists of voters and whether they've voted or not.
