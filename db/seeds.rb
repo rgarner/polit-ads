@@ -114,7 +114,24 @@ end
   'www.fox2detroit.com' => { campaign: nil, purpose: 'news' },
   'www.msnbc.com' => { campaign: nil, purpose: 'news' },
   'www.theoaklandpress.com' => { campaign: nil, purpose: 'news' },
-  'www.coloradoan.com' => { campaign: nil, purpose: 'news' }
+  'www.coloradoan.com' => { campaign: nil, purpose: 'news' },
+  'txdem.co' => { campaign: biden, purpose: 'vote' },
+  'www.newsobserver.com' => { campaign: nil, purpose: 'news' },
+  'www.elnuevodia.com' => { campaign: nil, purpose: 'news' },
+  'www.glamour.com' => { campaign: nil, purpose: 'news' },
+  'www.newsweek.com' => { campaign: nil, purpose: 'news' },
+  'www.npr.org' => { campaign: nil, purpose: 'news' },
+  'www.refinery29.com' => { campaign: nil, purpose: 'news' },
+  'www.vanityfair.com' => { campaign: nil, purpose: 'news' },
+  'vote.wisdems.org' => { campaign: biden, purpose: 'vote' },
+  'www.voyavotar.com' => { campaign: biden, purpose: 'vote' },
+  'joebiden.es' => { campaign: biden, purpose: 'funding' },
+  'elsemanariocolorado.com' => { campaign: nil, purpose: 'news' },
+  'www.9news.com' => { campaign: nil, purpose: 'news' },
+  'www.charlescitypress.com' => { campaign: nil, purpose: 'news' },
+  'www.lavozarizona.com' => { campaign: nil, purpose: 'news' },
+  'www.univision.com' => { campaign: nil, purpose: 'news' },
+  'www.gjsentinel.com' => { campaign: nil, purpose: 'news' }
 }.each_pair do |hostname, data|
   host = Host.where(hostname: hostname).first
   host&.update(campaign: data[:campaign], purpose: data[:purpose])
