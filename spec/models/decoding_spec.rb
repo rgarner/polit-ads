@@ -6,13 +6,14 @@ RSpec.describe Decoding do
   let(:trump)        { create :campaign, :trump }
   let(:biden)        { create :campaign, :biden }
 
-  let(:funding_host) { create :host, :funding, campaign: trump }
-  let(:action_host)  { create :host, :data, campaign: trump }
-  let(:merch_host)   { create :host, :shop, campaign: trump }
-  let(:event_host)   { create :host, :event, campaign: trump }
-  let(:vote_host)    { create :host, :vote, campaign: trump }
-  let(:attack_host)  { create :host, :attack, campaign: biden }
-  let(:app_host)     { create :host, :app, campaign: nil }
+  let(:funding_host)   { create :host, :funding, campaign: trump }
+  let(:action_host)    { create :host, :data, campaign: trump }
+  let(:merch_host)     { create :host, :shop, campaign: trump }
+  let(:event_host)     { create :host, :event, campaign: trump }
+  let(:vote_host)      { create :host, :vote, campaign: trump }
+  let(:attack_host)    { create :host, :attack, campaign: biden }
+  let(:app_host)       { create :host, :app, campaign: nil }
+  let(:volunteer_host) { create :host, :volunteer, campaign: biden }
 
   context 'link is for a Trump ad that thinks you are a monthly donor in a battleground state' do
     let(:advert) do
@@ -191,6 +192,26 @@ RSpec.describe Decoding do
 
     let(:link) do
       'https://go.joebiden.com/page/s/vol-hb-september-california/?source=om_fb_20200906getinvolved_vol_000_a001_&refcode=om_fb_20200906getinvolved_VOL_000_a001_&utm_medium=om'
+    end
+
+    it 'wants you to volunteer' do
+      expect(decoding.wants).to eql('you to volunteer')
+    end
+
+    it 'has insufficient info for #thinks' do
+      expect(decoding.thinks).to be_empty
+    end
+  end
+
+  context 'link is a Biden volunteer host' do
+    let(:advert) do
+      create :advert,
+             :biden, external_url: link, host: volunteer_host,
+             illuminate_tags: nil
+    end
+
+    let(:link) do
+      'https://www.mobilize.us/joebiden/event/324568/?utm_source=om&utm_medium=fb'
     end
 
     it 'wants you to volunteer' do

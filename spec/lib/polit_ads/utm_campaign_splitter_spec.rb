@@ -79,7 +79,6 @@ RSpec.describe PolitAds::UtmCampaignSplitter do
     end
 
     it 'normalises the unused age range to na' do
-      values.each_with_index {|v,i| puts "#{i}: #{v}"}
       expect(values[15]).to eql('na')
     end
 

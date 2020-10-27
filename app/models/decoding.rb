@@ -13,7 +13,8 @@ class Decoding
     'attack' => 'you_to_be_deterred',
     'event' => 'you_to_attend',
     'app' => 'you_to_install_an_app',
-    'news' => 'to_persuade_you'
+    'news' => 'to_persuade_you',
+    'volunteer' => 'you_to_volunteer'
   }.freeze
 
   def self.create(ad_or_id)
