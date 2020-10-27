@@ -40,5 +40,9 @@ FactoryBot.define do
       purpose  { 'data' }
       hostname { 'go.joebiden.com'}
     end
+    trait :volunteer do
+      purpose  { 'volunteer' }
+      hostname { 'mobilize.us' }
+    end
   end
 end
