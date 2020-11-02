@@ -78,12 +78,16 @@ define UPDATE_IMPRESSIONS_SQL
 		CREATE TEMPORARY TABLE tmp_impressions ( \
 			 advert_id integer NOT NULL, \
 			 lower_bound_spend integer NOT NULL, \
-			 upper_bound_spend integer NOT NULL \
+			 upper_bound_spend integer NOT NULL, \
+			 lower_bound_impressions integer, \
+			 upper_bound_impressions integer \
 		); \
 		COPY tmp_impressions FROM STDIN DELIMITER ',' CSV HEADER; \
 			UPDATE adverts \
 				SET spend_lower_bound = tmp_impressions.lower_bound_spend, \
-						spend_upper_bound = tmp_impressions.upper_bound_spend \
+						spend_upper_bound = tmp_impressions.upper_bound_spend, \
+				    impressions_lower_bound = tmp_impressions.lower_bound_impressions, \
+						impressions_upper_bound = tmp_impressions.upper_bound_impressions \
 				FROM tmp_impressions \
 					WHERE adverts.id = tmp_impressions.advert_id; \
 		DROP TABLE tmp_impressions;
@@ -108,7 +112,9 @@ define ALL_IMPRESSIONS_FROM_SQL
 	  SELECT DISTINCT ON (adverts.id) \
             adverts.id AS advert_id, \
             impressions.lower_bound_spend, \
-            impressions.upper_bound_spend \
+            impressions.upper_bound_spend, \
+            impressions.lower_bound_impressions, \
+            impressions.upper_bound_impressions \
 		FROM adverts \
 		LEFT JOIN impressions ON adverts.id = impressions.advert_id \
 		WHERE ad_delivery_start_time BETWEEN '$(IMPRESSIONS_FROM)' AND '$(IMPRESSIONS_TO)' \
@@ -124,6 +130,7 @@ define ALL_IMPRESSIONS_FROM_SQL
 endef
 
 impressions.csv:
+	$(if ${ADS_PG_URL},,$(error must set ADS_PG_URL))
 	@echo "Getting impressions between '$(IMPRESSIONS_FROM)' and '$(IMPRESSIONS_TO)' ...\n"
 	psql $(ADS_PG_URL) -Xc "COPY (${ALL_IMPRESSIONS_FROM_SQL}) TO STDOUT DELIMITER ',' CSV HEADER;" > $@
 

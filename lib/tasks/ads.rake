@@ -44,13 +44,12 @@ namespace :ads do
   namespace :backfill do
     desc 'backfill impressions month to month. Larger sets cause infinite* queries'
     task impressions: :environment do
-      oldest_month = 6
-      this_month = Date.today.month
-      (oldest_month..this_month).each do |month|
+      oldest_day = Date.new(2020, 6, 1)
+      (oldest_day..Date.today).each do |day|
         system(
           "make clean impressions.csv update-impressions \\
-            IMPRESSIONS_FROM=2020-#{month}-01 \\
-            IMPRESSIONS_TO=2020-#{(month + 1) % 12}-01"
+            IMPRESSIONS_FROM=#{day.iso8601} \\
+            IMPRESSIONS_TO=#{(day + 1).iso8601}"
         )
       end
     end
