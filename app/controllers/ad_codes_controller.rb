@@ -52,6 +52,8 @@ class AdCodesController < ApplicationController
     ad_codes = @campaign.ad_code_value_summaries.with_value_names
     if params[:sort] == 'spend'
       ad_codes.order('COALESCE(approximate_spend, 0) DESC')
+    elsif params[:sort] == 'cpm'
+      ad_codes.order('COALESCE(approximate_cpm, 0) DESC')
     else
       ad_codes.order(count: :desc)
     end
