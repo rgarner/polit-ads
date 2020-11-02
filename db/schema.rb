@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_27_094942) do
+ActiveRecord::Schema.define(version: 2020_11_02_170441) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
@@ -165,26 +165,6 @@ ActiveRecord::Schema.define(version: 2020_10_27_094942) do
     GROUP BY c.slug, days.start, adverts.wants_key
     WINDOW w_day AS (PARTITION BY c.slug, ((days.start)::date));
   SQL
-  create_view "ad_code_value_summaries", materialized: true, sql_definition: <<-SQL
-      SELECT ac.id AS ad_code_id,
-      fe.campaign_id,
-      u.index,
-      u.value,
-      ac.name,
-      ac.quality,
-      min(a.ad_creation_time) AS first_used,
-      max(a.ad_creation_time) AS last_used,
-      count(*) AS count,
-      round((((count(*))::numeric / sum(count(*)) OVER w_campaign_index) * (100)::numeric), 2) AS percentage,
-      sum(((a.spend_lower_bound + a.spend_upper_bound) / 2)) AS approximate_spend
-     FROM ((((ad_code_value_usages u
-       JOIN adverts a ON ((u.advert_id = a.id)))
-       JOIN funding_entities fe ON ((a.funding_entity_id = fe.id)))
-       JOIN campaigns c ON ((fe.campaign_id = c.id)))
-       JOIN ad_codes ac ON (((c.id = ac.campaign_id) AND (ac.index = u.index))))
-    GROUP BY fe.campaign_id, u.index, u.value, ac.id
-    WINDOW w_campaign_index AS (PARTITION BY fe.campaign_id, u.index);
-  SQL
   create_view "campaign_daily_summaries", materialized: true, sql_definition: <<-SQL
       SELECT campaigns.id AS campaign_id,
       campaigns.name,
@@ -228,6 +208,27 @@ ActiveRecord::Schema.define(version: 2020_10_27_094942) do
             ORDER BY (count(*)) DESC, days.start) daily_values
        JOIN ad_codes ON (((ad_codes.campaign_id = daily_values.campaign_id) AND (ad_codes.index = daily_values.index))))
        LEFT JOIN ad_code_value_descriptions acvd ON (((ad_codes.id = acvd.ad_code_id) AND ((acvd.value)::text = (daily_values.value)::text))));
+  SQL
+  create_view "ad_code_value_summaries", materialized: true, sql_definition: <<-SQL
+      SELECT ac.id AS ad_code_id,
+      fe.campaign_id,
+      u.index,
+      u.value,
+      ac.name,
+      ac.quality,
+      min(a.ad_creation_time) AS first_used,
+      max(a.ad_creation_time) AS last_used,
+      count(*) AS count,
+      round((((count(*))::numeric / sum(count(*)) OVER w_campaign_index) * (100)::numeric), 2) AS percentage,
+      sum(((a.spend_lower_bound + a.spend_upper_bound) / 2)) AS approximate_spend,
+      ((1000 * sum(((a.spend_lower_bound + a.spend_upper_bound) / 2))) / sum(((a.impressions_lower_bound + a.impressions_upper_bound) / 2))) AS approximate_cpm
+     FROM ((((ad_code_value_usages u
+       JOIN adverts a ON ((u.advert_id = a.id)))
+       JOIN funding_entities fe ON ((a.funding_entity_id = fe.id)))
+       JOIN campaigns c ON ((fe.campaign_id = c.id)))
+       JOIN ad_codes ac ON (((c.id = ac.campaign_id) AND (ac.index = u.index))))
+    GROUP BY fe.campaign_id, u.index, u.value, ac.id
+    WINDOW w_campaign_index AS (PARTITION BY fe.campaign_id, u.index);
   SQL
   create_trigger("adverts_after_update_of_external_text_ad_creative_body_row_tr", :generated => true, :compatibility => 1).
       on("adverts").

@@ -15,9 +15,13 @@
 
         <small class="text-right">
           <%= link_to "#{value.percentage}% of adverts",
-            adverts_path("with_utm_values[#{value.index}]" => "#{value.value}") %>
+            adverts_path("with_utm_values[#{value.index}]" => "#{value.value}"), class: "ml-1" %>
           <span class="ml-1">
             <%= round_dollars(value.approximate_spend) %>
+          </span>
+
+          <span class="text-muted">
+            (<%= round_dollars(value.approximate_cpm) %> <abbr title="Cost per mille" class="initialism">CPM</abbr>)
           </span>
         </small>
       </span>

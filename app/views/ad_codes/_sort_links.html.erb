@@ -8,12 +8,17 @@
     <li class="nav-item">
       <%= link_to 'Count',
                   request.query_parameters.merge(sort: 'count'),
-                  class: "nav-link #{'active' if params[:sort] != 'spend'}" %>
+                  class: "nav-link #{'active' unless %w[spend cpm].include?(params[:sort]) }" %>
     </li>
     <li class="nav-item">
       <%= link_to 'Spend',
         request.query_parameters.merge(sort: 'spend'),
         class: "nav-link #{'active' if params[:sort] == 'spend'}" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to 'CPM',
+        request.query_parameters.merge(sort: 'cpm'),
+        class: "nav-link #{'active' if params[:sort] == 'cpm'}" %>
     </li>
   </ul>
 </div>
