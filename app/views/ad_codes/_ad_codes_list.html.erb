@@ -20,9 +20,11 @@
             <%= round_dollars(value.approximate_spend) %>
           </span>
 
-          <span class="text-muted">
-            (<%= round_dollars(value.approximate_cpm) %> <abbr title="Cost per mille" class="initialism">CPM</abbr>)
-          </span>
+          <% if value.approximate_cpm.present? %>
+            <span class="text-muted">
+              (<%= round_dollars(value.approximate_cpm) %> <abbr title="Cost per mille" class="initialism">CPM</abbr>)
+            </span>
+          <% end %>
         </small>
       </span>
 
